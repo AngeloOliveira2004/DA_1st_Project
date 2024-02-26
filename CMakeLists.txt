@@ -10,4 +10,5 @@ add_executable(Projeto main.cpp
         Logic/PumpingStations.h
         Logic/PumpingStations.cpp
         Logic/DeliverySites.cpp
-        Logic/WaterReservoir.cpp)
+        Logic/WaterReservoir.cpp
+        Interface/UI.h)
