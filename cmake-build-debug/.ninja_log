@@ -1,3 +1,12 @@
 # ninja log v5
-206	253	1708964173574438535	Projeto	31874b858e4039f0
-0	205	1708964173530440369	CMakeFiles/Projeto.dir/main.cpp.o	43edb3f4f2315d03
+341	399	1709135162447972441	Projeto	76ca92b60b4cf149
+1	341	1709135162391969928	CMakeFiles/Projeto.dir/main.cpp.o	43edb3f4f2315d03
+0	16	1709135689634654731	build.ninja	7be65f97838b977c
+1	329	1709135162379969389	CMakeFiles/Projeto.dir/Logic/PumpingStations.cpp.o	ec30767f97691489
+1	330	1709135162379969389	CMakeFiles/Projeto.dir/Logic/WaterReservoir.cpp.o	69919e25ed0e16cd
+1	330	1709135162379969389	CMakeFiles/Projeto.dir/Logic/DeliverySites.cpp.o	3ca148085401695a
+1	344	1709135716914399754	CMakeFiles/Projeto.dir/Logic/PumpingStations.cpp.o	ec30767f97691489
+1	345	1709135716914399754	CMakeFiles/Projeto.dir/Logic/DeliverySites.cpp.o	3ca148085401695a
+1	351	1709135716918399730	CMakeFiles/Projeto.dir/Logic/WaterReservoir.cpp.o	69919e25ed0e16cd
+0	400	1709135716970399420	CMakeFiles/Projeto.dir/main.cpp.o	43edb3f4f2315d03
+400	449	1709135717014399161	Projeto	76ca92b60b4cf149

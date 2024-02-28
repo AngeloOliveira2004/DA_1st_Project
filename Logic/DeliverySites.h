@@ -5,7 +5,7 @@
 #ifndef PROJETO_DELIVERYSITES_H
 #define PROJETO_DELIVERYSITES_H
 
-#include "string"
+#include "stdafx.h"
 
 enum class DeliverySiteType {
     FIRE_STATION,

@@ -7,6 +7,7 @@
 #ifndef PROJETO_WATERRESERVATIONS_H
 #define PROJETO_WATERRESERVATIONS_H
 
+#include "stdafx.h"
 
 class WaterReservoir {
 private:

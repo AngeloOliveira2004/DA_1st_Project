@@ -8,7 +8,7 @@
 #ifndef PROJETO_PUMPINGSTATIONS_H
 #define PROJETO_PUMPINGSTATIONS_H
 
-#include "string"
+#include "stdafx.h"
 
 class PumpingStations {
 private:
