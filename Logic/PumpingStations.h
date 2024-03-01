@@ -18,7 +18,27 @@ private:
     bool direction;
 
 public:
+    PumpingStations(const std::string& servicePointA, const std::string& servicePointB,
+                    u_int16_t capacity, bool direction) :
+            servicePointA(servicePointA), servicePointB(servicePointB),
+            capacity(capacity), direction(direction) {}
 
+    // Getters
+    std::string getServicePointA() const { return servicePointA; }
+    std::string getServicePointB() const { return servicePointB; }
+    u_int16_t getCapacity() const { return capacity; }
+    bool getDirection() const { return direction; }
+
+    // Setters
+    void setServicePointA(const std::string& servicePointA) { this->servicePointA = servicePointA; }
+    void setServicePointB(const std::string& servicePointB) { this->servicePointB = servicePointB; }
+    void setCapacity(u_int16_t capacity) { this->capacity = capacity; }
+    void setDirection(bool direction) { this->direction = direction; }
+
+    void printInfo()
+    {
+        std::cout << servicePointA << " " << servicePointB << " " << capacity << " " << direction << "\n";
+    }
 };
 
 

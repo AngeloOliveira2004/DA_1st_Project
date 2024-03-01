@@ -19,7 +19,7 @@ void NormalizeString(std::string& str1 , std::string& str2) {
     }
     for(auto c : str2)
     {
-        if(isalnum(c))
+        if(isdigit(c))
         {
             temp += c;
         }
@@ -35,9 +35,23 @@ void NormalizeString(std::string& str1 , std::string& str2) {
     str1 = temp;
 }
 
+void Remove_terminations(std::string& str)
+{
+    size_t pos = str.find('\r');
+    if (pos != std::string::npos) {
+        str.erase(pos);
+    }
+    pos = str.find('\n');
+    if (pos != std::string::npos) {
+        str.erase(pos);
+    }
+    pos = str.find('\0');
+    if (pos != std::string::npos) {
+        str.erase(pos);
+    }
+}
 
-template<class T>
-void LoadCities(Graph<T>* g) {
+void LoadCities() {
     std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Cities_Madeira.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
@@ -67,21 +81,89 @@ void LoadCities(Graph<T>* g) {
         citySet.push_back(city);
     }
 
-    for(auto c : citySet){
-        c.printInfo();
+    file.close();
+}
+
+void LoadPipes() {
+
+    std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Pipes_Madeira.csv");
+    if (!file.is_open()) {
+        std::cerr << "Failed to open the CSV file." << std::endl;
+    }
+
+    std::string line;
+    getline(file, line);
+
+    while (getline(file, line)) {
+        std::istringstream lineStream(line);
+        std::vector<std::string> tokens;
+        std::string token;
+
+        while (getline(lineStream, token, ',')) {
+            tokens.push_back(token);
+        }
+
+        std::string servicePointA = tokens[0];
+        std::string servicePointB = tokens[1];
+        u_int16_t capacity = stoi(tokens[2]);
+        Remove_terminations(tokens[3]);
+        bool direction = stoi(tokens[3]);
+
+        PumpingStations pumpingStation(servicePointA, servicePointB, capacity,direction);
+
+        edges.push_back(pumpingStation);
+    }
+
+    for(auto e : edges)
+    {
+        e.printInfo();
     }
 
     file.close();
 }
 
-template<class T>
-void LoadPipes(Graph<T>& g) {
-    // Implementation of LoadPipes function
+void LoadWaterReservoirs() {
+    std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Reservoirs_Madeira.csv");
+    if (!file.is_open()) {
+        std::cerr << "Failed to open the CSV file." << std::endl;
+    }
+
+    std::string line;
+    getline(file, line);
+
+    while (getline(file, line)) {
+        std::istringstream lineStream(line);
+        std::vector<std::string> tokens;
+        std::string token;
+
+        while (getline(lineStream, token, ',')) {
+            tokens.push_back(token);
+        }
+
+        std::string name = tokens[0];
+        std::string municipality = tokens[1];
+        std::string code = tokens[3];
+        auto a = std::stoi(tokens[2]);
+        uint16_t id =  a;
+        Remove_terminations(tokens[4]);
+        u_int16_t maxDelivery = stoi(tokens[4]);
+
+        WaterReservoir waterReservoir(name, municipality, code, a ,maxDelivery);
+
+        sources.push_back(waterReservoir);
+    }
+
+    for(auto s : sources)
+    {
+        s.printInfo();
+    }
+
+    file.close();
 }
 
-template<class T>
-void LoadWaterReservoirs(Graph<T>& g) {
-    // Implementation of LoadWaterReservoirs function
-}
+template <class T>
+void LoadFireStations()
+{
 
+}
 

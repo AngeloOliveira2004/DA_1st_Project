@@ -8,7 +8,7 @@ int main() {
 
     Graph<int>* g;
 
-    LoadCities(g);
+    LoadWaterReservoirs();
 
     std::cout << "Hello, World!" << std::endl;
     return 0;
