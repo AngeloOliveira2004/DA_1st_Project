@@ -4,12 +4,12 @@
 #include "list"
 #include "queue"
 #include "stack"
-#include "unordered_map"
-#include "unordered_set"
+#include "sstream"
+#include "fstream"
+#include "memory"
 
 #include "../data_structures/Graph.h"
 #include "DeliverySites.h"
-#include "LoadingFunctions.h"
 #include "PumpingStations.h"
 #include "WaterReservoir.h"
 

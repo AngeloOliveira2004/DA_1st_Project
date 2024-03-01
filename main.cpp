@@ -1,17 +1,14 @@
 #include "Logic/stdafx.h"
-
-enum class teste{
-    triangulo,
-    circulo
-};
-
+#include "Logic/LoadingFunctions.h"
 int main() {
 
-    std::vector<DeliverySites> deliverySites;
+    std::vector<Sinks> deliverySites;
     std::vector<PumpingStations> pumpingStations;
     std::vector<WaterReservoir> waterReservations;
 
-    Graph<teste> g;
+    Graph<int>* g;
+
+    LoadCities(g);
 
     std::cout << "Hello, World!" << std::endl;
     return 0;

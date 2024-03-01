@@ -4,7 +4,7 @@ project(Projeto)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(Projeto main.cpp
-        Data_Structures/Graph.h
+        data_structures/Graph.h
         Logic/WaterReservoir.h
         Logic/PumpingStations.h
         Logic/PumpingStations.cpp
@@ -12,4 +12,5 @@ add_executable(Projeto main.cpp
         Logic/WaterReservoir.cpp
         Interface/UI.h
         Logic/stdafx.h
-        Data_Structures/MutablePriorityQueue.h)
+        data_structures/MutablePriorityQueue.h
+        Logic/LoadingFunctions.h)
