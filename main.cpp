@@ -8,7 +8,11 @@ int main() {
 
     Graph<int>* g;
 
+    LoadFireStations();
     LoadWaterReservoirs();
+    LoadPipes();
+    LoadCities();
+
 
     std::cout << "Hello, World!" << std::endl;
     return 0;

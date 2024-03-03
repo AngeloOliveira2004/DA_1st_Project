@@ -12,19 +12,21 @@ class Fire_Station {
 private:
     Sinks type;
 
-    uint8_t id;
+    int id;
     std::string code;
 
 public:
-    Fire_Station(uint8_t id , std::string code);
+    Fire_Station(int id , std::string code);
 
     // Getters
     [[nodiscard]] std::string getCode() const;
-    [[nodiscard]] u_int8_t getId() const;
+    [[nodiscard]] int getId() const;
 
     // Setters
     void setCode(const std::string& code);
-    void setId(u_int8_t id);
+    void setId(int id);
+
+    void printInfo() const;
 };
 
 class City{
@@ -33,26 +35,26 @@ private:
 
     std::string name;
     std::string code;
-    u_int8_t id;
-    u_int16_t demand;
-    u_int16_t population;
+    int id;
+    int demand;
+    int population;
 public:
-    City(std::string name, std::string code, u_int8_t id,
-         u_int16_t demand, u_int16_t population);
+    City(std::string name, std::string code, int id,
+         int demand, int population);
 
     // Getters
     [[nodiscard]] std::string getName() const;
     [[nodiscard]] std::string getCode() const;
-    [[nodiscard]] u_int8_t getId() const;
-    [[nodiscard]] u_int16_t  getDemand() const;
-    [[nodiscard]] u_int16_t  getPopulation() const;
+    [[nodiscard]] int getId() const;
+    [[nodiscard]] int  getDemand() const;
+    [[nodiscard]] int  getPopulation() const;
 
     // Setters
     void setName(const std::string& name);
     void setCode(const std::string& code);
-    void setId(u_int8_t id);
-    void setDemand(u_int16_t demand);
-    void setPopulation(u_int16_t  population);
+    void setId(int id);
+    void setDemand(int demand);
+    void setPopulation(int  population);
 
     void printInfo() const;
 };

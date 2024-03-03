@@ -143,12 +143,11 @@ void LoadWaterReservoirs() {
         std::string name = tokens[0];
         std::string municipality = tokens[1];
         std::string code = tokens[3];
-        auto a = std::stoi(tokens[2]);
-        uint16_t id =  a;
+        int id =  std::stoi(tokens[2]);
         Remove_terminations(tokens[4]);
         u_int16_t maxDelivery = stoi(tokens[4]);
 
-        WaterReservoir waterReservoir(name, municipality, code, a ,maxDelivery);
+        WaterReservoir waterReservoir(name, municipality, code, id ,maxDelivery);
 
         sources.push_back(waterReservoir);
     }
@@ -161,9 +160,42 @@ void LoadWaterReservoirs() {
     file.close();
 }
 
-template <class T>
 void LoadFireStations()
 {
+    std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Stations_Madeira.csv");
+    if (!file.is_open()) {
+        std::cerr << "Failed to open the CSV file." << std::endl;
+    }
+
+    std::string line;
+    getline(file, line);
+
+    while (getline(file, line)) {
+        std::istringstream lineStream(line);
+        std::vector<std::string> tokens;
+        std::string token;
+
+        while (getline(lineStream, token, ',')) {
+            if(!token.empty())
+                tokens.push_back(token);
+        }
+        if(!tokens.empty()){
+            auto a = tokens[0];
+            auto id = std::stoi(tokens[0]);
+            std::string code = tokens[1];
+
+            Fire_Station fireStation(id, code);
+
+            fireSet.push_back(fireStation);
+        }
+    }
+
+    for(auto f : fireSet)
+    {
+        f.printInfo();
+    }
+
+    file.close();
 
 }
 
