@@ -89,3 +89,9 @@ void DeliverySite::printInfo() const {
 nodeTypes DeliverySite::getNodeType() const {
     return type;
 }
+
+DeliverySite::DeliverySite(std::string code) {
+    this->code = code;
+}
+
+DeliverySite::DeliverySite() = default;

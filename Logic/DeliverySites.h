@@ -15,7 +15,7 @@ private:
     nodeTypes type;
 
     //mandatory
-    int id;
+    int id{};
     std::string code;
 
     //optional
@@ -34,6 +34,8 @@ public:
                  int demand,
                  int population,
                  nodeTypes type);
+    DeliverySite();
+    DeliverySite(std::string  code);
 
     // Getters
     [[nodiscard]] std::string getName() const;

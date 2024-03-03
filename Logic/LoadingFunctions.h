@@ -208,6 +208,29 @@ bool createGraph(Graph<DeliverySite>* g)
             return false;
         }
     }
+    
+    for(const PumpingStations& pumpingStation : edges){
+        DeliverySite deliverySiteA = DeliverySite(pumpingStation.getServicePointA());
+        DeliverySite deliverySiteB = DeliverySite(pumpingStation.getServicePointB());
 
+        if(!pumpingStation.getDirection()){
+            if(!g->addEdge(deliverySiteA , deliverySiteB , pumpingStation.getCapacity())){
+                std::cerr << "Error adding vertex";
+                return false;
+            }
+            if(!g->addEdge(deliverySiteB , deliverySiteA , pumpingStation.getCapacity())){
+                std::cerr << "Error adding vertex";
+                return false;
+            }
+
+        }else{
+            if(!g->addEdge(deliverySiteA , deliverySiteB , pumpingStation.getCapacity())){
+                std::cerr << "Error adding vertex";
+                return false;
+            }
+        }
+
+    }
+    
     return true;
 }
