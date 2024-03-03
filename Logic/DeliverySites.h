@@ -43,6 +43,7 @@ public:
     [[nodiscard]] int getMaxDelivery() const;
     [[nodiscard]] int getDemand() const; // New getter
     [[nodiscard]] int getPopulation() const; // New getter
+    nodeTypes getNodeType() const;
 
     // Setters
     void setCode(const std::string& code);

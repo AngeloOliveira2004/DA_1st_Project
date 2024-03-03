@@ -14,7 +14,6 @@
 #include "../data_structures/Graph.h"
 #include "DeliverySites.h"
 #include "PumpingStations.h"
-#include "WaterReservoir.h"
 
 #define BOTH_WAYS 1;
 #define UNI_DIRECTIONAL 0;

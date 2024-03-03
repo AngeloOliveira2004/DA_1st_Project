@@ -8,9 +8,13 @@ int main() {
     LoadPipes();
     LoadCities();
 
-    Graph<DeliverySite>* g;
+    Graph<DeliverySite> g;
 
-    createGraph(g);
+    createGraph(&g);
+
+    for(auto node : g.getVertexSet()){
+        std::cout << node->getInfo().getCode() << " " << node->getInfo().getNodeType() << std::endl;
+    }
 
     std::cout << "Hello, World!" << std::endl;
     return 0;

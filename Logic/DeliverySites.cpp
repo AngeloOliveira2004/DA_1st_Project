@@ -85,3 +85,7 @@ void DeliverySite::printInfo() const {
     std::cout << "ID: " << id << std::endl;
     std::cout << "Max Delivery: " << *maxDelivery << std::endl;
 }
+
+nodeTypes DeliverySite::getNodeType() const {
+    return type;
+}
