@@ -15,7 +15,7 @@ private:
     nodeTypes type;
 
     //mandatory
-    int id{};
+    int id;
     std::string code;
 
     //optional
