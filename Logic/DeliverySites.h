@@ -2,80 +2,80 @@
 #define PROJETO_DELIVERYSITES_H
 
 #include "stdafx.h"
+#include "optional"
 
-enum class Sinks {
+enum nodeTypes{
     FIRE_STATION,
-    CITY
+    CITY,
+    WATER_RESERVOIR
 };
 
-class Fire_Station {
+class DeliverySite {
 private:
-    Sinks type;
+    nodeTypes type;
 
+    //mandatory
     int id;
     std::string code;
 
+    //optional
+    std::shared_ptr<std::string> name;
+    std::shared_ptr<std::string> municipality;
+
+    std::shared_ptr<int> maxDelivery;
+    std::shared_ptr<int> demand;
+    std::shared_ptr<int> population;
 public:
-    Fire_Station(int id , std::string code);
-
-    // Getters
-    [[nodiscard]] std::string getCode() const;
-    [[nodiscard]] int getId() const;
-
-    // Setters
-    void setCode(const std::string& code);
-    void setId(int id);
-
-    void printInfo() const;
-};
-
-class City{
-private:
-    Sinks type;
-
-    std::string name;
-    std::string code;
-    int id;
-    int demand;
-    int population;
-public:
-    City(std::string name, std::string code, int id,
-         int demand, int population);
+    DeliverySite(std::string  name,
+                 std::string  municipality,
+                 std::string  code,
+                 int id,
+                 int maxDelivery,
+                 int demand,
+                 int population,
+                 nodeTypes type);
 
     // Getters
     [[nodiscard]] std::string getName() const;
+    [[nodiscard]] std::string getMunicipality() const;
     [[nodiscard]] std::string getCode() const;
     [[nodiscard]] int getId() const;
-    [[nodiscard]] int  getDemand() const;
-    [[nodiscard]] int  getPopulation() const;
+    [[nodiscard]] int getMaxDelivery() const;
+    [[nodiscard]] int getDemand() const; // New getter
+    [[nodiscard]] int getPopulation() const; // New getter
 
     // Setters
-    void setName(const std::string& name);
     void setCode(const std::string& code);
+    void setMunicipality(const std::string& municipality);
+    void setName(const std::string& name);
     void setId(int id);
-    void setDemand(int demand);
-    void setPopulation(int  population);
+    void setMaxDelivery(int maxDelivery);
+    void setDemand(int demand); // New setter
+    void setPopulation(int population); // New setter
 
     void printInfo() const;
+
+    bool operator==(const DeliverySite& other) const {
+        return code == other.code;
+    }
 };
-/*
+
 namespace std {
     template <>
-    struct hash<City> {
-        size_t operator()(const City& city) const {
+    struct hash<DeliverySite> {
+        size_t operator()(const DeliverySite& deliverySite) const {
             // Use hash of the city code for hashing
-            return hash<string>{}(city.getCode());
+            return hash<string>{}(deliverySite.getCode());
         }
     };
 
     template<>
-    struct equal_to<City> {
-        bool operator()(const City& city1, const City& city2) const {
+    struct equal_to<DeliverySite> {
+        bool operator()(const DeliverySite& deliverySite1, const DeliverySite& deliverySite2) const {
             // Compare only the city codes for equality
-            return city1.getCode() == city2.getCode();
+            return deliverySite1.getCode() == deliverySite2.getCode();
         }
     };
 }
-*/
 
 #endif //PROJETO_DELIVERYSITES_H

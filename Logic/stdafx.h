@@ -7,6 +7,9 @@
 #include "sstream"
 #include "fstream"
 #include "memory"
+#include "variant"
+#include "unordered_set"
+#include "unordered_map"
 
 #include "../data_structures/Graph.h"
 #include "DeliverySites.h"

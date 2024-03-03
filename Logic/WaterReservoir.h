@@ -1,5 +1,7 @@
 //Sink
 
+#include <utility>
+
 #include "string"
 
 #ifndef PROJETO_WATERRESERVATIONS_H
@@ -15,12 +17,12 @@ private:
     int id;
     int maxDelivery;
 public:
-    WaterReservoir(const std::string& name,
-                   const std::string& municipality,
-                   const std::string& code,
+    WaterReservoir(std::string  name,
+                   std::string  municipality,
+                   std::string  code,
                    int id,
                    int maxDelivery)
-            : name(name), municipality(municipality), code(code), id(id), maxDelivery(maxDelivery) {}
+            : name(std::move(name)), municipality(std::move(municipality)), code(std::move(code)), id(id), maxDelivery(maxDelivery) {}
 
     // Getters
     std::string getName() const { return name; }
@@ -42,5 +44,21 @@ public:
     }
 };
 
+namespace std {
+    template <>
+    struct hash<WaterReservoir> {
+        size_t operator()(const WaterReservoir& waterReservoir) const {
+            // Use hash of the city code for hashing
+            return hash<string>{}(waterReservoir.getCode());
+        }
+    };
 
+    template<>
+    struct equal_to<WaterReservoir> {
+        bool operator()(const WaterReservoir& waterReservoir1, const WaterReservoir& waterReservoir2) const {
+            // Compare only the city codes for equality
+            return waterReservoir1.getCode() == waterReservoir1.getCode();
+        }
+    };
+}
 #endif //PROJETO_WATERRESERVATIONS_H
