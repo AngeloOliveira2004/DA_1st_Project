@@ -84,10 +84,6 @@ void LoadCities() {
         nodesToAdd.insert(deliverySite);
     }
 
-    for(auto n : nodesToAdd){
-        n.printInfo();
-    }
-
     file.close();
 }
 
@@ -119,11 +115,6 @@ void LoadPipes() {
         PumpingStations pumpingStation(servicePointA, servicePointB, capacity,direction);
 
         edges.push_back(pumpingStation);
-    }
-
-    for(auto e : edges)
-    {
-        e.printInfo();
     }
 
     file.close();
@@ -161,11 +152,6 @@ void LoadWaterReservoirs() {
         DeliverySite deliverySite(name, municipality, code, id, maxDelivery , demand , population , WATER_RESERVOIR);
 
         nodesToAdd.insert(deliverySite);
-    }
-
-    for(auto n : nodesToAdd)
-    {
-        n.printInfo();
     }
 
     file.close();
@@ -207,11 +193,6 @@ void LoadFireStations()
 
             nodesToAdd.insert(deliverySite);
         }
-    }
-
-    for(auto n : nodesToAdd)
-    {
-        n.printInfo();
     }
 
     file.close();

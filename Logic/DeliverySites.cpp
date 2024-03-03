@@ -1,3 +1,4 @@
+
 #include "DeliverySites.h"
 
 // Constructor definition
@@ -9,10 +10,10 @@ DeliverySite::DeliverySite(std::string name,
                            int demand,
                            int population,
                            nodeTypes nodeType)
-        : name(std::make_shared<std::string>(std::move(name))),
-          municipality(std::make_shared<std::string>(std::move(municipality))),
-          code(std::move(code)), id(id), maxDelivery(std::make_shared<int>(maxDelivery)), demand(std::make_shared<int>(demand)),
-          population(std::make_shared<int>(population)) , type(nodeType){}
+        : name(std::move(name)),
+          municipality(std::move(municipality)),
+          code(std::move(code)), id(id), maxDelivery(maxDelivery), demand(demand),
+          population(population), type(nodeType) {}
 
 // Setter definitions
 void DeliverySite::setCode(const std::string& code) {
@@ -24,36 +25,36 @@ void DeliverySite::setId(int id) {
 }
 
 void DeliverySite::setMunicipality(const std::string& municipality) {
-    this->municipality = std::make_shared<std::string>(municipality);
+    this->municipality = municipality;
 }
 
 // Setter for name
 void DeliverySite::setName(const std::string& name) {
-    this->name = std::make_shared<std::string>(name);
+    this->name = name;
 }
 
 // Setter for maxDelivery
 void DeliverySite::setMaxDelivery(int maxDelivery) {
-    this->maxDelivery = std::make_shared<int>(maxDelivery);
+    this->maxDelivery = maxDelivery;
 }
 
 // Setter for demand
 void DeliverySite::setDemand(int demand) {
-    this->demand = std::make_shared<int>(demand);
+    this->demand = demand;
 }
 
 // Setter for population
 void DeliverySite::setPopulation(int population) {
-    this->population = std::make_shared<int>(population);
+    this->population = population;
 }
 
 // Getter definitions
 std::string DeliverySite::getName() const {
-    return *name;
+    return name;
 }
 
 std::string DeliverySite::getMunicipality() const {
-    return *municipality;
+    return municipality;
 }
 
 std::string DeliverySite::getCode() const {
@@ -65,23 +66,24 @@ std::string DeliverySite::getCode() const {
 }
 
 int DeliverySite::getMaxDelivery() const {
-    return *maxDelivery;
+    return maxDelivery;
 }
 
 int DeliverySite::getDemand() const {
-    return *demand;
+    return demand;
 }
 
 // Getter for population
 int DeliverySite::getPopulation() const {
-    return *population;
+    return population;
 }
 
 void DeliverySite::printInfo() const {
     // Print delivery site information
-    std::cout << "Name: " << *name << std::endl;
-    std::cout << "Municipality: " << *municipality << std::endl;
+    std::cout << "Name: " << name << std::endl;
+    std::cout << "Municipality: " << municipality << std::endl;
     std::cout << "Code: " << code << std::endl;
     std::cout << "ID: " << id << std::endl;
-    std::cout << "Max Delivery: " << *maxDelivery << std::endl;
+    std::cout << "Max Delivery: " << maxDelivery << std::endl;
 }
+

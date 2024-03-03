@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "optional"
 
-enum nodeTypes{
+enum nodeTypes {
     FIRE_STATION,
     CITY,
     WATER_RESERVOIR
@@ -19,16 +19,17 @@ private:
     std::string code;
 
     //optional
-    std::shared_ptr<std::string> name;
-    std::shared_ptr<std::string> municipality;
+    std::string name;
+    std::string municipality;
 
-    std::shared_ptr<int> maxDelivery;
-    std::shared_ptr<int> demand;
-    std::shared_ptr<int> population;
+    int maxDelivery;
+    int demand;
+    int population;
+
 public:
-    DeliverySite(std::string  name,
-                 std::string  municipality,
-                 std::string  code,
+    DeliverySite(std::string name,
+                 std::string municipality,
+                 std::string code,
                  int id,
                  int maxDelivery,
                  int demand,
