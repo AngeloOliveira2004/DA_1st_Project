@@ -12,6 +12,7 @@
 
 class PumpingStations {
 private:
+    
     std::string servicePointA;
     std::string servicePointB;
     int capacity;

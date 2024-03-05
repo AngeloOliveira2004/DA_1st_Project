@@ -25,6 +25,7 @@ private:
     std::shared_ptr<int> maxDelivery;
     std::shared_ptr<int> demand;
     std::shared_ptr<int> population;
+
 public:
     DeliverySite(std::string  name,
                  std::string  municipality,
