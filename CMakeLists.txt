@@ -11,4 +11,5 @@ add_executable(Projeto main.cpp
         Interface/UI.h
         Logic/stdafx.h
         data_structures/MutablePriorityQueue.h
-        Logic/LoadingFunctions.h)
+        Logic/LoadingFunctions.h
+        Logic/EdmondsKarp.cpp)

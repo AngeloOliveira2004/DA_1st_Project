@@ -13,7 +13,6 @@ enum nodeTypes{
 class DeliverySite {
 private:
     nodeTypes type;
-
     //mandatory
     int id;
     std::string code;
