@@ -16,7 +16,16 @@ int main() {
         std::cout << node->getInfo().getCode() << " " << node->getInfo().getNodeType() << std::endl;
     }
 
-    std::vector<DeliverySite> waterSources;
+    std::vector<Vertex<DeliverySite>*> sources;
+
+    for(Vertex<DeliverySite>* deliverySite : g.getVertexSet()){
+        if(deliverySite->getInfo().getNodeType() == WATER_RESERVOIR){
+            sources.push_back(deliverySite);
+        }
+    }
+
+    for(auto v : g.getVertexSet()){
+    }
 
     return 0;
 }
