@@ -18,9 +18,10 @@ int main() {
 
     createGraph(&g);
 
-    DeliverySite cityToTest = DeliverySite("C_5");
+    DeliverySite cityToTest = DeliverySite("C_1");
 
-    calculateMaxFlow(&g , cityToTest);
+    //calculateMaxFlow(&g , cityToTest);
+    calculateMaxFlowInEntireNetwork(&g);
 
     return 0;
 }
