@@ -1,3 +1,5 @@
+#include "Algorithms.h"
+
 #include "stdafx.h"
 
 double findMinResidualAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t) {
@@ -73,6 +75,7 @@ void augmentFlowAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t, doub
 }
 
 void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite target) {
+    auto start_time = std::chrono::steady_clock::now();
 // Find source and target vertices in the graph
     Vertex<DeliverySite>* s = g->findVertex(source);
     Vertex<DeliverySite>* t = g->findVertex(target);
@@ -90,4 +93,8 @@ void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite targe
         double f = findMinResidualAlongPath(s, t);
         augmentFlowAlongPath(s, t, f);
     }
+
+    auto end_time = std::chrono::steady_clock::now();
+    std::cout << "Each EdmondsKarp takes: " << std::chrono::duration<double>(end_time - start_time).count() << " seconds" << std::endl;
+
 }

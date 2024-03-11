@@ -50,6 +50,9 @@ void Remove_terminations(std::string& str)
 }
 
 void LoadCities() {
+
+    std::cout << "LoadCities started." << std::endl;
+
     std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Cities_Madeira.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
@@ -85,9 +88,13 @@ void LoadCities() {
     }
 
     file.close();
+
+    //
 }
 
 void LoadPipes() {
+
+    std::cout << "LoadPipes started." << std::endl;
 
     std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Pipes_Madeira.csv");
     if (!file.is_open()) {
@@ -118,9 +125,14 @@ void LoadPipes() {
     }
 
     file.close();
+
+    //
 }
 
 void LoadWaterReservoirs() {
+
+    std::cout << "LoadWaterReservoirs started." << std::endl;
+
     std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Reservoirs_Madeira.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
@@ -155,10 +167,14 @@ void LoadWaterReservoirs() {
     }
 
     file.close();
+
+    //
 }
 
 void LoadFireStations()
 {
+    std::cout << "LoadFireStations started." << std::endl;
+
     std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Stations_Madeira.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
@@ -196,7 +212,7 @@ void LoadFireStations()
     }
 
     file.close();
-
+    //std::this_thread::sleep_for(std::chrono::seconds(5));
 }
 
 bool createGraph(Graph<DeliverySite>* g)

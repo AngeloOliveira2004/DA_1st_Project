@@ -1,31 +1,26 @@
 #include "Logic/stdafx.h"
 #include "Logic/LoadingFunctions.h"
+#include "Logic/Logic.h"
 
 int main() {
 
-    LoadFireStations();
-    LoadWaterReservoirs();
-    LoadPipes();
-    LoadCities();
+    std::thread t1(LoadFireStations);
+    std::thread t2(LoadWaterReservoirs);
+    std::thread t3(LoadPipes);
+    std::thread t4(LoadCities);
+
+    t1.join();
+    t2.join();
+    t3.join();
+    t4.join();
 
     Graph<DeliverySite> g;
 
     createGraph(&g);
 
-    for(auto node : g.getVertexSet()){
-        std::cout << node->getInfo().getCode() << " " << node->getInfo().getNodeType() << std::endl;
-    }
+    DeliverySite cityToTest = DeliverySite("C_5");
 
-    std::vector<Vertex<DeliverySite>*> sources;
-
-    for(Vertex<DeliverySite>* deliverySite : g.getVertexSet()){
-        if(deliverySite->getInfo().getNodeType() == WATER_RESERVOIR){
-            sources.push_back(deliverySite);
-        }
-    }
-
-    for(auto v : g.getVertexSet()){
-    }
+    calculateMaxFlow(&g , cityToTest);
 
     return 0;
 }
