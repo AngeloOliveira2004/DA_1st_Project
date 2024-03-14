@@ -14,7 +14,7 @@ void getSources(Graph<DeliverySite>* g){
 void getSinks(Graph<DeliverySite>* g){
     for(Vertex<DeliverySite>* deliverySite : g->getVertexSet()){
         if(deliverySite->getInfo().getNodeType() == CITY){
-            sources.push_back(deliverySite);
+            sinks.push_back(deliverySite);
         }
     }
 }
@@ -56,22 +56,21 @@ void calculateMaxFlowInEntireNetwork(Graph<DeliverySite>* g){
     g->addVertex(superSource);
 
     for(Vertex<DeliverySite>* s : sources){
-        g->addEdge(s->getInfo() , superSource , INF);
         g->addEdge(superSource , s->getInfo() , INF);
     }
-
+    auto superSourceVertex = g->findVertex(superSource);
     //SuperSink
     DeliverySite superSink = DeliverySite("SuperSink");
     g->addVertex(superSink);
 
     for(Vertex<DeliverySite>* s : sinks){
         g->addEdge(s->getInfo() , superSink , s->getInfo().getDemand());
-        g->addEdge(superSink , s->getInfo() , s->getInfo().getDemand());
     }
 
     edmondsKarp(g , superSource , superSink);
 
     Vertex<DeliverySite>* superSinkVertex = g->findVertex(superSink);
+
     double maxFlow = 0;
 
     for(Edge<DeliverySite>* e : superSinkVertex->getIncoming()){
