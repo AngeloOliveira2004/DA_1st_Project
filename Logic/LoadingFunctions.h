@@ -79,8 +79,8 @@ void LoadCities() {
 
         int maxDelivery = 0;
         int demand = std::stoi(tokens[3]);
+        Remove_terminations(tokens[4]);
         int population = std::stoi(tokens[4]);
-        //mandatory
         
         City city(name,code,id,demand,population);
 
@@ -155,11 +155,7 @@ void LoadWaterReservoirs() {
         std::string municipality = tokens[1];
         std::string code = tokens[3];
         int id = stoi(tokens[2]);
-
         int maxDelivery = stoi(tokens[4]);
-        int demand = 0;
-        int population = 0;
-        //mandatory
 
         WaterReservoir waterReservoir(name,municipality,code,id,maxDelivery);
 
@@ -197,6 +193,7 @@ void LoadFireStations()
 
             std::string name;
             std::string municipality;
+            Remove_terminations(tokens[1]);
             std::string code = tokens[1];
             int id = stoi(tokens[0]);
 
