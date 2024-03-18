@@ -55,12 +55,6 @@ build CMakeFiles/Projeto.dir/main.cpp.o: CXX_COMPILER__Projeto_unscanned_Debug /
   OBJECT_DIR = CMakeFiles/Projeto.dir
   OBJECT_FILE_DIR = CMakeFiles/Projeto.dir
 
-build CMakeFiles/Projeto.dir/Logic/PumpingStations.cpp.o: CXX_COMPILER__Projeto_unscanned_Debug /home/jose-costa/Documents/Uni/DA/Projeto/Logic/PumpingStations.cpp || cmake_object_order_depends_target_Projeto
-  DEP_FILE = CMakeFiles/Projeto.dir/Logic/PumpingStations.cpp.o.d
-  FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/Projeto.dir
-  OBJECT_FILE_DIR = CMakeFiles/Projeto.dir/Logic
-
 build CMakeFiles/Projeto.dir/Logic/DeliverySites.cpp.o: CXX_COMPILER__Projeto_unscanned_Debug /home/jose-costa/Documents/Uni/DA/Projeto/Logic/DeliverySites.cpp || cmake_object_order_depends_target_Projeto
   DEP_FILE = CMakeFiles/Projeto.dir/Logic/DeliverySites.cpp.o.d
   FLAGS = -g -fdiagnostics-color=always
@@ -87,7 +81,7 @@ build CMakeFiles/Projeto.dir/Logic/Logic.cpp.o: CXX_COMPILER__Projeto_unscanned_
 #############################################
 # Link the executable Projeto
 
-build Projeto: CXX_EXECUTABLE_LINKER__Projeto_Debug CMakeFiles/Projeto.dir/main.cpp.o CMakeFiles/Projeto.dir/Logic/PumpingStations.cpp.o CMakeFiles/Projeto.dir/Logic/DeliverySites.cpp.o CMakeFiles/Projeto.dir/Logic/Algorithms.cpp.o CMakeFiles/Projeto.dir/Logic/Logic.cpp.o
+build Projeto: CXX_EXECUTABLE_LINKER__Projeto_Debug CMakeFiles/Projeto.dir/main.cpp.o CMakeFiles/Projeto.dir/Logic/DeliverySites.cpp.o CMakeFiles/Projeto.dir/Logic/Algorithms.cpp.o CMakeFiles/Projeto.dir/Logic/Logic.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/Projeto.dir
   POST_BUILD = :

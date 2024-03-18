@@ -99,26 +99,32 @@ void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite targe
 
 }
 
+int a = 0;
+int iterations = 0;
 
 double averagePipeCapacity(const std::vector<Edge<DeliverySite>*>& pipes){
 
     double sumCapacity = 0;
     double sumFlow = 0;
-
+    a++;
     for(Edge<DeliverySite>* p : pipes){
         sumCapacity += p->getWeight();
         sumFlow += p->getFlow();
+
+        if(a == 1){
+            print(p->getFlow() , true);
+        }
     }
 
     double averageFlow = sumFlow / static_cast<double>(pipes.size());
     double averageCapacity = sumCapacity / static_cast<double>(pipes.size());
 
     #ifdef EXECUTED_FROM_MAIN
-    print("The average flow is " , false);
-    print(averageFlow , true);
+        print("The average flow is " , false);
+        print(averageFlow , true);
 
-    print("The average capacity is " , false);
-    print(averageCapacity , true);
+        print("The average capacity is " , false);
+        print(averageCapacity , true);
     #endif
 
     return averageFlow;
