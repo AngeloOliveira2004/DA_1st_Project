@@ -53,7 +53,7 @@ void LoadCities() {
 
     std::cout << "LoadCities started." << std::endl;
 
-    std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Cities_Madeira.csv");
+    std::ifstream file("LargeDataSet/Cities.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -82,9 +82,9 @@ void LoadCities() {
         int population = std::stoi(tokens[4]);
         //mandatory
         
-        DeliverySite deliverySite(name, municipality, code, id, maxDelivery , demand , population , CITY);
+        City city(name,code,id,demand,population);
 
-        nodesToAdd.insert(deliverySite);
+        nodesToAdd.insert(city);
     }
 
     file.close();
@@ -96,7 +96,7 @@ void LoadPipes() {
 
     std::cout << "LoadPipes started." << std::endl;
 
-    std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Pipes_Madeira.csv");
+    std::ifstream file("LargeDataSet/Pipes.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -133,7 +133,7 @@ void LoadWaterReservoirs() {
 
     std::cout << "LoadWaterReservoirs started." << std::endl;
 
-    std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Reservoirs_Madeira.csv");
+    std::ifstream file("LargeDataSet/Reservoir.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -161,9 +161,9 @@ void LoadWaterReservoirs() {
         int population = 0;
         //mandatory
 
-        DeliverySite deliverySite(name, municipality, code, id, maxDelivery , demand , population , WATER_RESERVOIR);
+        WaterReservoir waterReservoir(name,municipality,code,id,maxDelivery);
 
-        nodesToAdd.insert(deliverySite);
+        nodesToAdd.insert(waterReservoir);
     }
 
     file.close();
@@ -175,7 +175,7 @@ void LoadFireStations()
 {
     std::cout << "LoadFireStations started." << std::endl;
 
-    std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Stations_Madeira.csv");
+    std::ifstream file("LargeDataSet/Stations.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -200,14 +200,9 @@ void LoadFireStations()
             std::string code = tokens[1];
             int id = stoi(tokens[0]);
 
-            int maxDelivery = 0;
-            int demand = 0;
-            int population = 0;
-            //mandatory
+            FireStation fireStation(code,id);
 
-            DeliverySite deliverySite(name, municipality, code, id, maxDelivery , demand , population , FIRE_STATION);
-
-            nodesToAdd.insert(deliverySite);
+            nodesToAdd.insert(fireStation);
         }
     }
 
