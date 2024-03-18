@@ -98,3 +98,67 @@ void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite targe
     std::cout << "Each EdmondsKarp takes: " << std::chrono::duration<double>(end_time - start_time).count() << " seconds" << std::endl;
 
 }
+
+
+double averagePipeCapacity(const std::vector<Edge<DeliverySite>*>& pipes){
+
+    double sumCapacity = 0;
+    double sumFlow = 0;
+
+    for(Edge<DeliverySite>* p : pipes){
+        sumCapacity += p->getWeight();
+        sumFlow += p->getFlow();
+    }
+
+    double averageFlow = sumFlow / static_cast<double>(pipes.size());
+    double averageCapacity = sumCapacity / static_cast<double>(pipes.size());
+
+    #ifdef EXECUTED_FROM_MAIN
+    print("The average flow is " , false);
+    print(averageFlow , true);
+
+    print("The average capacity is " , false);
+    print(averageCapacity , true);
+
+    #endif
+
+    return averageFlow;
+}
+
+double variancePipeCapacityFlow(const std::vector<Edge<DeliverySite>*>& pipes , std::vector<std::pair<double , Edge<DeliverySite>*>>& varianceInEachPoint){
+
+    double averageFlow = averagePipeCapacity(pipes);
+
+    double variance = 0;
+    double sumVariance = 0;
+
+    for(Edge<DeliverySite>* p : pipes){
+        variance =  (p->getFlow() - averageFlow)*(p->getFlow() - averageFlow);
+        variance = std::sqrt(variance);
+        variance /= static_cast<double>(pipes.size());
+
+        sumVariance += variance;
+
+        varianceInEachPoint.emplace_back(variance , p);
+    }
+
+    return variance;
+}
+
+std::pair<double , Edge<DeliverySite>*> maximumDIfferenceCapacityFlow(const std::vector<Edge<DeliverySite>*>& pipes){
+    double maxDif = INT32_MIN;
+
+    for(Edge<DeliverySite>* p : pipes){
+        maxDif = std::max(maxDif , (p->getWeight() - p->getFlow()));
+    }
+
+    for(Edge<DeliverySite>* p : pipes){
+        if(p->getWeight() - p->getFlow() == maxDif){
+            return std::make_pair(maxDif , p);
+        }
+    }
+
+    return std::make_pair(0.0, nullptr);
+}
+
+
