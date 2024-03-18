@@ -7,7 +7,8 @@
 enum nodeTypes {
     FIRE_STATION,
     CITY,
-    WATER_RESERVOIR
+    WATER_RESERVOIR,
+    UNKNOWN
 };
 
 class DeliverySite {
@@ -18,7 +19,7 @@ private:
 public:
     DeliverySite(std::string code);
     std::string getCode() const;
-    virtual int getDemand() const {return 0;};
+    virtual int getDemand() const;
     void setCode(const std::string& code);
     virtual nodeTypes getNodeType() const;
 

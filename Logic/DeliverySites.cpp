@@ -11,6 +11,16 @@ void DeliverySite::setCode(const std::string& code) {
     this->code = code;
 }
 
+int DeliverySite::getDemand() const {
+    return 0;
+}
+
+// Default implementation for getNodeType()
+nodeTypes DeliverySite::getNodeType() const {
+    return UNKNOWN;
+}
+
+
 FireStation::FireStation(std::string code, int id) : DeliverySite(std::move(code)), id(id) {}
 
 int FireStation::getId() const {
