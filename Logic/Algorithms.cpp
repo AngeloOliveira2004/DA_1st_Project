@@ -119,7 +119,6 @@ double averagePipeCapacity(const std::vector<Edge<DeliverySite>*>& pipes){
 
     print("The average capacity is " , false);
     print(averageCapacity , true);
-
     #endif
 
     return averageFlow;
