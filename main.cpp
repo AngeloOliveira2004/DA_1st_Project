@@ -26,7 +26,7 @@ int main() {
 
     std::vector<Edge<DeliverySite>*> pipes = getPipes(&g);
 
-    //double averageFlow = averagePipeCapacity(pipes);
+    double averageFlow = averagePipeCapacity(pipes);
 
     std::vector<std::pair<double , Edge<DeliverySite>*>> varianceInEachPoint;
     //double variance = variancePipeCapacityFlow(pipes , varianceInEachPoint);
@@ -37,6 +37,9 @@ int main() {
     for(int i = 0 ; i <= 1000 ; i++){
         avgVariance += variancePipeCapacityFlow(pipes , varianceInEachPoint);
     }
+
+    print("Average: ", false);
+    print(averageFlow , true);
 
 
     print("Variance: ", false);

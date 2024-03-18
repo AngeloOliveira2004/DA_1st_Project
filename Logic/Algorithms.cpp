@@ -119,14 +119,6 @@ double averagePipeCapacity(const std::vector<Edge<DeliverySite>*>& pipes){
     double averageFlow = sumFlow / static_cast<double>(pipes.size());
     double averageCapacity = sumCapacity / static_cast<double>(pipes.size());
 
-    #ifdef EXECUTED_FROM_MAIN
-        print("The average flow is " , false);
-        print(averageFlow , true);
-
-        print("The average capacity is " , false);
-        print(averageCapacity , true);
-    #endif
-
     return averageFlow;
 }
 
