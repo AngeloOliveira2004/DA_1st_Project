@@ -11,6 +11,7 @@
 #include "unordered_set"
 #include "unordered_map"
 #include "thread"
+#include "cmath"
 
 #include "../data_structures/Graph.h"
 #include "DeliverySites.h"

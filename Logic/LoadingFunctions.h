@@ -191,6 +191,7 @@ void LoadFireStations()
 
         if(!tokens.empty()){
 
+            Remove_terminations(tokens[1]);
             std::string name;
             std::string municipality;
             Remove_terminations(tokens[1]);
@@ -218,6 +219,9 @@ bool createGraph(Graph<DeliverySite>* g)
     }
     
     for(const PumpingStations& pumpingStation : edges){
+        if(!g->findVertex(pumpingStation.getServicePointA())){
+            std::cout << pumpingStation.getServicePointA();
+        }
         DeliverySite deliverySiteA = DeliverySite(pumpingStation.getServicePointA());
         DeliverySite deliverySiteB = DeliverySite(pumpingStation.getServicePointB());
 
