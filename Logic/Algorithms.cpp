@@ -102,6 +102,8 @@ void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite targe
 int a = 0;
 int iterations = 0;
 
+void printShortestPath(Vertex<DeliverySite> *pVertex);
+
 double averagePipeCapacity(const std::vector<Edge<DeliverySite>*>& pipes){
 
     double sumCapacity = 0;
@@ -158,4 +160,108 @@ std::pair<double , Edge<DeliverySite>*> maximumDIfferenceCapacityFlow(const std:
     return std::make_pair(0.0, nullptr);
 }
 
+//objective is to identify the closest source/sink
+void BFS(){
 
+}
+
+//root will be the origin of edge with the lowest flow
+//this edge will be locked to guarantee that it is not picked during this algorithm
+//we can try to tell this algo to
+//djikstra picks the paths with full edges
+void Dijkstra(Graph<DeliverySite>*g , Vertex<DeliverySite>* root) {
+
+    MutablePriorityQueue<Vertex<DeliverySite>> vertexQueue;
+    for(Vertex<DeliverySite>* v : g->getVertexSet()){
+        vertexQueue.insert(v);
+    }
+
+    for (Vertex<DeliverySite> *v: g->getVertexSet()) {
+        v->setDist(INF);
+        v->setPath(nullptr);
+    }
+
+    root->setDist(0);
+
+    while (!vertexQueue.empty()){
+        Vertex<DeliverySite>* u = vertexQueue.extractMin();
+
+        for(Edge<DeliverySite>* e : u->getAdj()){
+            //we want the minimum distance by flow
+            Vertex<DeliverySite>* v = e->getDest();
+            if(v->getDist() > (u->getDist() + e->getFlow())){
+                v->setDist(u->getDist() + e->getFlow());
+                v->setPath(e);
+            }
+        }
+    }
+}
+
+void printDistance(Graph<DeliverySite>* g){
+    for(Vertex<DeliverySite>* v : g->getVertexSet()){
+        if(v->getInfo().getNodeType() == WATER_RESERVOIR){
+            Dijkstra(g , v);
+
+            // Print the result of Dijkstra's search from the current water reservoir
+            std::cout << "Search starting from water reservoir " << v->getInfo().getCode() << ":" << std::endl;
+            std::cout << "------------------------------------" << std::endl;
+
+            // Traverse all vertices in the graph
+            for(Vertex<DeliverySite>* u : g->getVertexSet()) {
+                if (u->getDist() != INF) {
+                    // Print the shortest path from the current water reservoir to the current vertex
+                    std::cout << "Shortest path to " << u->getInfo().getCode() << ": ";
+                    printShortestPath(u);
+                } else {
+                    // Print that there's no path to this vertex from the current water reservoir
+                    std::cout << "No path to " << u->getInfo().getCode() << std::endl;
+                }
+            }
+
+            std::cout << "------------------------------------" << std::endl;
+        }
+    }
+}
+
+void printShortestPath(Vertex<DeliverySite> *pVertex) {
+    std::stack<Edge<DeliverySite>*> pathStack;
+    Vertex<DeliverySite>* currentVertex = pVertex;
+
+    // Push all edges of the shortest path onto the stack
+    while (currentVertex->getPath() != nullptr) {
+        pathStack.push(currentVertex->getPath());
+        currentVertex = currentVertex->getPath()->getOrig();
+    }
+
+    // Print the edges in reverse order to get the shortest path
+    while (!pathStack.empty()) {
+        Edge<DeliverySite>* edge = pathStack.top();
+        pathStack.pop();
+
+        std::cout << edge->getOrig()->getInfo().getCode() << " --- " << edge->getFlow() << " ---> ";
+        std::cout << edge->getDest()->getInfo().getCode() << std::endl;
+    }
+}
+
+
+
+//well try to get all pipes to redistribute water from one to another
+//we repeat this process until the average of flow/variance are either < 1 or until a result does not improve after 5 iterations
+//sort the edges by flow and get the minimum on and try to secure a path from the closest source to cthe losest sink by using that edge
+//doing this by using Dijkstra algorithm and then pumping water from there simply by pumping the highest amount of water possible
+//we can use bellmanFord and select the edges with lower flow on the relaxation process
+//could probably use select variable inside edge class to force the path in ford-Fulkerson algorithm
+
+void heuristic(Graph<DeliverySite>*g , const std::vector<Edge<DeliverySite>*>& pipes){
+
+    double initialVariance = variancePipeCapacityFlow(pipes , (std::vector<std::pair<double, Edge<DeliverySite> *>> &) a);
+    double variance = INF , lastValue = 0;
+
+    while (1){
+
+
+
+        break;
+    }
+
+}
