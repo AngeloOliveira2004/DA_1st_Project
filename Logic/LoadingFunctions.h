@@ -53,7 +53,7 @@ void LoadCities() {
 
     std::cout << "LoadCities started." << std::endl;
 
-    std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Cities_Madeira.csv");
+    std::ifstream file("LargeDataSet/Cities.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -96,7 +96,7 @@ void LoadPipes() {
 
     std::cout << "LoadPipes started." << std::endl;
 
-    std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Pipes_Madeira.csv");
+    std::ifstream file("LargeDataSet/Pipes.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -133,7 +133,7 @@ void LoadWaterReservoirs() {
 
     std::cout << "LoadWaterReservoirs started." << std::endl;
 
-    std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Reservoirs_Madeira.csv");
+    std::ifstream file("LargeDataSet/Reservoir.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -175,7 +175,7 @@ void LoadFireStations()
 {
     std::cout << "LoadFireStations started." << std::endl;
 
-    std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Stations_Madeira.csv");
+    std::ifstream file("LargeDataSet/Stations.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -195,6 +195,7 @@ void LoadFireStations()
 
         if(!tokens.empty()){
 
+            Remove_terminations(tokens[1]);
             std::string name;
             std::string municipality;
             std::string code = tokens[1];
@@ -226,6 +227,9 @@ bool createGraph(Graph<DeliverySite>* g)
     }
     
     for(const PumpingStations& pumpingStation : edges){
+        if(!g->findVertex(pumpingStation.getServicePointA())){
+            std::cout << pumpingStation.getServicePointA();
+        }
         DeliverySite deliverySiteA = DeliverySite(pumpingStation.getServicePointA());
         DeliverySite deliverySiteB = DeliverySite(pumpingStation.getServicePointB());
 

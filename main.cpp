@@ -4,21 +4,15 @@
 
 int main() {
 
-    std::thread t1(LoadFireStations);
-    std::thread t2(LoadWaterReservoirs);
-    std::thread t3(LoadPipes);
-    std::thread t4(LoadCities);
-
-    t1.join();
-    t2.join();
-    t3.join();
-    t4.join();
+    LoadFireStations();
+    LoadWaterReservoirs();
+    LoadCities();
+    LoadPipes();
 
     Graph<DeliverySite> g;
 
     createGraph(&g);
 
-    DeliverySite cityToTest = DeliverySite("C_1");
 
     //calculateMaxFlow(&g , cityToTest);
     calculateMaxFlowInEntireNetwork(&g);
