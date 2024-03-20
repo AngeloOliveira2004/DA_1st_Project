@@ -124,7 +124,7 @@ double averagePipeCapacity(const std::vector<Edge<DeliverySite>*>& pipes){
     return averageFlow;
 }
 
-double variancePipeCapacityFlow(const std::vector<Edge<DeliverySite>*>& pipes , std::vector<std::pair<double , Edge<DeliverySite>*>>& varianceInEachPoint){
+double variancePipeCapacityFlow(const std::vector<Edge<DeliverySite>*>& pipes , std::vector<std::pair<double , Edge<DeliverySite>*>>* varianceInEachPoint){
 
     double averageFlow = averagePipeCapacity(pipes);
 
@@ -138,7 +138,8 @@ double variancePipeCapacityFlow(const std::vector<Edge<DeliverySite>*>& pipes , 
 
         sumVariance += variance;
 
-        varianceInEachPoint.emplace_back(variance , p);
+        if(varianceInEachPoint != nullptr)
+            varianceInEachPoint->emplace_back(variance , p);
     }
 
     return variance;
@@ -169,7 +170,7 @@ void BFS(){
 //this edge will be locked to guarantee that it is not picked during this algorithm
 //we can try to tell this algo to
 //djikstra picks the paths with full edges
-void Dijkstra(Graph<DeliverySite>*g , Vertex<DeliverySite>* root) {
+void Dijkstra(Graph<DeliverySite>*g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target) {
 
     MutablePriorityQueue<Vertex<DeliverySite>> vertexQueue;
     for(Vertex<DeliverySite>* v : g->getVertexSet()){
@@ -195,12 +196,14 @@ void Dijkstra(Graph<DeliverySite>*g , Vertex<DeliverySite>* root) {
             }
         }
     }
+
+    target->setDist(INF);
 }
 
 void printDistance(Graph<DeliverySite>* g){
     for(Vertex<DeliverySite>* v : g->getVertexSet()){
         if(v->getInfo().getNodeType() == WATER_RESERVOIR){
-            Dijkstra(g , v);
+            Dijkstra(g , v , nullptr);
 
             // Print the result of Dijkstra's search from the current water reservoir
             std::cout << "Search starting from water reservoir " << v->getInfo().getCode() << ":" << std::endl;
@@ -252,16 +255,171 @@ void printShortestPath(Vertex<DeliverySite> *pVertex) {
 //we can use bellmanFord and select the edges with lower flow on the relaxation process
 //could probably use select variable inside edge class to force the path in ford-Fulkerson algorithm
 
-void heuristic(Graph<DeliverySite>*g , const std::vector<Edge<DeliverySite>*>& pipes){
 
-    double initialVariance = variancePipeCapacityFlow(pipes , (std::vector<std::pair<double, Edge<DeliverySite> *>> &) a);
-    double variance = INF , lastValue = 0;
+//New heuristic
+/*posso pegar nas edges e organizar por flow/capacityy e de seguida pegar nas com maior flow, pegar na origem,
+ * gerar uma shortestPath para o final desse node e redistribuir o flow assim
+ *
+isto se for com network toda
+senao so pego no caminho mesmo e procuro outro enquanto redistribuo a agua
+pegar no caminho com menor flow de momento
+ * */
+
+void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
+
+    double initialVariance = variancePipeCapacityFlow(pipes , nullptr);
+    double variance = INF , lastValue = initialVariance;
+    int attempts = 10;
+
+    std::vector<std::pair<double , Edge<DeliverySite>*>> edgesFraction;
+
+    for(Edge<DeliverySite>* e : pipes){
+        edgesFraction.emplace_back(e->getFlow() , e);
+    }
+
+    std::sort(edgesFraction.begin(), edgesFraction.end(), [](const std::pair<double , Edge<DeliverySite>*>& a, const std::pair<double , Edge<DeliverySite>*>& b) {
+        if(a.first == b.first){
+            return a.second->getWeight() > b.second->getWeight();
+        }
+
+        return a > b;
+    });
+    /*
+    for(int i = 0 ; i < edgesFraction.size() ; i++){
+        print(edgesFraction[i].first , false);
+        print(edgesFraction[i].second->getOrig()->getInfo().getCode() , false);
+        print("->" , false);
+        print(edgesFraction[i].second->getDest()->getInfo().getCode() , false);
+        print("- flow: " , false);
+        print(edgesFraction[i].second->getFlow() , false);
+        print(" - capacity: " , false);
+        print(edgesFraction[i].second->getWeight() , true);
+    }
+     */
+
+    //now for each iteration of the algorithm I don't want to calculate the shortest path but the path with leftover pipe capacity
 
     while (1){
 
+        Edge<DeliverySite>* currEdge = edgesFraction.front().second;
 
+        //now for each iteration of the algorithm I don't want to calculate the shortest path but the path with the highest leftover pipe capacity
+        calculate_Max_Leftover_Capacity(g , currEdge->getOrig() , currEdge->getDest() , currEdge);
 
-        break;
+        std::vector<Edge<DeliverySite>*> pumpPath = calculatePath(currEdge->getDest());
+
+        pumpWater(pumpPath);
+
+        //calcular varianica
+        variance = variancePipeCapacityFlow(pipes , nullptr);
+
+        if(variance < lastValue){
+            lastValue = variance;
+        }else{
+            if(attempts < 0){
+                if(lastValue < initialVariance){
+                    print("Flow was well redistributed" , true);
+                }
+                return;
+            }else{
+                attempts--;
+            }
+        }
+
+        std::sort(edgesFraction.begin(), edgesFraction.end(), [](const std::pair<double , Edge<DeliverySite>*>& a, const std::pair<double , Edge<DeliverySite>*>& b) {
+            if(a.first == b.first){
+                return a.second->getWeight() > b.second->getWeight();
+            }
+
+            return a > b;
+        });
     }
 
+}
+
+void pumpWater(const std::vector<Edge<DeliverySite>*>& path){
+
+    auto it = path.end();
+
+    Edge<DeliverySite>* currentEdge = *it;
+
+    double flowToCarry = currentEdge->getFlow();
+
+    for( ; it != path.begin() ; it--){
+        if(*it != nullptr) {
+            currentEdge = *it;
+
+            flowToCarry = std::min(currentEdge->getWeight() - currentEdge->getFlow(), flowToCarry);
+
+            currentEdge->setFlow(flowToCarry);
+        }
+    }
+}
+
+std::vector<Edge<DeliverySite>*> calculatePath(Vertex<DeliverySite>* target){
+    //if calculate_Max_Leftover_Capacity does not fail the path of root should not be a nullptr
+    std::vector<Edge<DeliverySite>*> path;
+
+    if(target->getPath() == nullptr){
+        print("calculate_Max_Leftover_Capacity failed" , true);
+        return path;
+    }
+
+    double leftoverFlow = 0;
+
+    while (target->getPath() != nullptr){
+        Edge<DeliverySite>* edge = target->getPath();
+
+        leftoverFlow += edge->getWeight() - edge->getFlow();
+
+        target = edge->getOrig();
+
+        path.push_back(edge);
+    }
+
+    return path;
+}
+
+void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target , Edge<DeliverySite>* edgeToAvoid){
+
+    MutablePriorityQueue<Vertex<DeliverySite>> vertexQueue;
+    for(Vertex<DeliverySite>* v : g->getVertexSet()){
+        vertexQueue.insert(v);
+    }
+
+    for (Vertex<DeliverySite> *v: g->getVertexSet()) {
+        v->setDist(-INF);
+        v->setPath(nullptr);
+    }
+
+    for (Vertex<DeliverySite> *v: g->getVertexSet()) {
+        for(Edge<DeliverySite> *e : v->getAdj()){
+            e->getDest()->setDist(-1*std::max(e->getDest()->getDist() , v->getDist() + e->getWeight() - e->getFlow()));
+        }
+    }
+
+    root->setDist(-INF);
+    root->setPath(nullptr);
+
+    while (!vertexQueue.empty()){
+
+        //extrai a root primeiro com -INF e depois da set a 0
+        Vertex<DeliverySite>* u = vertexQueue.extractMin();
+        if(u == root)
+            u->setDist(0);
+        for(Edge<DeliverySite>* e : u->getAdj()){
+
+            //agora queremos maximizar left over flow
+            Vertex<DeliverySite>* node = e->getDest();
+
+            double leftoverCapacity = e->getWeight() - e->getFlow();
+
+            if(u->getDist() + leftoverCapacity > node->getDist()){
+                node->setDist(std::max(node->getDist() , u->getDist() + leftoverCapacity));;
+                node->setPath(e);
+            }
+        }
+    }
+
+    target->setDist(INF);
 }

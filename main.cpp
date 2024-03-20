@@ -15,7 +15,7 @@ int main() {
 
     DeliverySite cityToTest = DeliverySite("C_6");
 
-    calculateMaxFlow(&g , cityToTest);
+    //calculateMaxFlow(&g , cityToTest);
     calculateMaxFlowInEntireNetwork(&g);
     //maxFlowWithSuperSource(&g , cityToTest);
 
@@ -46,6 +46,7 @@ int main() {
 */
 
     //printDistance(&g);
+    /*
     auto sum = 0;
     auto required = 0;
     for(auto v : g.getVertexSet()){
@@ -74,6 +75,19 @@ int main() {
 
     print("Cities meeting requirements: " , false);
     print(required , true);
+    */
+
+    std::unordered_set<Edge<DeliverySite>*> edgesSet;
+
+    for(Vertex<DeliverySite>* v : g.getVertexSet()){
+        for(Edge<DeliverySite>* e : v->getAdj()){
+            edgesSet.insert(e);
+        }
+    }
+
+    std::vector<Edge<DeliverySite>*> edgeVector(edgesSet.begin() , edgesSet.end());
+
+    heuristic(&g , edgeVector);
 
     return 0;
 }
