@@ -13,9 +13,9 @@ int main() {
 
     createGraph(&g);
 
-    DeliverySite cityToTest = DeliverySite("C_1");
+    DeliverySite cityToTest = DeliverySite("C_6");
 
-    //calculateMaxFlow(&g , cityToTest);
+    calculateMaxFlow(&g , cityToTest);
     calculateMaxFlowInEntireNetwork(&g);
     //maxFlowWithSuperSource(&g , cityToTest);
 
@@ -45,7 +45,35 @@ int main() {
     print(maxDif.second->getFlow() , true);
 */
 
-    printDistance(&g);
+    //printDistance(&g);
+    auto sum = 0;
+    auto required = 0;
+    for(auto v : g.getVertexSet()){
+        if(v->getInfo().getNodeType() == CITY){
+            for(auto e : v->getIncoming()){
+                sum += e->getFlow();
+            }
+
+            if(sum >= v->getInfo().getDemand()){
+                required++;
+            }else{
+
+                print("City " , false);
+                print(v->getInfo().getCode() , false);
+                print("Did not meet requirements", true);
+                print("Current flow: ", false);
+                print(sum, true);
+                print("Desired flow: ", false);
+                print(v->getInfo().getDemand(), true);
+
+
+            }
+            sum = 0;
+        }
+    }
+
+    print("Cities meeting requirements: " , false);
+    print(required , true);
 
     return 0;
 }
