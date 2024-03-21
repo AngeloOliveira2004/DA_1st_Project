@@ -29,6 +29,7 @@ public:
     bool isVisited() const;
     bool isProcessing() const;
     unsigned int getIndegree() const;
+    int getIncomingFlow() const;
     double getDist() const;
     Edge<T> *getPath() const;
     std::vector<Edge<T> *> getIncoming() const;
@@ -38,6 +39,7 @@ public:
     void setProcesssing(bool processing);
     void setIndegree(unsigned int indegree);
     void setDist(double dist);
+    void setIncomingFlow(int flow);
     void setPath(Edge<T> *path);
     Edge<T> * addEdge(Vertex<T> *dest, double w);
     bool removeEdge(T in);
@@ -54,6 +56,7 @@ protected:
     unsigned int indegree; // used by topsort
     double dist = 0;
     Edge<T> *path = nullptr;
+    int incomingFlow = 0;
 
     std::vector<Edge<T> *> incoming; // incoming edges
 
@@ -245,6 +248,11 @@ std::vector<Edge<T> *> Vertex<T>::getIncoming() const {
 }
 
 template <class T>
+int Vertex<T>::getIncomingFlow() const {
+    return this->incomingFlow;
+}
+
+template <class T>
 void Vertex<T>::setInfo(T in) {
     this->info = in;
 }
@@ -272,6 +280,11 @@ void Vertex<T>::setDist(double dist) {
 template <class T>
 void Vertex<T>::setPath(Edge<T> *path) {
     this->path = path;
+}
+
+template <class T>
+void Vertex<T>::setIncomingFlow(int flow) {
+    this->incomingFlow = flow;
 }
 
 template <class T>

@@ -61,7 +61,7 @@ void calculateMaxFlowInEntireNetwork(Graph<DeliverySite>* g){
     for(Vertex<DeliverySite>* s : sources){
         g->addEdge(superSource , s->getInfo() , INF);
     }
-    auto superSourceVertex = g->findVertex(superSource);
+
     //SuperSink
     DeliverySite superSink = DeliverySite("SuperSink");
     g->addVertex(superSink);
@@ -82,11 +82,7 @@ void calculateMaxFlowInEntireNetwork(Graph<DeliverySite>* g){
 
     g->removeVertex(superSink);
     g->removeVertex(superSource);
-/*
-    print("Maximum FLow " , false);
-    print(maxFlow , true);
-    std::cout << maxFlow << std::endl;
-    */
+
 }
 
 void maxFlowWithSuperSource(Graph<DeliverySite>* g , DeliverySite& target){

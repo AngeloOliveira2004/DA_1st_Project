@@ -95,7 +95,7 @@ int main() {
         }
     }
 
-    //heuristic(&g , edgeVector);
+    heuristic(&g , edgeVector);
     print(flow , true);
     return 0;
 }

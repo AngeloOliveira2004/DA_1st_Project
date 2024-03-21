@@ -99,8 +99,6 @@ void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite targe
 
 }
 
-int a = 0;
-int iterations = 0;
 
 void printShortestPath(Vertex<DeliverySite> *pVertex);
 
@@ -108,14 +106,11 @@ double averagePipeCapacity(const std::vector<Edge<DeliverySite>*>& pipes){
 
     double sumCapacity = 0;
     double sumFlow = 0;
-    a++;
+
     for(Edge<DeliverySite>* p : pipes){
         sumCapacity += p->getWeight();
         sumFlow += p->getFlow();
 
-        if(a == 1){
-            print(p->getFlow() , true);
-        }
     }
 
     double averageFlow = sumFlow / static_cast<double>(pipes.size());
@@ -305,7 +300,7 @@ void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
 
         //now for each iteration of the algorithm I don't want to calculate the shortest path but the path with the highest leftover pipe capacity
         if(currEdge->getDest()->getIncoming().size() != 1) {
-            calculate_Max_Leftover_Capacity(g, currEdge->getOrig(), currEdge->getDest(), currEdge);
+            calculate_Max_Leftover_Capacity(g, currEdge->getOrig());
 
             std::vector<Edge<DeliverySite> *> pumpPath = calculatePath(currEdge->getDest());
 
@@ -347,13 +342,7 @@ void pumpWater(const std::vector<Edge<DeliverySite>*>& path){
     Edge<DeliverySite>* currentEdge = *it;
 
     double flowToCarry = currentEdge->getFlow();
-
-    for(auto e : path){
-        print(e->getOrig()->getInfo().getCode() , false);
-        print(" -> " , false);
-        print(e->getDest()->getInfo().getCode()  , true);
-    }
-
+    
     for( ; it != path.begin() ; it--){
         if(*it != nullptr) {
             currentEdge = *it;
@@ -391,7 +380,7 @@ std::vector<Edge<DeliverySite>*> calculatePath(Vertex<DeliverySite>* target){
 }
 
 //dijkstra must be wrong
-void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target , Edge<DeliverySite>* edgeToAvoid){
+void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySite>* root){
 
     MutablePriorityQueue<Vertex<DeliverySite>> vertexQueue;
     for(Vertex<DeliverySite>* v : g->getVertexSet()){
@@ -399,25 +388,18 @@ void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySit
     }
 
     for (Vertex<DeliverySite> *v: g->getVertexSet()) {
-        v->setDist(-INF);
+        v->setDist(INF);
         v->setPath(nullptr);
     }
 
-    for (Vertex<DeliverySite> *v: g->getVertexSet()) {
-        for(Edge<DeliverySite> *e : v->getAdj()){
-            e->getDest()->setDist(-1*std::max(e->getDest()->getDist() , v->getDist() + e->getWeight() - e->getFlow()));
-        }
-    }
-
-    root->setDist(-INF);
+    root->setDist(0);
     root->setPath(nullptr);
 
     while (!vertexQueue.empty()){
 
-        //extrai a root primeiro com -INF e depois da set a 0
+        //extrai a root primeiro com 0 e depois da set a 0
         Vertex<DeliverySite>* u = vertexQueue.extractMin();
-        if(u == root)
-            u->setDist(0);
+
         for(Edge<DeliverySite>* e : u->getAdj()){
 
             //agora queremos maximizar left over flow
@@ -425,12 +407,14 @@ void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySit
 
             double leftoverCapacity = e->getWeight() - e->getFlow();
 
-            if(u->getDist() + leftoverCapacity > node->getDist()){
-                node->setDist(std::max(node->getDist() , u->getDist() + leftoverCapacity));;
+            if(u->getDist() - leftoverCapacity < node->getDist()){
+                node->setDist(u->getDist() - leftoverCapacity);
                 node->setPath(e);
             }
         }
     }
 
-    target->setDist(INF);
+    for(auto v : g->getVertexSet()){
+        print(v->getDist() , true);
+    }
 }
