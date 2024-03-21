@@ -251,15 +251,12 @@ void printShortestPath(Vertex<DeliverySite> *pVertex) {
 //could probably use select variable inside edge class to force the path in ford-Fulkerson algorithm
 
 
-//New heuristic
-/*posso pegar nas edges e organizar por flow/capacityy e de seguida pegar nas com maior flow, pegar na origem,
- * gerar uma shortestPath para o final desse node e redistribuir o flow assim
- *
-isto se for com network toda
-senao so pego no caminho mesmo e procuro outro enquanto redistribuo a agua
-pegar no caminho com menor flow de momento
- * */
 
+//sort all edges by flow , if equal by capacity in descending order
+//pick the first one because it will have the highest flow which has to be redistributed
+//calculate path with the biggest leftover distance
+//pick the path
+//test variance and repeat
 void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
 
     double initialVariance = variancePipeCapacityFlow(pipes , nullptr);
@@ -277,7 +274,7 @@ void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
             return a.second->getWeight() > b.second->getWeight();
         }
 
-        return a > b;
+        return a.first > b.first;
     });
     /*
     for(int i = 0 ; i < edgesFraction.size() ; i++){
@@ -300,9 +297,9 @@ void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
 
         //now for each iteration of the algorithm I don't want to calculate the shortest path but the path with the highest leftover pipe capacity
         if(currEdge->getDest()->getIncoming().size() != 1) {
-            calculate_Max_Leftover_Capacity(g, currEdge->getOrig());
+            calculate_Max_Leftover_Capacity(g, currEdge->getOrig() , currEdge->getDest());
 
-            std::vector<Edge<DeliverySite> *> pumpPath = calculatePath(currEdge->getDest());
+            std::vector<Edge<DeliverySite> *> pumpPath = calculatePath(currEdge->getOrig() , currEdge->getDest() , currEdge);
 
             pumpWater(pumpPath);
 
@@ -328,7 +325,7 @@ void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
                     return a.second->getWeight() > b.second->getWeight();
                 }
 
-                return a > b;
+                return a.first > b.first;
             });
         }
     }
@@ -342,8 +339,8 @@ void pumpWater(const std::vector<Edge<DeliverySite>*>& path){
     Edge<DeliverySite>* currentEdge = *it;
 
     double flowToCarry = currentEdge->getFlow();
-    
-    for( ; it != path.begin() ; it--){
+
+    for (--it; it != path.begin(); --it) {
         if(*it != nullptr) {
             currentEdge = *it;
 
@@ -354,67 +351,117 @@ void pumpWater(const std::vector<Edge<DeliverySite>*>& path){
     }
 }
 
-//calculate app must also be wrong
-std::vector<Edge<DeliverySite>*> calculatePath(Vertex<DeliverySite>* target){
+//change queue to priority queue with dist as an argument
+std::vector<Edge<DeliverySite>*> calculatePath(Vertex<DeliverySite>* source , Vertex<DeliverySite>* target , Edge<DeliverySite>* edgeToAvoid){
     //if calculate_Max_Leftover_Capacity does not fail the path of root should not be a nullptr
     std::vector<Edge<DeliverySite>*> path;
 
-    if(target->getPath() == nullptr){
+    if(source->getPath() == nullptr){
         print("calculate_Max_Leftover_Capacity failed" , true);
         return path;
     }
 
     double leftoverFlow = 0;
 
-    while (target->getPath() != nullptr){
-        Edge<DeliverySite>* edge = target->getPath();
+    while (target != source){
+        source->setVisited(true);
 
-        leftoverFlow += edge->getWeight() - edge->getFlow();
+        Edge<DeliverySite>* edge;
 
-        target->setPath(edge->getDest()->getPath()) ;
+        Vertex<DeliverySite>* nextNode;
+        int minDist = INF;
 
-        path.push_back(edge);
+        for (auto e : source->getAdj()) {
+            if (e->getDest()->getDist() < minDist && e != edgeToAvoid && !e->getDest()->isVisited()) {
+                minDist = e->getDest()->getDist();
+                edge = e;
+                nextNode = e->getDest(); // Update nextNode
+            }
+        }
+
+        if(edge != edgeToAvoid){
+            leftoverFlow += edge->getWeight() - edge->getFlow();
+
+            source = edge->getDest();
+
+            path.push_back(edge);
+        }
     }
 
     return path;
 }
 
-//dijkstra must be wrong
-void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySite>* root){
+//Let's abandon this idea and just make a BFS
+void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target){
+    std::queue<Vertex<DeliverySite>*> q;
 
-    MutablePriorityQueue<Vertex<DeliverySite>> vertexQueue;
     for(Vertex<DeliverySite>* v : g->getVertexSet()){
-        vertexQueue.insert(v);
-    }
-
-    for (Vertex<DeliverySite> *v: g->getVertexSet()) {
-        v->setDist(INF);
+        v->setVisited(false);
         v->setPath(nullptr);
+        v->setDist(-INF);
     }
 
+    q.push(root);
     root->setDist(0);
-    root->setPath(nullptr);
 
-    while (!vertexQueue.empty()){
+    while (!q.empty()){
+        Vertex<DeliverySite>* node = q.front();
+        q.pop();
 
-        //extrai a root primeiro com 0 e depois da set a 0
-        Vertex<DeliverySite>* u = vertexQueue.extractMin();
+        if(node == target) continue;
 
-        for(Edge<DeliverySite>* e : u->getAdj()){
+        for(Edge<DeliverySite>* e : node->getAdj()){
 
-            //agora queremos maximizar left over flow
-            Vertex<DeliverySite>* node = e->getDest();
+            Vertex<DeliverySite>* dest = e->getDest();
+            double leftOver_Flow = e->getWeight() - e->getFlow();
 
-            double leftoverCapacity = e->getWeight() - e->getFlow();
-
-            if(u->getDist() - leftoverCapacity < node->getDist()){
-                node->setDist(u->getDist() - leftoverCapacity);
-                node->setPath(e);
+            if(node->getDist() + leftOver_Flow > dest->getDist() && e->getDest() != root){
+                dest->setDist(node->getDist() + leftOver_Flow);
+                dest->setPath(e);
+                q.push(dest);
             }
         }
     }
 
-    for(auto v : g->getVertexSet()){
-        print(v->getDist() , true);
+
+    while (true){
+        auto a = target->getDist();
+        target = target->getPath()->getOrig();
     }
+
+/*
+std::priority_queue<std::pair<double, Vertex<DeliverySite>*>> vertexQueue;
+
+auto incoming = target->getIncoming();
+
+for (Vertex<DeliverySite>* v : g->getVertexSet()) {
+    v->setDist(-INF); // Initialize distances to negative infinity
+    v->setPath(nullptr);
+}
+
+root->setDist(0); // Set root distance to positive infinity
+
+vertexQueue.emplace(0, root); // Push root with its infinite leftover capacity
+
+while (!vertexQueue.empty()) {
+    Vertex<DeliverySite>* u = vertexQueue.top().second;
+    double capacity = vertexQueue.top().first;
+    vertexQueue.pop();
+
+    if (u->isVisited()) continue;
+    u->setVisited(true);
+
+    if (u == target) break; // Stop once we reach the target
+
+    for (Edge<DeliverySite>* e : u->getAdj()) {
+        Vertex<DeliverySite>* node = e->getDest();
+        double leftoverCapacity = e->getWeight() - e->getFlow();
+
+        if (!node->isVisited() && std::min(capacity, leftoverCapacity) > node->getDist()) {
+            node->setDist(std::min(capacity, leftoverCapacity));
+            node->setPath(e);
+            vertexQueue.emplace(node->getDist(), node);
+        }
+    }
+}*/
 }
