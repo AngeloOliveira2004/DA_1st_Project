@@ -86,8 +86,16 @@ int main() {
     }
 
     std::vector<Edge<DeliverySite>*> edgeVector(edgesSet.begin() , edgesSet.end());
+    auto flow = 0;
+    for(auto v : g.getVertexSet()){
+        if(v->getInfo().getNodeType() == CITY){
+            for(auto e : v->getIncoming()){
+                flow += e->getFlow();
+            }
+        }
+    }
 
-    heuristic(&g , edgeVector);
-
+    //heuristic(&g , edgeVector);
+    print(flow , true);
     return 0;
 }

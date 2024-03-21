@@ -53,7 +53,7 @@ void LoadCities() {
 
     std::cout << "LoadCities started." << std::endl;
 
-    std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Cities_Madeira.csv");
+    std::ifstream file("LargeDataSet/Cities.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -70,8 +70,6 @@ void LoadCities() {
             tokens.push_back(token);
         }
 
-        NormalizeString(tokens[4], tokens[5]);
-
         std::string name = tokens[0];
         std::string municipality;
         std::string code = tokens[2];
@@ -79,9 +77,9 @@ void LoadCities() {
 
         int maxDelivery = 0;
         int demand = std::stoi(tokens[3]);
+        Remove_terminations(tokens[4]);
         int population = std::stoi(tokens[4]);
-        //mandatory
-        
+
         DeliverySite deliverySite(name, municipality, code, id, maxDelivery , demand , population , CITY);
 
         nodesToAdd.insert(deliverySite);
@@ -89,14 +87,13 @@ void LoadCities() {
 
     file.close();
 
-    //
 }
 
 void LoadPipes() {
 
     std::cout << "LoadPipes started." << std::endl;
 
-    std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Pipes_Madeira.csv");
+    std::ifstream file("LargeDataSet/Pipes.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -133,7 +130,7 @@ void LoadWaterReservoirs() {
 
     std::cout << "LoadWaterReservoirs started." << std::endl;
 
-    std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Reservoirs_Madeira.csv");
+    std::ifstream file("LargeDataSet/Reservoir.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -175,7 +172,7 @@ void LoadFireStations()
 {
     std::cout << "LoadFireStations started." << std::endl;
 
-    std::ifstream file("Project1DataSetSmall/Project1DataSetSmall/Stations_Madeira.csv");
+    std::ifstream file("LargeDataSet/Stations.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -197,6 +194,7 @@ void LoadFireStations()
 
             std::string name;
             std::string municipality;
+            Remove_terminations(tokens[1]);
             std::string code = tokens[1];
             int id = stoi(tokens[0]);
 
@@ -224,10 +222,13 @@ bool createGraph(Graph<DeliverySite>* g)
             return false;
         }
     }
-    
+    DeliverySite d("C_1");
+
+    auto v = g->findVertex(d);
+
     for(const PumpingStations& pumpingStation : edges){
-        DeliverySite deliverySiteA = DeliverySite(pumpingStation.getServicePointA());
-        DeliverySite deliverySiteB = DeliverySite(pumpingStation.getServicePointB());
+        DeliverySite deliverySiteA = DeliverySite((std::string) pumpingStation.getServicePointA());
+        DeliverySite deliverySiteB = DeliverySite((std::string) pumpingStation.getServicePointB());
 
         if(!pumpingStation.getDirection()){
             if(!g->addEdge(deliverySiteA , deliverySiteB , pumpingStation.getCapacity())){
@@ -241,7 +242,7 @@ bool createGraph(Graph<DeliverySite>* g)
 
         }else{
             if(!g->addEdge(deliverySiteA , deliverySiteB , pumpingStation.getCapacity())){
-                std::cerr << "Error adding vertex";
+                std::cerr << "Error adding edge";
                 return false;
             }
         }
