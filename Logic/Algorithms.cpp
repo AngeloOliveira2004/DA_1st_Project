@@ -304,35 +304,38 @@ void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
         Edge<DeliverySite>* currEdge = edgesFraction.front().second;
 
         //now for each iteration of the algorithm I don't want to calculate the shortest path but the path with the highest leftover pipe capacity
-        calculate_Max_Leftover_Capacity(g , currEdge->getOrig() , currEdge->getDest() , currEdge);
+        if(currEdge->getDest()->getIncoming().size() != 1) {
+            calculate_Max_Leftover_Capacity(g, currEdge->getOrig(), currEdge->getDest(), currEdge);
 
-        std::vector<Edge<DeliverySite>*> pumpPath = calculatePath(currEdge->getDest());
+            std::vector<Edge<DeliverySite> *> pumpPath = calculatePath(currEdge->getDest());
 
-        pumpWater(pumpPath);
+            pumpWater(pumpPath);
 
-        //calcular varianica
-        variance = variancePipeCapacityFlow(pipes , nullptr);
+            //calcular varianica
+            variance = variancePipeCapacityFlow(pipes, nullptr);
 
-        if(variance < lastValue){
-            lastValue = variance;
-        }else{
-            if(attempts < 0){
-                if(lastValue < initialVariance){
-                    print("Flow was well redistributed" , true);
+            if (variance < lastValue) {
+                lastValue = variance;
+            } else {
+                if (attempts < 0) {
+                    if (lastValue < initialVariance) {
+                        print("Flow was well redistributed", true);
+                    }
+                    return;
+                } else {
+                    attempts--;
                 }
-                return;
-            }else{
-                attempts--;
             }
+
+            std::sort(edgesFraction.begin(), edgesFraction.end(), [](const std::pair<double, Edge<DeliverySite> *> &a,
+                                                                     const std::pair<double, Edge<DeliverySite> *> &b) {
+                if (a.first == b.first) {
+                    return a.second->getWeight() > b.second->getWeight();
+                }
+
+                return a > b;
+            });
         }
-
-        std::sort(edgesFraction.begin(), edgesFraction.end(), [](const std::pair<double , Edge<DeliverySite>*>& a, const std::pair<double , Edge<DeliverySite>*>& b) {
-            if(a.first == b.first){
-                return a.second->getWeight() > b.second->getWeight();
-            }
-
-            return a > b;
-        });
     }
 
 }
@@ -345,6 +348,12 @@ void pumpWater(const std::vector<Edge<DeliverySite>*>& path){
 
     double flowToCarry = currentEdge->getFlow();
 
+    for(auto e : path){
+        print(e->getOrig()->getInfo().getCode() , false);
+        print(" -> " , false);
+        print(e->getDest()->getInfo().getCode()  , true);
+    }
+
     for( ; it != path.begin() ; it--){
         if(*it != nullptr) {
             currentEdge = *it;
@@ -356,6 +365,7 @@ void pumpWater(const std::vector<Edge<DeliverySite>*>& path){
     }
 }
 
+//calculate app must also be wrong
 std::vector<Edge<DeliverySite>*> calculatePath(Vertex<DeliverySite>* target){
     //if calculate_Max_Leftover_Capacity does not fail the path of root should not be a nullptr
     std::vector<Edge<DeliverySite>*> path;
@@ -372,7 +382,7 @@ std::vector<Edge<DeliverySite>*> calculatePath(Vertex<DeliverySite>* target){
 
         leftoverFlow += edge->getWeight() - edge->getFlow();
 
-        target = edge->getOrig();
+        target->setPath(edge->getDest()->getPath()) ;
 
         path.push_back(edge);
     }
@@ -380,6 +390,7 @@ std::vector<Edge<DeliverySite>*> calculatePath(Vertex<DeliverySite>* target){
     return path;
 }
 
+//dijkstra must be wrong
 void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target , Edge<DeliverySite>* edgeToAvoid){
 
     MutablePriorityQueue<Vertex<DeliverySite>> vertexQueue;
