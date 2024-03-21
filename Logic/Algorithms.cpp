@@ -351,7 +351,7 @@ void pumpWater(const std::vector<Edge<DeliverySite>*>& path){
     }
 }
 
-//change queue to priority queue with dist as an argument
+
 std::vector<Edge<DeliverySite>*> calculatePath(Vertex<DeliverySite>* source , Vertex<DeliverySite>* target , Edge<DeliverySite>* edgeToAvoid){
     //if calculate_Max_Leftover_Capacity does not fail the path of root should not be a nullptr
     std::vector<Edge<DeliverySite>*> path;
@@ -392,8 +392,9 @@ std::vector<Edge<DeliverySite>*> calculatePath(Vertex<DeliverySite>* source , Ve
 }
 
 //Let's abandon this idea and just make a BFS
+//change queue to priority queue with dist as an argument with all nodes inside and simply update dist
 void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target){
-    std::queue<Vertex<DeliverySite>*> q;
+    MutablePriorityQueue<Vertex<DeliverySite>> q;
 
     for(Vertex<DeliverySite>* v : g->getVertexSet()){
         v->setVisited(false);
@@ -401,12 +402,14 @@ void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySit
         v->setDist(-INF);
     }
 
-    q.push(root);
+    for(Vertex<DeliverySite>* v : g->getVertexSet()){
+        q.insert(v);
+    }
+
     root->setDist(0);
 
     while (!q.empty()){
-        Vertex<DeliverySite>* node = q.front();
-        q.pop();
+        Vertex<DeliverySite>* node = q.extractMin();
 
         if(node == target) continue;
 
@@ -418,7 +421,6 @@ void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySit
             if(node->getDist() + leftOver_Flow > dest->getDist() && e->getDest() != root){
                 dest->setDist(node->getDist() + leftOver_Flow);
                 dest->setPath(e);
-                q.push(dest);
             }
         }
     }
