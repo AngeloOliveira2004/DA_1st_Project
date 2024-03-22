@@ -19,8 +19,7 @@ private:
     bool direction;
 
 public:
-    PumpingStations(const std::string& servicePointA, const std::string& servicePointB,
-                    int capacity, bool direction) :
+    PumpingStations(const std::string& servicePointA, const std::string& servicePointB,int capacity, bool direction) :
             servicePointA(servicePointA), servicePointB(servicePointB),
             capacity(capacity), direction(direction) {}
 
