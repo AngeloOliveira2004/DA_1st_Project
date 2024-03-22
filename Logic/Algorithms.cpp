@@ -361,31 +361,21 @@ std::vector<Edge<DeliverySite>*> calculatePath(Vertex<DeliverySite>* source , Ve
         return path;
     }
 
-    double leftoverFlow = 0;
+    double flow = 0;
+    Edge<DeliverySite>* pushEdge;
+    for(Edge<DeliverySite>* e : source->getAdj()){
+        if(e->getDest()->getDist() > flow){
+            flow = e->getDest()->getDist();
+            pushEdge = e;
+        }
+    }
+
+    path.push_back(pushEdge);
+    source = pushEdge->getDest();
 
     while (target != source){
-        source->setVisited(true);
-
-        Edge<DeliverySite>* edge;
-
-        Vertex<DeliverySite>* nextNode;
-        int minDist = INF;
-
-        for (auto e : source->getAdj()) {
-            if (e->getDest()->getDist() < minDist && e != edgeToAvoid && !e->getDest()->isVisited()) {
-                minDist = e->getDest()->getDist();
-                edge = e;
-                nextNode = e->getDest(); // Update nextNode
-            }
-        }
-
-        if(edge != edgeToAvoid){
-            leftoverFlow += edge->getWeight() - edge->getFlow();
-
-            source = edge->getDest();
-
-            path.push_back(edge);
-        }
+        path.push_back(source->getPath());
+        source = source->getPath()->getDest();
     }
 
     return path;
@@ -399,7 +389,7 @@ void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySit
     for(Vertex<DeliverySite>* v : g->getVertexSet()){
         v->setVisited(false);
         v->setPath(nullptr);
-        v->setDist(-INF);
+        v->setDist(INF);
     }
 
     for(Vertex<DeliverySite>* v : g->getVertexSet()){
@@ -418,17 +408,21 @@ void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySit
             Vertex<DeliverySite>* dest = e->getDest();
             double leftOver_Flow = e->getWeight() - e->getFlow();
 
-            if(node->getDist() + leftOver_Flow > dest->getDist() && e->getDest() != root){
-                dest->setDist(node->getDist() + leftOver_Flow);
+            if (dest->getDist() == INF){
+                dest->setDist(std::min(node->getDist() , leftOver_Flow));
                 dest->setPath(e);
+            }else{
+                if(std::min(node->getDist() , leftOver_Flow) > dest->getDist()){
+                    dest->setDist(std::min(node->getDist() , leftOver_Flow));
+                    dest->setPath(e);
+                }
             }
         }
     }
 
-
-    while (true){
-        auto a = target->getDist();
-        target = target->getPath()->getOrig();
+    for(Vertex<DeliverySite>* node : g->getVertexSet()){
+        if(node->getInfo().getNodeType() == WATER_RESERVOIR)
+            node->setDist(0);
     }
 
 /*
