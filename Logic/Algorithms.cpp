@@ -401,6 +401,8 @@ std::vector<Edge<DeliverySite>*> calculatePath(Graph<DeliverySite>* g, Vertex<De
     return path;
 }
 
+//literally just go to each node and get the minimum capacity - flow from each node
+
 //Let's abandon this idea and just make a BFS
 //change queue to priority queue with dist as an argument with all nodes inside and simply update dist
 void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target){
