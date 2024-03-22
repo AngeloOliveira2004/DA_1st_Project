@@ -1,0 +1,25 @@
+# ninja log v5
+851	917	1711123526517986766	Projeto	95df5d33bf63c2e4
+1	839	1711123526441987153	CMakeFiles/Projeto.dir/main.cpp.o	43edb3f4f2315d03
+1	320	1709234476181040311	CMakeFiles/Projeto.dir/Logic/LoadingFunctions.cpp.o	dc1a0ca431626d33
+1	621	1709991058746210661	CMakeFiles/Projeto.dir/Logic/EdmondsKarp.cpp.o	8127f3e5b7928939
+0	15	1710801517893085297	build.ninja	7be65f97838b977c
+1	530	1710792804002148376	CMakeFiles/Projeto.dir/Logic/PumpingStations.cpp.o	ec30767f97691489
+1	484	1709485099925055946	CMakeFiles/Projeto.dir/Logic/WaterReservoir.cpp.o	69919e25ed0e16cd
+1	850	1711123526449987113	CMakeFiles/Projeto.dir/Logic/Algorithms.cpp.o	9af941eebd677498
+1	773	1711123216303564922	CMakeFiles/Projeto.dir/Logic/Logic.cpp.o	4cff4f4c59aefb1e
+0	622	1711105643039637759	CMakeFiles/Projeto.dir/Logic/DeliverySites.cpp.o	3ca148085401695a
+0	776	1711123533201952762	CMakeFiles/Projeto.dir/main.cpp.o	43edb3f4f2315d03
+776	845	1711123533269952416	Projeto	95df5d33bf63c2e4
+1	809	1711123562085805843	CMakeFiles/Projeto.dir/main.cpp.o	43edb3f4f2315d03
+810	876	1711123562153805498	Projeto	95df5d33bf63c2e4
+1	755	1711124005603549409	CMakeFiles/Projeto.dir/Logic/Algorithms.cpp.o	9af941eebd677498
+755	821	1711124005671549063	Projeto	95df5d33bf63c2e4
+0	745	1711124052235312159	CMakeFiles/Projeto.dir/Logic/Algorithms.cpp.o	9af941eebd677498
+745	812	1711124052299311832	Projeto	95df5d33bf63c2e4
+0	759	1711124231546399906	CMakeFiles/Projeto.dir/Logic/Algorithms.cpp.o	9af941eebd677498
+759	825	1711124231614399559	Projeto	95df5d33bf63c2e4
+0	876	1711124269946204533	CMakeFiles/Projeto.dir/Logic/Algorithms.cpp.o	9af941eebd677498
+877	958	1711124270030204106	Projeto	95df5d33bf63c2e4
+1	797	1711124346665814223	CMakeFiles/Projeto.dir/Logic/Algorithms.cpp.o	9af941eebd677498
+797	873	1711124346741813835	Projeto	95df5d33bf63c2e4

@@ -53,7 +53,9 @@ void LoadCities() {
 
     std::cout << "LoadCities started." << std::endl;
 
+
     std::ifstream file("LargeDataSet/Cities.csv");
+
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -69,8 +71,6 @@ void LoadCities() {
         while (getline(lineStream, token, ',')) {
             tokens.push_back(token);
         }
-
-        NormalizeString(tokens[4], tokens[5]);
 
         std::string name = tokens[0];
         std::string municipality;
@@ -79,24 +79,31 @@ void LoadCities() {
 
         int maxDelivery = 0;
         int demand = std::stoi(tokens[3]);
+
         Remove_terminations(tokens[4]);
         int population = std::stoi(tokens[4]);
         
         City city(name,code,id,demand,population);
+
+
+        NormalizeString(tokens[4] , tokens[5]);
+
+        Remove_terminations(tokens[4]);
 
         nodesToAdd.insert(city);
     }
 
     file.close();
 
-    //
 }
 
 void LoadPipes() {
 
     std::cout << "LoadPipes started." << std::endl;
 
+
     std::ifstream file("LargeDataSet/Pipes.csv");
+
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -112,7 +119,7 @@ void LoadPipes() {
         while (getline(lineStream, token, ',')) {
             tokens.push_back(token);
         }
-        
+
         std::string servicePointA = tokens[0];
         std::string servicePointB = tokens[1];
         int capacity = stoi(tokens[2]);
@@ -133,7 +140,9 @@ void LoadWaterReservoirs() {
 
     std::cout << "LoadWaterReservoirs started." << std::endl;
 
+
     std::ifstream file("LargeDataSet/Reservoir.csv");
+
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -171,7 +180,9 @@ void LoadFireStations()
 {
     std::cout << "LoadFireStations started." << std::endl;
 
+
     std::ifstream file("LargeDataSet/Stations.csv");
+
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -217,13 +228,19 @@ bool createGraph(Graph<DeliverySite>* g)
             return false;
         }
     }
-    
+    DeliverySite d("C_1");
+
+    auto v = g->findVertex(d);
+
     for(const PumpingStations& pumpingStation : edges){
+
         if(!g->findVertex(pumpingStation.getServicePointA())){
             std::cout << pumpingStation.getServicePointA();
         }
-        DeliverySite deliverySiteA = DeliverySite(pumpingStation.getServicePointA());
-        DeliverySite deliverySiteB = DeliverySite(pumpingStation.getServicePointB());
+
+        DeliverySite deliverySiteA = DeliverySite((std::string) pumpingStation.getServicePointA());
+        DeliverySite deliverySiteB = DeliverySite((std::string) pumpingStation.getServicePointB());
+
 
         if(!pumpingStation.getDirection()){
             if(!g->addEdge(deliverySiteA , deliverySiteB , pumpingStation.getCapacity())){
@@ -237,7 +254,7 @@ bool createGraph(Graph<DeliverySite>* g)
 
         }else{
             if(!g->addEdge(deliverySiteA , deliverySiteB , pumpingStation.getCapacity())){
-                std::cerr << "Error adding vertex";
+                std::cerr << "Error adding edge";
                 return false;
             }
         }
