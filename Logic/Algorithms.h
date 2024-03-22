@@ -18,8 +18,9 @@ std::pair<double , Edge<DeliverySite>*>  maximumDIfferenceCapacityFlow(const std
 void printDistance(Graph<DeliverySite>* g);
 void Dijkstra(Graph<DeliverySite>*g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target);
 void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target);
-void pumpWater(const std::vector<Edge<DeliverySite>*>& path);
-std::vector<Edge<DeliverySite>*> calculatePath(Vertex<DeliverySite>* source , Vertex<DeliverySite>* target , Edge<DeliverySite>* edgeToAvoid);
+double pumpWater(const std::vector<Edge<DeliverySite>*>& path , Vertex<DeliverySite>* target);
+double pumpWater(const std::vector<Edge<DeliverySite>*>& path , Vertex<DeliverySite>* target);
+std::vector<Edge<DeliverySite>*> calculatePath(Graph<DeliverySite>* g, Vertex<DeliverySite>* source , Vertex<DeliverySite>* target , Edge<DeliverySite>* edgeToAvoid);
 
 
 //New heuristic

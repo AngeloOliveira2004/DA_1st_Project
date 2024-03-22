@@ -94,8 +94,26 @@ int main() {
             }
         }
     }
+    std::vector<Edge<DeliverySite>*> pipes = getPipes(&g);
+    double variance = variancePipeCapacityFlow(pipes , nullptr);
+
+    print(variance , true);
 
     heuristic(&g , edgeVector);
+
     print(flow , true);
+
+    auto newflow = 0;
+    for(auto v : g.getVertexSet()){
+
+        if(v->getInfo().getNodeType() == CITY){
+            for(auto e : v->getIncoming()){
+                newflow += e->getFlow();
+            }
+        }
+    }
+
+    print(newflow , true);
+
     return 0;
 }
