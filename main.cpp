@@ -95,9 +95,12 @@ int main() {
         }
     }
     std::vector<Edge<DeliverySite>*> pipes = getPipes(&g);
-    double variance = variancePipeCapacityFlow(pipes , nullptr);
 
-    print(variance , true);
+    Metrics metrics{};
+
+    metrics = g.calculateMetrics();
+
+    print(metrics.variance , true);
 
     int initialFlow = g.calculateFlowAcrossEdges();
 

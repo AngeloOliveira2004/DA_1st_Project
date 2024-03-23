@@ -99,60 +99,6 @@ void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite targe
 
 }
 
-double averagePipeCapacity(const std::vector<Edge<DeliverySite>*>& pipes){
-
-    double sumCapacity = 0;
-    double sumFlow = 0;
-
-    for(Edge<DeliverySite>* p : pipes){
-        sumCapacity += p->getWeight();
-        sumFlow += p->getFlow();
-
-    }
-
-    double averageFlow = sumFlow / static_cast<double>(pipes.size());
-    double averageCapacity = sumCapacity / static_cast<double>(pipes.size());
-
-    return averageFlow;
-}
-
-double variancePipeCapacityFlow(const std::vector<Edge<DeliverySite>*>& pipes , std::vector<std::pair<double , Edge<DeliverySite>*>>* varianceInEachPoint){
-
-    double averageFlow = averagePipeCapacity(pipes);
-
-    double variance = 0;
-    double sumVariance = 0;
-
-    for(Edge<DeliverySite>* p : pipes){
-        variance =  (p->getFlow() - averageFlow)*(p->getFlow() - averageFlow);
-        variance = std::sqrt(variance);
-        variance /= static_cast<double>(pipes.size());
-
-        sumVariance += variance;
-
-        if(varianceInEachPoint != nullptr)
-            varianceInEachPoint->emplace_back(variance , p);
-    }
-
-    return variance;
-}
-
-std::pair<double , Edge<DeliverySite>*> maximumDIfferenceCapacityFlow(const std::vector<Edge<DeliverySite>*>& pipes){
-    double maxDif = INT32_MIN;
-
-    for(Edge<DeliverySite>* p : pipes){
-        maxDif = std::max(maxDif , (p->getWeight() - p->getFlow()));
-    }
-
-    for(Edge<DeliverySite>* p : pipes){
-        if(p->getWeight() - p->getFlow() == maxDif){
-            return std::make_pair(maxDif , p);
-        }
-    }
-
-    return std::make_pair(0.0, nullptr);
-}
-
 //root will be the origin of edge with the lowest flow
 //this edge will be locked to guarantee that it is not picked during this algorithm
 //we can try to tell this algo to
@@ -189,8 +135,10 @@ void Dijkstra(Graph<DeliverySite>*g , Vertex<DeliverySite>* root , Vertex<Delive
 
 void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
 
-    double initialVariance = variancePipeCapacityFlow(pipes , nullptr);
-    double variance = INF , lastValue = initialVariance;
+    Metrics metrics{};
+    metrics = g->calculateMetrics();
+
+    double variance = INF , lastValue = metrics.variance;
     int attempts = 10;
 
     std::list<std::pair<double , Edge<DeliverySite>*>> edgesFraction;
@@ -223,7 +171,7 @@ void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
 
             currEdge->setFlow(currEdge->getFlow() - flowToPump);
 
-            variance = variancePipeCapacityFlow(pipes, nullptr);
+            metrics = g->calculateMetrics();
             auto a = 0;
             Edge<DeliverySite>* debug;
             for(auto v : g->getVertexSet()){
@@ -239,7 +187,7 @@ void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
                 lastValue = variance;
             } else {
                 if (attempts < 0) {
-                    if (lastValue < initialVariance) {
+                    if (lastValue < metrics.variance) {
                         print("Flow was well redistributed", true);
                         print(variance , true);
                     }
@@ -266,6 +214,9 @@ void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
 
 int pumpWater(std::vector<Vertex<DeliverySite>*>& path , int flowToPump){
 
+    if(flowToPump == 0)
+        flowToPump = -1*INT16_MIN;
+
     for(Vertex<DeliverySite>* p : path){
         if(p->getPath() != nullptr){
             Edge<DeliverySite>* e = p->getPath();
@@ -289,6 +240,8 @@ int pumpWater(std::vector<Vertex<DeliverySite>*>& path , int flowToPump){
 std::pair<std::vector<Vertex<DeliverySite>*> , int> calculatePath(Graph<DeliverySite>* g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target){
 
     std::vector<std::vector<Vertex<DeliverySite>*>> allPaths = g->allPaths(root->getInfo() , target->getInfo());
+
+    std::cout << allPaths.size() << "\n";
 
     auto it = allPaths.begin();
     while (it != allPaths.end()) {

@@ -9,7 +9,14 @@
 #include <queue>
 #include <limits>
 #include <algorithm>
+#include <cfloat>
 #include "../data_structures/MutablePriorityQueue.h"
+
+struct Metrics{
+    double avg;
+    double variance;
+    double maxDiff;
+};
 
 template <class T>
 class Edge;
@@ -139,6 +146,7 @@ public:
 
     int calculateFlowAcrossEdges() const;
     bool checkEdgesFlow() const;
+    Metrics calculateMetrics() const;
 protected:
     std::vector<Vertex<T> *> vertexSet;    // vertex set
 
@@ -362,6 +370,35 @@ void Edge<T>::setFlow(double flow) {
 /********************** Graph  ****************************/
 
 template<class T>
+Metrics Graph<T>::calculateMetrics() const {
+    double sum = 0, maxDiff = DBL_MIN, a = 0;
+    uint32_t num = 0;
+    for (Vertex<T>* v : vertexSet){
+        for (Edge<T>* e : v->getAdj()){
+            a += e->getWeight();
+            double diff = e->getWeight() - e->getFlow();
+            maxDiff = std::max(maxDiff, diff);
+            sum += diff;
+            num++;
+        }
+    }
+    double avg = sum/num;
+    double variance = 0;
+    for (Vertex<T>* v : vertexSet){
+        for (Edge<T>* e : v->getAdj()){
+            double diff = e->getWeight() - e->getFlow();
+            double aux = diff - avg;
+            variance += (aux * aux);
+        }
+    }
+    variance /= (num - 1);
+    variance = sqrt(variance);
+    Metrics m = {avg, variance, maxDiff};
+    std::cout << "Avg: " << m.avg << "   MaxDiff: " << m.maxDiff << "   Variance: " << m.variance << "\n";
+    return m;
+}
+
+template<class T>
 void Graph<T>::allPathsAux(Vertex<T> *current, Vertex<T> *target, std::vector<Vertex<T>*> &currentPath,
                            std::vector<std::vector<Vertex<T>*>> &allPaths) const {
     current->setVisited(true);
@@ -376,11 +413,12 @@ void Graph<T>::allPathsAux(Vertex<T> *current, Vertex<T> *target, std::vector<Ve
 
                 allPathsAux(nextVertex , target , currentPath , allPaths);
 
-                currentPath.pop_back();
             }
         }
     }
-
+    if(!currentPath.empty()){
+        currentPath;
+    }
     current->setVisited(false);
 }
 
