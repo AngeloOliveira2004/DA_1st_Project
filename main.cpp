@@ -121,6 +121,17 @@ int main() {
     print(initialFlow , true);
 
     print(g.checkEdgesFlow() , true);
-
+/*
+    for(auto v : g.getVertexSet()){
+        for(auto e : v->getAdj()){
+            print(e->getFlow() , false);
+            print(" " , false);
+            print(e->getOrig()->getInfo().getCode() , false);
+            print(" " , false);
+            print(e->getDest()->getInfo().getCode() , false);
+            print(" " , true);
+        }
+    }
+*/
     return 0;
 }

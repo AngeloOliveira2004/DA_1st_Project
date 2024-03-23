@@ -224,7 +224,16 @@ void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
             currEdge->setFlow(currEdge->getFlow() - flowToPump);
 
             variance = variancePipeCapacityFlow(pipes, nullptr);
-
+            auto a = 0;
+            Edge<DeliverySite>* debug;
+            for(auto v : g->getVertexSet()){
+                for(auto e : v->getAdj()){
+                    if(e->getDest()->getInfo().getCode() == "PS_3" && e->getOrig()->getInfo().getCode() == "PS_2"){
+                        a += 1;
+                        debug = e;
+                    }
+                }
+            }
 
             if (variance < lastValue) {
                 lastValue = variance;
@@ -291,6 +300,11 @@ std::pair<std::vector<Vertex<DeliverySite>*> , int> calculatePath(Graph<Delivery
     }
 
     std::vector<Vertex<DeliverySite>*> path;
+
+    if(allPaths.empty()){
+        return std::make_pair(path , 0);
+    }
+
     int minFLow = INF;
     for(std::vector<Vertex<DeliverySite>*> p : allPaths){
         for(int i = 0 ; i < p.size() - 1 ; i++){

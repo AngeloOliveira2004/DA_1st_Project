@@ -421,7 +421,6 @@ int Graph<T>::calculateFlowAcrossEdges() const{
     for(Vertex<T>* v : getVertexSet()){
         for(Edge<T>* e : v->getAdj()){
             flow += e->getFlow();
-            std::cout << e->getFlow() << "\n" ;
         }
     }
 
