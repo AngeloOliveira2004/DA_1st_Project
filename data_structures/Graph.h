@@ -133,6 +133,9 @@ public:
     bool isDAG() const;
     bool dfsIsDAG(Vertex<T> *v) const;
     std::vector<T> topsort() const;
+
+    int calculateFlowAcrossEdges() const;
+    bool checkEdgesFlow() const;
 protected:
     std::vector<Vertex<T> *> vertexSet;    // vertex set
 
@@ -354,6 +357,28 @@ void Edge<T>::setFlow(double flow) {
 }
 
 /********************** Graph  ****************************/
+template <class T>
+bool Graph<T>::checkEdgesFlow() const{
+    for(Vertex<T>* v : getVertexSet()){
+        for(Edge<T>* e : v->getAdj()){
+            if(e->getFlow() > e->getWeight())
+                return false;
+        }
+    }
+    return true;
+}
+
+template <class T>
+int Graph<T>::calculateFlowAcrossEdges() const{
+    int flow = 0;
+    for(Vertex<T>* v : getVertexSet()){
+        for(Edge<T>* e : v->getAdj()){
+            flow += e->getFlow();
+        }
+    }
+
+    return flow;
+}
 
 template <class T>
 int Graph<T>::getNumVertex() const {

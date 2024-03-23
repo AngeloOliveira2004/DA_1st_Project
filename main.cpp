@@ -99,6 +99,11 @@ int main() {
 
     print(variance , true);
 
+    int initialFlow = g.calculateFlowAcrossEdges();
+
+    print("Initial flow : " , false);
+    print(initialFlow , true);
+
     heuristic(&g , edgeVector);
 
     print(flow , true);
@@ -114,6 +119,12 @@ int main() {
     }
 
     print(newflow , true);
+
+    initialFlow = g.calculateFlowAcrossEdges();
+    print("End flow : " , false);
+    print(initialFlow , true);
+
+    print(g.checkEdgesFlow() , true);
 
     return 0;
 }
