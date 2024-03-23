@@ -172,16 +172,6 @@ void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
             currEdge->setFlow(currEdge->getFlow() - flowToPump);
 
             metrics = g->calculateMetrics();
-            auto a = 0;
-            Edge<DeliverySite>* debug;
-            for(auto v : g->getVertexSet()){
-                for(auto e : v->getAdj()){
-                    if(e->getDest()->getInfo().getCode() == "PS_3" && e->getOrig()->getInfo().getCode() == "PS_2"){
-                        a += 1;
-                        debug = e;
-                    }
-                }
-            }
 
             if (variance < lastValue) {
                 lastValue = variance;
@@ -215,7 +205,7 @@ void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
 int pumpWater(std::vector<Vertex<DeliverySite>*>& path , int flowToPump){
 
     if(flowToPump == 0)
-        flowToPump = -1*INT16_MIN;
+        flowToPump = INT16_MAX;
 
     for(Vertex<DeliverySite>* p : path){
         if(p->getPath() != nullptr){
@@ -258,7 +248,7 @@ std::pair<std::vector<Vertex<DeliverySite>*> , int> calculatePath(Graph<Delivery
         return std::make_pair(path , 0);
     }
 
-    int minFLow = INF;
+    int minFLow = INT16_MAX;
     for(std::vector<Vertex<DeliverySite>*> p : allPaths){
         for(int i = 0 ; i < p.size() - 1 ; i++){
             Vertex<DeliverySite>* curr = p[i];
