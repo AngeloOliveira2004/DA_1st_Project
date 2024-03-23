@@ -101,12 +101,7 @@ int main() {
 
     int initialFlow = g.calculateFlowAcrossEdges();
 
-    print("Initial flow : " , false);
-    print(initialFlow , true);
-
     heuristic(&g , edgeVector);
-
-    print(flow , true);
 
     auto newflow = 0;
     for(auto v : g.getVertexSet()){
@@ -121,6 +116,7 @@ int main() {
     print(newflow , true);
 
     initialFlow = g.calculateFlowAcrossEdges();
+
     print("End flow : " , false);
     print(initialFlow , true);
 

@@ -127,6 +127,9 @@ public:
 
     std:: vector<T> dfs() const;
     std:: vector<T> dfs(const T & source) const;
+    std::vector<std::vector<Vertex<T>*>> allPaths(const T & source , const T & target) const;
+    void allPathsAux(Vertex<T> *current, Vertex<T> *target, std::vector<Vertex<T>*> &currentPath,
+                     std::vector<std::vector<Vertex<T>*>> &allPaths) const;
     void dfsVisit(Vertex<T> *v,  std::vector<T> & res) const;
     std::vector<T> bfs(const T & source) const;
 
@@ -357,6 +360,50 @@ void Edge<T>::setFlow(double flow) {
 }
 
 /********************** Graph  ****************************/
+
+template<class T>
+void Graph<T>::allPathsAux(Vertex<T> *current, Vertex<T> *target, std::vector<Vertex<T>*> &currentPath,
+                           std::vector<std::vector<Vertex<T>*>> &allPaths) const {
+    current->setVisited(true);
+
+    if(current == target){
+        allPaths.push_back(currentPath);
+    }else{
+        for(Edge<T>* edge : current->getAdj()){
+            Vertex<T>* nextVertex = edge->getDest();
+            if(!nextVertex->isVisited()){
+                currentPath.push_back(nextVertex);
+
+                allPathsAux(nextVertex , target , currentPath , allPaths);
+
+                currentPath.pop_back();
+            }
+        }
+    }
+
+    current->setVisited(false);
+}
+
+template<class T>
+std::vector<std::vector<Vertex<T>*>> Graph<T>::allPaths(const T &source, const T &target) const {
+
+    std::vector<std::vector<Vertex<T>*>> allPaths;
+
+    Vertex<T>* sourceVertex = findVertex(source);
+    Vertex<T>* targetVertex = findVertex(target);
+
+    if(sourceVertex == nullptr || targetVertex == nullptr){
+        return allPaths;
+    }
+
+    std::vector<Vertex<T>*> currPath;
+    currPath.push_back(sourceVertex);
+
+    allPathsAux(sourceVertex , targetVertex , currPath , allPaths);
+
+    return allPaths;
+}
+
 template <class T>
 bool Graph<T>::checkEdgesFlow() const{
     for(Vertex<T>* v : getVertexSet()){
@@ -374,6 +421,7 @@ int Graph<T>::calculateFlowAcrossEdges() const{
     for(Vertex<T>* v : getVertexSet()){
         for(Edge<T>* e : v->getAdj()){
             flow += e->getFlow();
+            std::cout << e->getFlow() << "\n" ;
         }
     }
 
