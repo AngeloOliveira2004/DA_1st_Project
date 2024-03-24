@@ -1,3 +1,4 @@
+#include <climits>
 #include "Algorithms.h"
 
 #include "stdafx.h"
@@ -95,8 +96,7 @@ void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite targe
     }
 
     auto end_time = std::chrono::steady_clock::now();
-    std::cout << "Each EdmondsKarp takes: " << std::chrono::duration<double>(end_time - start_time).count() << " seconds" << std::endl;
-
+    //std::cout << "Each EdmondsKarp takes: " << std::chrono::duration<double>(end_time - start_time).count() << " seconds" << std::endl;
 }
 
 //root will be the origin of edge with the lowest flow
@@ -133,139 +133,77 @@ void Dijkstra(Graph<DeliverySite>*g , Vertex<DeliverySite>* root , Vertex<Delive
     target->setDist(INF);
 }
 
+double minLeftOverCap(std::vector<Edge<DeliverySite>*>& path){
+    auto a = 0;
+    for(auto e : path){
+        if(e->getFlow() != e->getWeight())
+            a++;
+    }
+
+    auto min = DBL_MAX;
+    for(Edge<DeliverySite>* edge : path){
+        if(edge->getWeight() == edge->getFlow())
+            return 0;
+        if(edge->getWeight() - edge->getFlow() < min){
+            min = edge->getWeight() - edge->getFlow();
+        }
+    }
+
+    return min;
+}
+
 void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
 
-    Metrics metrics{};
-    metrics = g->calculateMetrics();
-
-    double variance = INF , lastValue = metrics.variance;
-    int attempts = 10;
-
-    std::list<std::pair<double , Edge<DeliverySite>*>> edgesFraction;
-
-    for(Edge<DeliverySite>* e : pipes){
-        edgesFraction.emplace_back(e->getFlow() , e);
+    std::vector<Edge<DeliverySite>*> edges;
+    for (Vertex<DeliverySite>* v : g->getVertexSet()){
+        v->setVisited(false);
+        for (Edge<DeliverySite>* e : v->getAdj()){
+            edges.push_back(e);
+        }
     }
 
-    edgesFraction.sort([](const std::pair<double, Edge<DeliverySite>*>& a, const std::pair<double, Edge<DeliverySite>*>& b) {
-        if (a.first == b.first) {
-            return a.second->getWeight() > b.second->getWeight();
+    std::sort(edges.begin(), edges.end(), [](Edge<DeliverySite>* a, Edge<DeliverySite>* b) {
+
+        if(a->getWeight() - a->getFlow() == b->getWeight() - b->getFlow()){
+            return a->getWeight() > b->getWeight();
         }
-        return a.first > b.first;
+
+        return a->getWeight() - a->getFlow() < b->getWeight() - b->getFlow();
     });
 
-    //now for each iteration of the algorithm I don't want to calculate the shortest path but the path with leftover pipe capacity
-    while (1){
-        //switch vector to list
-        Edge<DeliverySite>* currEdge = edgesFraction.front().second;
+    for(Edge<DeliverySite>* e : edges){
+        std::vector<Edge<DeliverySite>*> path;
+        std::vector<std::vector<Edge<DeliverySite>*>> allPaths;
 
-        //now for each iteration of the algorithm I don't want to calculate the shortest path but the path with the highest leftover pipe capacity
-        if(currEdge->getDest()->getIncoming().size() != 1) {
+        allPaths = g->allPaths(e->getOrig()->getInfo() , e->getDest()->getInfo());
 
-            std::pair<std::vector<Vertex<DeliverySite>*> , int> temp = calculatePath(g, currEdge->getOrig() , currEdge->getDest());
+        double maxDiff = -1;
+        if(allPaths.empty())
+            maxDiff = 0;
 
-            std::vector<Vertex<DeliverySite>*> pumpPath = temp.first;
-            int flowToPump = temp.second;
-
-            pumpWater(pumpPath , flowToPump);
-
-            currEdge->setFlow(currEdge->getFlow() - flowToPump);
-
-            metrics = g->calculateMetrics();
-
-            if (variance < lastValue) {
-                lastValue = variance;
-            } else {
-                if (attempts < 0) {
-                    if (lastValue < metrics.variance) {
-                        print("Flow was well redistributed", true);
-                        print(variance , true);
-                    }
-                    return;
-                } else {
-                    edgesFraction.pop_front();
-                    attempts--;
-                }
+        for(std::vector<Edge<DeliverySite>*> tempPath : allPaths){
+            if(tempPath.size() == 1){
+                maxDiff = 0;
+                continue;
             }
-
-            edgesFraction.sort([](const std::pair<double, Edge<DeliverySite>*>& a, const std::pair<double, Edge<DeliverySite>*>& b) {
-                if (a.first == b.first) {
-                    return a.second->getWeight() > b.second->getWeight();
-                }
-                return a.first > b.first;
-            });
-
-        }else{
-            edgesFraction.pop_front();
+            double minFlow = minLeftOverCap(tempPath);
+            if (minFlow > maxDiff) {
+                maxDiff = minFlow;
+                path = tempPath;
+            }
         }
-    }
 
+        double waterToPump = maxDiff;
+        e->setFlow(e->getFlow() - waterToPump);
+        pumpWater(path , waterToPump);
+    }
 }
 
-int pumpWater(std::vector<Vertex<DeliverySite>*>& path , int flowToPump){
-
-    if(flowToPump == 0)
-        flowToPump = INT16_MAX;
-
-    for(Vertex<DeliverySite>* p : path){
-        if(p->getPath() != nullptr){
-            Edge<DeliverySite>* e = p->getPath();
-            if(flowToPump > e->getWeight() - e->getFlow()){
-                flowToPump = e->getWeight() - e->getFlow();
-            }
-        }
-    }
-
-    for(Vertex<DeliverySite>* p : path){
-        if(p->getPath() != nullptr){
-            Edge<DeliverySite>* e = p->getPath();
+void pumpWater(std::vector<Edge<DeliverySite>*>& path , double flowToPump){
+    if(flowToPump != 0)
+        auto a = 0;
+    for(Edge<DeliverySite>* e : path){
             e->setFlow(e->getFlow() + flowToPump);
-        }
     }
-
-    return flowToPump;
 }
 
-//calculate all paths using dfs
-std::pair<std::vector<Vertex<DeliverySite>*> , int> calculatePath(Graph<DeliverySite>* g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target){
-
-    std::vector<std::vector<Vertex<DeliverySite>*>> allPaths = g->allPaths(root->getInfo() , target->getInfo());
-
-    std::cout << allPaths.size() << "\n";
-
-    auto it = allPaths.begin();
-    while (it != allPaths.end()) {
-        if (it->size() == 2) {
-            it = allPaths.erase(it);
-        } else {
-            ++it;
-        }
-    }
-
-    std::vector<Vertex<DeliverySite>*> path;
-
-    if(allPaths.empty()){
-        return std::make_pair(path , 0);
-    }
-
-    int minFLow = INT16_MAX;
-    for(std::vector<Vertex<DeliverySite>*> p : allPaths){
-        for(int i = 0 ; i < p.size() - 1 ; i++){
-            Vertex<DeliverySite>* curr = p[i];
-            Vertex<DeliverySite>* next = p[i+1];
-
-            for(Edge<DeliverySite>* e : curr->getAdj()){
-                if(e->getDest() == next){
-                    next->setPath(e);
-                    int leftOverCap = e->getWeight() - e->getFlow();
-                    if(minFLow > leftOverCap){
-                        minFLow = leftOverCap;
-                        path = p;
-                    }
-                }
-            }
-        }
-    }
-
-    return std::make_pair(path , minFLow);
-}

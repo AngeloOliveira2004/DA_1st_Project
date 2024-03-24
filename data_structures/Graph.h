@@ -16,6 +16,7 @@ struct Metrics{
     double avg;
     double variance;
     double maxDiff;
+    double flow_Weight_Fract_avg;
 };
 
 template <class T>
@@ -131,12 +132,13 @@ public:
 
     int getNumVertex() const;
     std::vector<Vertex<T> *> getVertexSet() const;
+    std::vector<Edge<T>* > getEdgeSet() const;
 
     std:: vector<T> dfs() const;
     std:: vector<T> dfs(const T & source) const;
-    std::vector<std::vector<Vertex<T>*>> allPaths(const T & source , const T & target) const;
-    void allPathsAux(Vertex<T> *current, Vertex<T> *target, std::vector<Vertex<T>*> &currentPath,
-                     std::vector<std::vector<Vertex<T>*>> &allPaths) const;
+    const std::vector<std::vector<Edge<T> *>> allPaths(const T & source , const T & target) const;
+    void allPathsAux(Vertex<T> *current, Vertex<T> *target, std::vector<Edge<T>*> &currentPath,
+                     std::vector<std::vector<Edge<T>*>> &allPaths) const;
     void dfsVisit(Vertex<T> *v,  std::vector<T> & res) const;
     std::vector<T> bfs(const T & source) const;
 
@@ -148,6 +150,7 @@ public:
     bool checkEdgesFlow() const;
     Metrics calculateMetrics() const;
 protected:
+    std::vector<Edge<T> *> edgeSet;
     std::vector<Vertex<T> *> vertexSet;    // vertex set
 
     double ** distMatrix = nullptr;   // dist matrix for Floyd-Warshall
@@ -371,8 +374,11 @@ void Edge<T>::setFlow(double flow) {
 
 template<class T>
 Metrics Graph<T>::calculateMetrics() const {
-    double sum = 0, maxDiff = DBL_MIN, a = 0;
+    double sum = 0, maxDiff = DBL_MIN, a = 0 ;
     uint32_t num = 0;
+
+    std::vector<Edge<T>*> edgeVector;
+
     for (Vertex<T>* v : vertexSet){
         for (Edge<T>* e : v->getAdj()){
             a += e->getWeight();
@@ -380,6 +386,7 @@ Metrics Graph<T>::calculateMetrics() const {
             maxDiff = std::max(maxDiff, diff);
             sum += diff;
             num++;
+            edgeVector.push_back(e);
         }
     }
     double avg = sum/num;
@@ -391,16 +398,23 @@ Metrics Graph<T>::calculateMetrics() const {
             variance += (aux * aux);
         }
     }
+    double avgFLowWeight = 0;
+
+    for(Edge<T>* e : edgeVector){
+        avgFLowWeight += e->getFlow()/e->getWeight();
+    }
+
+    avgFLowWeight /= edgeVector.size();
     variance /= (num - 1);
     variance = sqrt(variance);
-    Metrics m = {avg, variance, maxDiff};
-    std::cout << "Avg: " << m.avg << "   MaxDiff: " << m.maxDiff << "   Variance: " << m.variance << "\n";
+    Metrics m = {avg, variance, maxDiff , avgFLowWeight};
+    std::cout << "Avg: " << m.avg << "   MaxDiff: " << m.maxDiff << "   Variance: " << m.variance << " Flow/Weight average: " << avgFLowWeight <<"\n";
     return m;
 }
 
 template<class T>
-void Graph<T>::allPathsAux(Vertex<T> *current, Vertex<T> *target, std::vector<Vertex<T>*> &currentPath,
-                           std::vector<std::vector<Vertex<T>*>> &allPaths) const {
+void Graph<T>::allPathsAux(Vertex<T> *current, Vertex<T> *target, std::vector<Edge<T>*> &currentPath,
+                           std::vector<std::vector<Edge<T>*>> &allPaths) const {
     current->setVisited(true);
 
     if(current == target){
@@ -409,7 +423,7 @@ void Graph<T>::allPathsAux(Vertex<T> *current, Vertex<T> *target, std::vector<Ve
         for(Edge<T>* edge : current->getAdj()){
             Vertex<T>* nextVertex = edge->getDest();
             if(!nextVertex->isVisited()){
-                currentPath.push_back(nextVertex);
+                currentPath.push_back(edge);
 
                 allPathsAux(nextVertex , target , currentPath , allPaths);
 
@@ -417,15 +431,15 @@ void Graph<T>::allPathsAux(Vertex<T> *current, Vertex<T> *target, std::vector<Ve
         }
     }
     if(!currentPath.empty()){
-        currentPath;
+        currentPath.pop_back();
     }
     current->setVisited(false);
 }
 
 template<class T>
-std::vector<std::vector<Vertex<T>*>> Graph<T>::allPaths(const T &source, const T &target) const {
+const std::vector<std::vector<Edge<T> *>> Graph<T>::allPaths(const T &source, const T &target) const {
 
-    std::vector<std::vector<Vertex<T>*>> allPaths;
+    std::vector<std::vector<Edge<T>*>> allPaths;
 
     Vertex<T>* sourceVertex = findVertex(source);
     Vertex<T>* targetVertex = findVertex(target);
@@ -434,8 +448,7 @@ std::vector<std::vector<Vertex<T>*>> Graph<T>::allPaths(const T &source, const T
         return allPaths;
     }
 
-    std::vector<Vertex<T>*> currPath;
-    currPath.push_back(sourceVertex);
+    std::vector<Edge<T>*> currPath;
 
     allPathsAux(sourceVertex , targetVertex , currPath , allPaths);
 

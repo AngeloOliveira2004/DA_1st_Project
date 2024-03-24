@@ -14,11 +14,12 @@ double averagePipeCapacity(const std::vector<Edge<DeliverySite>*>& pipes);
 double variancePipeCapacityFlow(const std::vector<Edge<DeliverySite>*>& pipes , std::vector<std::pair<double , Edge<DeliverySite>*>>* varianceInEachPoint);
 std::pair<double , Edge<DeliverySite>*>  maximumDIfferenceCapacityFlow(const std::vector<Edge<DeliverySite>*>& pipes);
 
+double minLeftOverCap(std::vector<Edge<DeliverySite>*>& path);
 
 void printDistance(Graph<DeliverySite>* g);
 void Dijkstra(Graph<DeliverySite>*g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target);
 std::pair<std::vector<Vertex<DeliverySite>*> , int> calculatePath(Graph<DeliverySite>* g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target);
-int pumpWater(std::vector<Vertex<DeliverySite>*>& path , int flowToPump);
+void pumpWater(std::vector<Edge<DeliverySite>*>& path , double flowToPump);
 //std::vector<Edge<DeliverySite>*> calculatePath(Graph<DeliverySite>* g, Vertex<DeliverySite>* source , Vertex<DeliverySite>* target , Edge<DeliverySite>* edgeToAvoid);
 
 

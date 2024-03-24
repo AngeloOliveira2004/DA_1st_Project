@@ -67,7 +67,7 @@ void calculateMaxFlowInEntireNetwork(Graph<DeliverySite>* g){
     g->addVertex(superSink);
 
     for(Vertex<DeliverySite>* s : sinks){
-        g->addEdge(s->getInfo() , superSink , s->getInfo().getDemand());
+        g->addEdge(s->getInfo() , superSink , INF);
     }
 
     edmondsKarp(g , superSource , superSink);
