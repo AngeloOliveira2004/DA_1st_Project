@@ -74,6 +74,7 @@ void calculateMaxFlowInEntireNetwork(Graph<DeliverySite>* g){
     edmondsKarp(g , superSource , superSink);
 
     Vertex<DeliverySite>* superSinkVertex = g->findVertex(superSink);
+    Vertex<DeliverySite>* superSourceVertex = g->findVertex(superSource);
 
     double maxFlow = 0;
 
@@ -82,11 +83,20 @@ void calculateMaxFlowInEntireNetwork(Graph<DeliverySite>* g){
     }
 
     double flow = 0;
-    for(auto e : superSinkVertex->getIncoming()){
-        flow += e->getFlow();
+    auto sum = 0;
+    print("------------------------------------" , true);
+    for(auto e : sources){
+        sum = 0;
+        for(auto f : e->getAdj()){
+            sum += f->getFlow();
+        }
+        for(auto f : e->getIncoming()){
+            std::cout << e->getInfo().getCode() <<" " <<e->getInfo().getMaxDelivery() << " " << f->getFlow() << " " << sum << "\n\n";
+        }
     }
 
-    print(flow , true);
+    //print(flow , true);
+
 
     g->removeVertex(superSink);
     g->removeVertex(superSource);

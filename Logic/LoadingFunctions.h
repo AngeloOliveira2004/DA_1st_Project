@@ -51,7 +51,7 @@ void Remove_terminations(std::string& str)
 
 void LoadCities() {
 
-    std::ifstream file("SmallDataSet/Cities.csv");
+    std::ifstream file("LargeDataSet/Cities.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -92,7 +92,7 @@ void LoadCities() {
 
 void LoadPipes() {
 
-    std::ifstream file("SmallDataSet/Pipes.csv");
+    std::ifstream file("LargeDataSet/Pipes.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -127,7 +127,7 @@ void LoadPipes() {
 
 void LoadWaterReservoirs() {
 
-    std::ifstream file("SmallDataSet/Reservoir.csv");
+    std::ifstream file("LargeDataSet/Reservoir.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -167,7 +167,7 @@ void LoadWaterReservoirs() {
 
 void LoadFireStations()
 {
-    std::ifstream file("SmallDataSet/Stations.csv");
+    std::ifstream file("LargeDataSet/Stations.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
