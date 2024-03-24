@@ -10,6 +10,14 @@ double findMinResidualAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t
         auto e = v->getPath();
         if (e->getDest() == v) {
             f = std::min(f, e->getWeight() - e->getFlow());
+            if(e->getOrig()->getInfo().getNodeType() == WATER_RESERVOIR){
+
+                double remainDelivery = e->getOrig()->getInfo().calculateRemainingDeliviry(e->getOrig()->getAdj());
+
+                if(f > remainDelivery){
+                    f = remainDelivery;
+                }
+            }
             v = e->getOrig();
         }
         else {
@@ -48,7 +56,23 @@ bool findAugmentingPath(Graph<DeliverySite> *g, Vertex<DeliverySite> *s, Vertex<
         q.pop();
 // Process outgoing edges
         for(auto e: v->getAdj()) {
-            testAndVisit(q, e, e->getDest(), e->getWeight() - e->getFlow());
+            Vertex<DeliverySite>* dest = e->getDest();
+            if (!dest->isVisited() && (e->getWeight() - e->getFlow() > 0)) {
+
+                if (dest->getInfo().getNodeType() == WATER_RESERVOIR){
+
+                    double remainDelivery = dest->getInfo().calculateRemainingDeliviry(dest->getAdj());
+
+                    if (remainDelivery == 0){
+                        dest->setVisited(true);
+                        continue;
+                    }
+                }
+                dest->setVisited(true);
+                dest->setPath(e);
+                q.push(dest);
+            }
+
         }
 // Process incoming edges
         for(auto e: v->getIncoming()) {
@@ -89,6 +113,7 @@ void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite targe
             e->setFlow(0);
         }
     }
+// While there is an augmenting path, augment the flow along the path
 // While there is an augmenting path, augment the flow along the path
     while( findAugmentingPath(g, s, t) ) {
         double f = findMinResidualAlongPath(s, t);

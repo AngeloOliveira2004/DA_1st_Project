@@ -58,6 +58,8 @@ public:
 
     void printInfo() const;
 
+    double calculateRemainingDeliviry(std::vector<Edge<DeliverySite> *> adj);
+
     bool operator==(const DeliverySite& other) const {
         return code == other.code;
     }
