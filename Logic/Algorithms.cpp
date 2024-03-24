@@ -1,5 +1,5 @@
 #include "Algorithms.h"
-
+#include "DeliverySites.h"
 #include "stdafx.h"
 
 double findMinResidualAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t) {

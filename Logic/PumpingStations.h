@@ -9,6 +9,7 @@
 #define PROJETO_PUMPINGSTATIONS_H
 
 #include "stdafx.h"
+#include "DeliverySites.h"
 
 class PumpingStations {
 private:
@@ -39,7 +40,7 @@ public:
     {
         std::cout << servicePointA << " " << servicePointB << " " << capacity << " " << direction << "\n";
     }
-    bool canRemovePumping(Graph<std::string>& g, const std::string& PumpingStationRemove);
+    bool canRemovePumping(Graph<DeliverySite>& g, const std::string& PumpingStationRemove);
 };
 
 

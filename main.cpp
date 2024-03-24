@@ -126,10 +126,6 @@ int main() {
         ds->setIncomingFlow(sumFlow);
 
         int difference = ds->getInfo().getDemand() - ds->getIncomingFlow();
-
-        if(ds->getInfo().getNodeType() == CITY && difference > 0 ){
-            std::cout << "The city of " << ds->getInfo().getName() << " with code " << ds->getInfo().getCode() << " doesn't receive enough water needing more " << difference << " units \n";
-        }
     }
 
     return 0;

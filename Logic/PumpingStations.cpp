@@ -1,11 +1,10 @@
-//
-// Created by jose-costa on 2/26/24.
-//
-
 #include "PumpingStations.h"
+#include "Algorithms.h"
+#include "DeliverySites.h"
 
-bool PumpingStations::canRemovePumping(Graph<std::string> &g, const std::string &PumpingStationRemove) {
-    for (auto vertex:g.getVertexSet()) { //Percorrer pelos vertices do grafo
+bool PumpingStations::canRemovePumping(Graph<DeliverySite> &g, const std::string &PumpingStationRemove) {
+    Graph<DeliverySite> temp = g;
+    for (auto vertex:temp.getVertexSet()) { //Percorrer pelos vertices do grafo
         for (auto edge:vertex->getAdj()){ //Percorrer pela aresta de cada vertice percorrido
             auto dest = edge->getDest();
             if (dest->getInfo() == PumpingStationRemove){ //Ver se Destino da aresta é a estacao a ser removida
@@ -13,5 +12,9 @@ bool PumpingStations::canRemovePumping(Graph<std::string> &g, const std::string 
             }
         }
     }
+    DeliverySite source("source");
+    DeliverySite target("target");
+    edmondsKarp(&temp, source, target);
+
     return false;
 }
