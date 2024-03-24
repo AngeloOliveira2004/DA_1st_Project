@@ -95,6 +95,15 @@ void calculateMaxFlowInEntireNetwork(Graph<DeliverySite>* g){
         }
     }
 
+
+    for(auto v : g->getVertexSet()){
+        for(auto e : v->getAdj()){
+            if(e->getFlow() > e->getWeight()){
+                std::cout << "NOOOOOOOOOOOOOOOOOOOOOOO" << "\n";
+            }
+        }
+    }
+
     //print(flow , true);
 
 
