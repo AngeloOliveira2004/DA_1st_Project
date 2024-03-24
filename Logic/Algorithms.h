@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "DeliverySites.h"é
+#include "DeliverySites.h"
 
 template <class T>
 void print(T _msg , bool _newline){

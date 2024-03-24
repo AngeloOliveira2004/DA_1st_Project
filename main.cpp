@@ -1,12 +1,12 @@
 #include "Logic/stdafx.h"
 #include "Logic/LoadingFunctions.h"
 #include "Logic/Logic.h"
+#include "Logic/PumpingStations.h"
 
 int main() {
 
     LoadFireStations();
     LoadWaterReservoirs();
-
     LoadCities();
     LoadPipes();
 
@@ -127,6 +127,8 @@ int main() {
 
         int difference = ds->getInfo().getDemand() - ds->getIncomingFlow();
     }
+    std::string a = "PS_71";
+    PumpingStations::canRemovePumping(g, a);
 
     return 0;
 }

@@ -1,3 +1,3 @@
-/home/fortez/DA/DA-1st-Project/cmake-build-debug/CMakeFiles/Projeto.dir
-/home/fortez/DA/DA-1st-Project/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/fortez/DA/DA-1st-Project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/User/Desktop/FEUP/2o ano/2o semestre/DA/DA-1st-Project/cmake-build-debug/CMakeFiles/Projeto.dir
+C:/Users/User/Desktop/FEUP/2o ano/2o semestre/DA/DA-1st-Project/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/User/Desktop/FEUP/2o ano/2o semestre/DA/DA-1st-Project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
