@@ -94,17 +94,21 @@ DeliverySite::DeliverySite(std::string code) {
     this->code = code;
 }
 
-double DeliverySite::calculateRemainingDeliviry(std::vector<Edge<DeliverySite> *> adj) {
+double DeliverySite::calculateRemainingDeliviry(const std::vector<Edge<DeliverySite> *>& adj) {
 
     if(getNodeType() != WATER_RESERVOIR){
         return 0.0;
     }
 
     int maxDelivery = getMaxDelivery();
+
     double remainDelivery = 0;
     for(Edge<DeliverySite>* e : adj){
         remainDelivery += e->getFlow();
     }
+
+    std::cout << getCode() <<" " << remainDelivery << " " << maxDelivery << "\n\n";
+
     remainDelivery = maxDelivery - remainDelivery;
 
     return remainDelivery;

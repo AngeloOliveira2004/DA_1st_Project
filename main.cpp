@@ -15,6 +15,32 @@ int main() {
 
     calculateMaxFlowInEntireNetwork(&g);
 
+    auto flow = 0;
+    for(auto v : g.getVertexSet()){
+        for(auto e : v->getIncoming()){
+            flow += e->getFlow();
+        }
+    }
+    flow = 0;
+    for(auto v : g.getVertexSet()){
+        if(v->getInfo().getNodeType() == WATER_RESERVOIR){
+            for(auto e : v->getAdj()){
+                print(e->getFlow() , true);
+                flow += e->getFlow();
+            }
+            if(flow > v->getInfo().getMaxDelivery()){
+                std::cout << v->getInfo().getCode() << " " << flow << " " << v->getInfo().getMaxDelivery();
+
+            }
+        }
+
+    }
+
+    print(flow , true);
+    print("\n" , true);
+    print("\n", true);
+    print("\n" , true);
+
     std::unordered_set<Edge<DeliverySite>*> edgesSet;
 
     for(Vertex<DeliverySite>* v : g.getVertexSet()){
@@ -59,6 +85,9 @@ int main() {
             std::cout << "The city of " << ds->getInfo().getName() << " with code " << ds->getInfo().getCode() << " doesn't receive enough water needing more " << difference << " units \n";
         }
     }
+
+
+    print(flow , false);
 
     return 0;
 }

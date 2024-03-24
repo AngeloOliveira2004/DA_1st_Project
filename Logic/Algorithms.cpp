@@ -11,9 +11,7 @@ double findMinResidualAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t
         if (e->getDest() == v) {
             f = std::min(f, e->getWeight() - e->getFlow());
             if(e->getOrig()->getInfo().getNodeType() == WATER_RESERVOIR){
-
                 double remainDelivery = e->getOrig()->getInfo().calculateRemainingDeliviry(e->getOrig()->getAdj());
-
                 if(f > remainDelivery){
                     f = remainDelivery;
                 }
@@ -62,11 +60,11 @@ bool findAugmentingPath(Graph<DeliverySite> *g, Vertex<DeliverySite> *s, Vertex<
                 if (dest->getInfo().getNodeType() == WATER_RESERVOIR){
 
                     double remainDelivery = dest->getInfo().calculateRemainingDeliviry(dest->getAdj());
-
                     if (remainDelivery == 0){
                         dest->setVisited(true);
                         continue;
                     }
+
                 }
                 dest->setVisited(true);
                 dest->setPath(e);
@@ -85,8 +83,11 @@ bool findAugmentingPath(Graph<DeliverySite> *g, Vertex<DeliverySite> *s, Vertex<
 
 void augmentFlowAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t, double f) {
 // Traverse the augmenting path and update the flow values accordingly
+
+    std::cout << "------------------------------------------\n";
     for (auto v = t; v != s; ) {
         auto e = v->getPath();
+
         double flow = e->getFlow();
         if (e->getDest() == v) {
             e->setFlow(flow + f);
@@ -96,10 +97,17 @@ void augmentFlowAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t, doub
             e->setFlow(flow - f);
             v = e->getDest();
         }
+
+        std::cout << e->getOrig()->getInfo().getCode() << " --- " << e->getDest()->getInfo().getCode() << "\n";
     }
+
+    std::cout << "------------------------------------------\n";
 }
 
 void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite target) {
+
+    auto ps11 = g->findVertex(DeliverySite("PS_11"));
+
     auto start_time = std::chrono::steady_clock::now();
 // Find source and target vertices in the graph
     Vertex<DeliverySite>* s = g->findVertex(source);
@@ -109,10 +117,12 @@ void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite targe
         throw std::logic_error("Invalid source and/or target vertex");
 // Initialize flow on all edges to 0
     for (auto v : g->getVertexSet()) {
+        v->setVisited(false);
         for (auto e: v->getAdj()) {
             e->setFlow(0);
         }
     }
+
 // While there is an augmenting path, augment the flow along the path
 // While there is an augmenting path, augment the flow along the path
     while( findAugmentingPath(g, s, t) ) {

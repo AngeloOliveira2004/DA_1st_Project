@@ -51,7 +51,7 @@ void Remove_terminations(std::string& str)
 
 void LoadCities() {
 
-    std::ifstream file("LargeDataSet/Cities.csv");
+    std::ifstream file("SmallDataSet/Cities.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -92,7 +92,7 @@ void LoadCities() {
 
 void LoadPipes() {
 
-    std::ifstream file("LargeDataSet/Pipes.csv");
+    std::ifstream file("SmallDataSet/Pipes.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -127,7 +127,7 @@ void LoadPipes() {
 
 void LoadWaterReservoirs() {
 
-    std::ifstream file("LargeDataSet/Reservoir.csv");
+    std::ifstream file("SmallDataSet/Reservoir.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -167,7 +167,7 @@ void LoadWaterReservoirs() {
 
 void LoadFireStations()
 {
-    std::ifstream file("LargeDataSet/Stations.csv");
+    std::ifstream file("SmallDataSet/Stations.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -217,20 +217,13 @@ bool createGraph(Graph<DeliverySite>* g)
             return false;
         }
     }
-    DeliverySite d("C_1");
-
-    auto v = g->findVertex(d);
 
     for(const PumpingStations& pumpingStation : edges){
         DeliverySite deliverySiteA = DeliverySite((std::string) pumpingStation.getServicePointA());
         DeliverySite deliverySiteB = DeliverySite((std::string) pumpingStation.getServicePointB());
 
         if(!pumpingStation.getDirection()){
-            if(!g->addEdge(deliverySiteA , deliverySiteB , pumpingStation.getCapacity())){
-                std::cerr << "Error adding vertex";
-                return false;
-            }
-            if(!g->addEdge(deliverySiteB , deliverySiteA , pumpingStation.getCapacity())){
+            if(!g->addBidirectionalEdge(deliverySiteA , deliverySiteB , pumpingStation.getCapacity())){
                 std::cerr << "Error adding vertex";
                 return false;
             }
@@ -243,6 +236,17 @@ bool createGraph(Graph<DeliverySite>* g)
         }
 
     }
-    
+    auto zeros = 0;
+    for(auto a : g->getVertexSet()){
+        std::cout << a->getIncoming().size() << "\n";
+        if(a->getIncoming().size() == 0)
+            zeros++;
+    }
+    std::cout << zeros;
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << "\n";
+
     return true;
 }

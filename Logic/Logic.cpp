@@ -1,3 +1,4 @@
+#include <climits>
 #include "Logic.h"
 
 std::vector<Vertex<DeliverySite>*> sources;
@@ -59,7 +60,7 @@ void calculateMaxFlowInEntireNetwork(Graph<DeliverySite>* g){
     g->addVertex(superSource);
 
     for(Vertex<DeliverySite>* s : sources){
-        g->addEdge(superSource , s->getInfo() , s->getInfo().getMaxDelivery());
+        g->addEdge(superSource , s->getInfo() , DBL_MAX);
     }
 
     //SuperSink
@@ -67,7 +68,7 @@ void calculateMaxFlowInEntireNetwork(Graph<DeliverySite>* g){
     g->addVertex(superSink);
 
     for(Vertex<DeliverySite>* s : sinks){
-        g->addEdge(s->getInfo() , superSink , INF);
+        g->addEdge(s->getInfo() , superSink , DBL_MAX);
     }
 
     edmondsKarp(g , superSource , superSink);
