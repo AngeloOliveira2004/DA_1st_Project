@@ -59,7 +59,7 @@ void calculateMaxFlowInEntireNetwork(Graph<DeliverySite>* g){
     g->addVertex(superSource);
 
     for(Vertex<DeliverySite>* s : sources){
-        g->addEdge(superSource , s->getInfo() , INF);
+        g->addEdge(superSource , s->getInfo() , s->getInfo().getMaxDelivery());
     }
 
     //SuperSink
@@ -79,6 +79,13 @@ void calculateMaxFlowInEntireNetwork(Graph<DeliverySite>* g){
     for(Edge<DeliverySite>* e : superSinkVertex->getIncoming()){
         maxFlow += e->getFlow();
     }
+
+    double flow = 0;
+    for(auto e : superSinkVertex->getIncoming()){
+        flow += e->getFlow();
+    }
+
+    print(flow , true);
 
     g->removeVertex(superSink);
     g->removeVertex(superSource);
