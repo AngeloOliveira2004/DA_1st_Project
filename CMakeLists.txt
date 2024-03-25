@@ -15,4 +15,5 @@ add_executable(Projeto main.cpp
         Logic/Algorithms.h
         Logic/Algorithms.cpp
         Logic/Logic.cpp
-        Interface/UI.cpp)
+        Interface/UI.cpp
+        Logic/LoadingFunctions.cpp)

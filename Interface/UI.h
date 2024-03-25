@@ -8,17 +8,15 @@
 class UI {
 public:
     UI();
-
     void menu_start();
-
     static void clear_screen();
-
     void loading_stuff(UI &ui);
-
     bool validate_input(char &op, const char lower_bound, const char upper_bound);
+    void main_menu();
 
 private:
     Graph<DeliverySite> g;
+
 
 };
 

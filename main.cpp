@@ -1,18 +1,13 @@
 #include "Logic/stdafx.h"
 #include "Logic/LoadingFunctions.h"
 #include "Logic/Logic.h"
+#include "Interface/UI.h"
 
 int main() {
+    UI ui;
+    ui.loading_stuff(ui);
 
-    LoadFireStations();
-    LoadWaterReservoirs();
-    LoadPipes();
-    LoadCities();
-
-    Graph<DeliverySite> g;
-
-    createGraph(&g);
-
+    /*
     calculateMaxFlowInEntireNetwork(&g);
 
     auto flow = 0;
@@ -89,5 +84,6 @@ int main() {
 
     print(flow , false);
 
+     */
     return 0;
 }

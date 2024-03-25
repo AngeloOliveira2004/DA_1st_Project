@@ -62,6 +62,7 @@ void UI::menu_start() {
     switch(op){
         case 'A':
             break;
+            main_menu();
         case 'B':
             std::cout << "Thanks for using our analysis tool for water supply management!" << std::endl << "\n"
                  << "Made by: " << std::endl
@@ -71,6 +72,39 @@ void UI::menu_start() {
             std::this_thread::sleep_for(std::chrono::seconds(2)); // Espera 2 segundos antes de fechar o terminal
             exit(0);
 
+    }
+}
+
+void UI::main_menu(){
+    char op;
+   std::cout << "What would you like to know?" <<std::endl;
+   std::cout << "A. Run Max Flow algorithm" <<std::endl
+             << "B. Check if every city meets it's water demand" <<std::endl
+             << "C. Check heuristic stats of the max flow" <<std::endl
+             << "D. Evaluate network's resiliency" <<std::endl
+             << "E. Exit the program"
+             << "Insert your choice:";
+
+    validate_input(op, 'A', 'E');
+    switch(op){
+        case 'A':
+            break;
+        case 'B':
+            break;
+        case 'C':
+            break;
+        case 'D':
+            break;
+        case 'E':
+           std::cout << "Thanks for using our management system app!" <<std::endl << "\n"
+                 << "Made by: " <<std::endl
+                 << "Ângelo Oliveira || 202207798" <<std::endl
+                 << "José Costa      || 202207871" <<std::endl
+                 << "Bruno Fortes    || 202209730" << std::endl;
+            std::this_thread::sleep_for(std::chrono::seconds(2)); // Espera 2 segundos antes de fechar o terminal
+            exit(0);
+        default:
+            std::cerr << "Error";
     }
 }
 
