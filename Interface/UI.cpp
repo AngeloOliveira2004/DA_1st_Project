@@ -1,4 +1,5 @@
 #include "UI.h"
+#include "../Logic/Logic.h"
 #include <thread>
 #include <chrono>
 
@@ -42,7 +43,7 @@ void UI::loading_stuff(UI &ui) {
     std::cout << "Load Finished" << std::endl;
     std::cout << "Press A to start the program: ";
     char op;
-    validate_input(op,'A','A');
+    //validate_input(op,'A','A');
 }
 
 void UI::menu_start() {
@@ -110,5 +111,30 @@ void UI::main_menu(){
 
 Graph<DeliverySite> UI::getGraph() const {
     return g;
+}
+
+void UI::doStuff() {
+    calculateMaxFlowInEntireNetwork(&g);
+
+    heuristic(&g);
+
+    double flow = 0;
+
+    for(auto v : g.getVertexSet()){
+        if(v->getInfo().getNodeType() ==    CITY){
+            for(auto e : v->getIncoming()){
+                flow += e->getFlow();
+            }
+        }
+    }
+
+    std::cout << "\n" << "Max Flow : " << flow << "\n";
+
+
+    for(auto e : g.getEdges()){
+        if(e->getFlow() < 0){
+            print("EITAEITAEITA" , false);
+        }
+    }
 }
 

@@ -193,7 +193,6 @@ double minLeftOverCap(std::vector<Edge<DeliverySite>*>& path){
 }
 
 Metrics heuristic(Graph<DeliverySite>*g){
-
     std::vector<Edge<DeliverySite>*> edges;
 
     edges = g->getEdges();
@@ -238,7 +237,10 @@ Metrics heuristic(Graph<DeliverySite>*g){
             }
 
             double waterToPump = maxDiff;
+            if(e->getFlow() - waterToPump < 0)
+                waterToPump = e->getFlow();
             e->setFlow(e->getFlow() - waterToPump);
+
             pumpWater(path , waterToPump);
         }
 

@@ -82,7 +82,17 @@ void calculateMaxFlowInEntireNetwork(Graph<DeliverySite>* g){
         maxFlow += e->getFlow();
     }
 
-    std::cout << "MAXFLOW : " << maxFlow << "\n";
+    std::cout << "MAXFLOWSS : " << maxFlow << "\n";
+
+    maxFlow = 0;
+    for(auto v : g->getVertexSet()){
+        if(v->getInfo().getNodeType() == CITY){
+            for(Edge<DeliverySite>* e : v->getIncoming()){
+                maxFlow += e->getFlow();
+            }
+        }
+    }
+
 /*
     double flow = 0;
     auto sum = 0;
