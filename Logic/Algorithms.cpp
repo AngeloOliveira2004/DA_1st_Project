@@ -222,13 +222,9 @@ Metrics heuristic(Graph<DeliverySite>*g){
 
             double maxDiff = -1;
             if(allPaths.empty())
-                maxDiff = 0;
+                continue;
 
             for(std::vector<Edge<DeliverySite>*> tempPath : allPaths){
-                if(tempPath.size() == 1){
-                    maxDiff = 0;
-                    continue;
-                }
                 double minFlow = minLeftOverCap(tempPath);
                 if (minFlow > maxDiff) {
                     maxDiff = minFlow;
@@ -253,6 +249,13 @@ Metrics heuristic(Graph<DeliverySite>*g){
 
     g->printMetrics(finalMetrics);
 
+    for(auto e : g->getEdges()){
+        if(e->getFlow() > e->getWeight()){
+            print("SOBRECARGAAAA    " , false);
+        }
+        if(e->getFlow() < 0)
+            print("DESCEU O CANOOOOO" , false);
+    }
     return  finalMetrics;
 }
 
