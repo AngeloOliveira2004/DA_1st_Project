@@ -53,6 +53,11 @@ public:
     bool removeEdge(T in);
     void removeOutgoingEdges();
 
+    double calculateIncomingFlow() const;
+    double calculateOutgoingFlow() const;
+    bool noOutgoingFlow() const;
+    bool noIncomingFlow() const;
+
     friend class MutablePriorityQueue<Vertex>;
 protected:
     T info;                // info node
@@ -72,6 +77,46 @@ protected:
 
     void deleteEdge(Edge<T> *edge);
 };
+
+template<class T>
+bool Vertex<T>::noIncomingFlow() const {
+    double sum = 0;
+    for(Edge<T>* e : incoming){
+        sum += e->getFlow();
+    }
+
+    return sum == 0;
+}
+
+template<class T>
+bool Vertex<T>::noOutgoingFlow() const {
+    double sum = 0;
+    for(Edge<T>* e : adj){
+        sum += e->getFlow();
+    }
+
+    return sum == 0;
+}
+
+template<class T>
+double Vertex<T>::calculateOutgoingFlow() const {
+    double flow = 0;
+    for(Edge<T>* edge : adj){
+        flow += edge->getFlow();
+    }
+    return flow;
+}
+
+template<class T>
+double Vertex<T>::calculateIncomingFlow() const {
+    double flow = 0;
+    for(Edge<T>* edge : incoming){
+        flow += edge->getFlow();
+    }
+    return flow;
+}
+
+
 
 /********************** Edge  ****************************/
 
@@ -132,7 +177,6 @@ public:
 
     int getNumVertex() const;
     std::vector<Vertex<T> *> getVertexSet() const;
-    std::vector<Edge<T>* > getEdgeSet() const;
 
     std:: vector<T> dfs() const;
     std:: vector<T> dfs(const T & source) const;
@@ -149,6 +193,10 @@ public:
     int calculateFlowAcrossEdges() const;
     bool checkEdgesFlow() const;
     Metrics calculateMetrics() const;
+    std::vector<Edge<T>*> getEdges() const;
+
+
+    void printMetrics(Metrics metrics) const;
 protected:
     std::vector<Edge<T> *> edgeSet;
     std::vector<Vertex<T> *> vertexSet;    // vertex set
@@ -161,6 +209,19 @@ protected:
      */
     int findVertexIdx(const T &in) const;
 };
+
+template<class T>
+std::vector<Edge<T> *> Graph<T>::getEdges() const {
+    std::vector<Edge<T> *> res;
+
+    for(Vertex<T>* v : vertexSet){
+        for(Edge<T>* edge : v->getAdj()){
+            res.push_back(edge);
+        }
+    }
+
+    return res;
+}
 
 void deleteMatrix(int **m, int n);
 void deleteMatrix(double **m, int n);
@@ -408,7 +469,6 @@ Metrics Graph<T>::calculateMetrics() const {
     variance /= (num - 1);
     variance = sqrt(variance);
     Metrics m = {avg, variance, maxDiff , avgFLowWeight};
-    std::cout << "Avg: " << m.avg << "   MaxDiff: " << m.maxDiff << "   Variance: " << m.variance << " Flow/Weight average: " << avgFLowWeight <<"\n";
     return m;
 }
 
@@ -798,6 +858,19 @@ template <class T>
 Graph<T>::~Graph() {
     deleteMatrix(distMatrix, vertexSet.size());
     deleteMatrix(pathMatrix, vertexSet.size());
+}
+
+template <class T>
+void Graph<T>::printMetrics(Metrics metrics) const{
+    std::cout << "\033[0;32m" << "-------------------" << "\033[0m";
+    std::cout << "\n";
+    std::cout << "Average: " << metrics.avg;
+    std::cout << "\n";
+    std::cout << "Variance: " << metrics.variance;
+    std::cout << "\n";
+    std::cout << "Maximum Difference: " << metrics.maxDiff;
+    std::cout << "\n";
+    std::cout << "\033[0;32m" << "-------------------" << "\033[0m";
 }
 
 #endif /* DA_TP_CLASSES_GRAPH */

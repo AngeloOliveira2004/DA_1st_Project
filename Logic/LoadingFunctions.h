@@ -7,9 +7,6 @@
 #include "PumpingStations.h"
 #include "../data_structures/Graph.h"
 
-std::unordered_set<DeliverySite> nodesToAdd;
-std::vector<PumpingStations> edges;
-
 void NormalizeString(std::string& str1 , std::string& str2);
 void Remove_terminations(std::string& str);
 void LoadCities();

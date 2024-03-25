@@ -100,16 +100,14 @@ double DeliverySite::calculateRemainingDeliviry(const std::vector<Edge<DeliveryS
         return 0.0;
     }
 
-    int maxDelivery = getMaxDelivery();
+    double maxDelivery_ = getMaxDelivery();
 
     double remainDelivery = 0;
     for(Edge<DeliverySite>* e : adj){
         remainDelivery += e->getFlow();
     }
 
-    std::cout << getCode() <<" " << remainDelivery << " " << maxDelivery << "\n\n";
-
-    remainDelivery = maxDelivery - remainDelivery;
+    remainDelivery = maxDelivery_ - remainDelivery;
 
     return remainDelivery;
 }

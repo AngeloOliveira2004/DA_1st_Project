@@ -108,3 +108,7 @@ void UI::main_menu(){
     }
 }
 
+Graph<DeliverySite> UI::getGraph() const {
+    return g;
+}
+

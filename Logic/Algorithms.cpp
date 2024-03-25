@@ -3,6 +3,18 @@
 
 #include "stdafx.h"
 
+double calculateMaxFlow(std::vector<Vertex<DeliverySite>*>& vertexSet){
+    double flow = 0;
+
+    for(Vertex<DeliverySite>* v : vertexSet){
+        if(v->getInfo().getNodeType() == CITY)
+            for(auto e : v->getAdj()){
+                flow += e->getFlow();
+            }
+    }
+    return flow;
+}
+
 double findMinResidualAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t) {
     double f = INF;
 // Traverse the augmenting path to find the minimum residual capacity
@@ -84,7 +96,7 @@ bool findAugmentingPath(Graph<DeliverySite> *g, Vertex<DeliverySite> *s, Vertex<
 void augmentFlowAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t, double f) {
 // Traverse the augmenting path and update the flow values accordingly
 
-    std::cout << "------------------------------------------\n";
+
     for (auto v = t; v != s; ) {
         auto e = v->getPath();
 
@@ -97,16 +109,12 @@ void augmentFlowAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t, doub
             e->setFlow(flow - f);
             v = e->getDest();
         }
-
-        std::cout << e->getOrig()->getInfo().getCode() << " --- " << e->getDest()->getInfo().getCode() << "\n";
     }
 
-    std::cout << "------------------------------------------\n";
+
 }
 
 void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite target) {
-
-    auto ps11 = g->findVertex(DeliverySite("PS_11"));
 
     auto start_time = std::chrono::steady_clock::now();
 // Find source and target vertices in the graph
@@ -129,9 +137,6 @@ void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite targe
         double f = findMinResidualAlongPath(s, t);
         augmentFlowAlongPath(s, t, f);
     }
-
-    auto end_time = std::chrono::steady_clock::now();
-    //std::cout << "Each EdmondsKarp takes: " << std::chrono::duration<double>(end_time - start_time).count() << " seconds" << std::endl;
 }
 
 //root will be the origin of edge with the lowest flow
@@ -187,51 +192,66 @@ double minLeftOverCap(std::vector<Edge<DeliverySite>*>& path){
     return min;
 }
 
-void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
+Metrics heuristic(Graph<DeliverySite>*g){
 
     std::vector<Edge<DeliverySite>*> edges;
-    for (Vertex<DeliverySite>* v : g->getVertexSet()){
-        v->setVisited(false);
-        for (Edge<DeliverySite>* e : v->getAdj()){
-            edges.push_back(e);
-        }
-    }
 
-    std::sort(edges.begin(), edges.end(), [](Edge<DeliverySite>* a, Edge<DeliverySite>* b) {
+    edges = g->getEdges();
 
-        if(a->getWeight() - a->getFlow() == b->getWeight() - b->getFlow()){
-            return a->getWeight() > b->getWeight();
-        }
+    Metrics finalMetrics = g->calculateMetrics();
+    Metrics initialMetrics = finalMetrics;
 
-        return a->getWeight() - a->getFlow() < b->getWeight() - b->getFlow();
-    });
+    g->printMetrics(initialMetrics);
+    initialMetrics = {DBL_MAX , DBL_MAX , DBL_MAX , DBL_MAX};
 
-    for(Edge<DeliverySite>* e : edges){
-        std::vector<Edge<DeliverySite>*> path;
-        std::vector<std::vector<Edge<DeliverySite>*>> allPaths;
+    while(finalMetrics.variance < initialMetrics.variance || finalMetrics.avg < initialMetrics.avg){
 
-        allPaths = g->allPaths(e->getOrig()->getInfo() , e->getDest()->getInfo());
+        std::sort(edges.begin(), edges.end(), [](Edge<DeliverySite>* a, Edge<DeliverySite>* b) {
 
-        double maxDiff = -1;
-        if(allPaths.empty())
-            maxDiff = 0;
+            if(a->getWeight() - a->getFlow() == b->getWeight() - b->getFlow()){
+                return a->getWeight() > b->getWeight();
+            }
 
-        for(std::vector<Edge<DeliverySite>*> tempPath : allPaths){
-            if(tempPath.size() == 1){
+            return a->getWeight() - a->getFlow() < b->getWeight() - b->getFlow();
+        });
+
+        for(Edge<DeliverySite>* e : edges){
+            std::vector<Edge<DeliverySite>*> path;
+            std::vector<std::vector<Edge<DeliverySite>*>> allPaths;
+
+            allPaths = g->allPaths(e->getOrig()->getInfo() , e->getDest()->getInfo());
+
+            double maxDiff = -1;
+            if(allPaths.empty())
                 maxDiff = 0;
-                continue;
+
+            for(std::vector<Edge<DeliverySite>*> tempPath : allPaths){
+                if(tempPath.size() == 1){
+                    maxDiff = 0;
+                    continue;
+                }
+                double minFlow = minLeftOverCap(tempPath);
+                if (minFlow > maxDiff) {
+                    maxDiff = minFlow;
+                    path = tempPath;
+                }
             }
-            double minFlow = minLeftOverCap(tempPath);
-            if (minFlow > maxDiff) {
-                maxDiff = minFlow;
-                path = tempPath;
-            }
+
+            double waterToPump = maxDiff;
+            e->setFlow(e->getFlow() - waterToPump);
+            pumpWater(path , waterToPump);
         }
 
-        double waterToPump = maxDiff;
-        e->setFlow(e->getFlow() - waterToPump);
-        pumpWater(path , waterToPump);
+        finalMetrics = g->calculateMetrics();
+
+        initialMetrics = finalMetrics;
     }
+
+    finalMetrics = g->calculateMetrics();
+
+    g->printMetrics(finalMetrics);
+
+    return  finalMetrics;
 }
 
 void pumpWater(std::vector<Edge<DeliverySite>*>& path , double flowToPump){

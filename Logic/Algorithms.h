@@ -9,6 +9,8 @@ void print(T _msg , bool _newline){
 
 void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite target);
 
+double calculateMaxFlow(std::vector<Vertex<DeliverySite>*>& vertexSet);
+
 
 double averagePipeCapacity(const std::vector<Edge<DeliverySite>*>& pipes);
 double variancePipeCapacityFlow(const std::vector<Edge<DeliverySite>*>& pipes , std::vector<std::pair<double , Edge<DeliverySite>*>>* varianceInEachPoint);
@@ -40,4 +42,4 @@ pegar no caminho com menor flow de momento
 //doing this by using Bell-Man ford algorithm and then pumping water from there simply by pumping the highest amount of water possible
 //we can use bellmanFord and select the edges with lower flow on the relaxation process
 //could probably use select variable inside edge class to force the path in ford-Fulkerson algorithm
-void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes);
+Metrics heuristic(Graph<DeliverySite>*g);

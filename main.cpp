@@ -4,6 +4,7 @@
 #include "Interface/UI.h"
 
 int main() {
+
     UI ui;
     ui.loading_stuff(ui);
 
@@ -85,5 +86,40 @@ int main() {
     print(flow , false);
 
      */
+
+    Graph<DeliverySite> g = ui.getGraph();
+
+    calculateMaxFlowInEntireNetwork(&g);
+
+    for(auto v : g.getVertexSet()){
+        for(auto e : v->getAdj()){
+            std::cout << e->getFlow() << "\n";
+        }
+    }
+
+
+    heuristic(&g);
+
+    std::vector<Edge<DeliverySite>*> edges;
+    std::vector<Vertex<DeliverySite>*> vertexSet = g.getVertexSet();
+
+    for(auto v : g.getVertexSet()){
+        for(auto e : v->getAdj()){
+            edges.push_back(e);
+        }
+    }
+
+    double flow = 0;
+
+    for(auto v : g.getVertexSet()){
+        for(auto e : v->getAdj()){
+            flow += e->getFlow();
+            std::cout << e->getFlow() << "\n";
+        }
+    }
+
+    print("\n" , true);
+    print(flow , true);
+
     return 0;
 }

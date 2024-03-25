@@ -2,6 +2,10 @@
 #include "stdafx.h"
 #include "LoadingFunctions.h"
 
+std::unordered_set<DeliverySite> nodesToAdd;
+std::vector<PumpingStations> edges;
+
+
 void NormalizeString(std::string& str1 , std::string& str2) {
 
     std::string temp;
@@ -236,8 +240,10 @@ bool createGraph(Graph<DeliverySite>* g)
     auto zeros = 0;
     for(auto a : g->getVertexSet()){
         std::cout << a->getIncoming().size() << "\n";
-        if(a->getIncoming().size() == 0)
+        if(a->getIncoming().size() == 0){
             zeros++;
+            std::cout << a->getInfo().getCode() << "\n";
+        }
     }
     std::cout << zeros;
     std::cout << "\n";

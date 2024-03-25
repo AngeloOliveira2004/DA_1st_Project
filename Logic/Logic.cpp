@@ -21,7 +21,7 @@ void getSinks(Graph<DeliverySite>* g){
     }
 }
 //trocar este source para superSource
-void calculateMaxFlow(Graph<DeliverySite>* g , DeliverySite& target ){
+void calculateMaxFlowInACity(Graph<DeliverySite>* g , DeliverySite& target ){
 
     if(sources.empty())
         getSources(g);
@@ -68,7 +68,7 @@ void calculateMaxFlowInEntireNetwork(Graph<DeliverySite>* g){
     g->addVertex(superSink);
 
     for(Vertex<DeliverySite>* s : sinks){
-        g->addEdge(s->getInfo() , superSink , DBL_MAX);
+        g->addEdge(s->getInfo() , superSink , s->getInfo().getDemand());
     }
 
     edmondsKarp(g , superSource , superSink);
@@ -82,6 +82,8 @@ void calculateMaxFlowInEntireNetwork(Graph<DeliverySite>* g){
         maxFlow += e->getFlow();
     }
 
+    std::cout << "MAXFLOW : " << maxFlow << "\n";
+/*
     double flow = 0;
     auto sum = 0;
     print("------------------------------------" , true);
@@ -103,7 +105,7 @@ void calculateMaxFlowInEntireNetwork(Graph<DeliverySite>* g){
             }
         }
     }
-
+*/
     //print(flow , true);
 
 
