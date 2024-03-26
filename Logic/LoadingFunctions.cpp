@@ -61,6 +61,9 @@ void LoadCities() {
     getline(file, line);
 
     while (getline(file, line)) {
+
+        line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
+
         std::istringstream lineStream(line);
         std::vector<std::string> tokens;
         std::string token;
@@ -102,6 +105,9 @@ void LoadPipes() {
     getline(file, line);
 
     while (getline(file, line)) {
+
+        line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
+
         std::istringstream lineStream(line);
         std::vector<std::string> tokens;
         std::string token;
@@ -123,7 +129,6 @@ void LoadPipes() {
 
     file.close();
 
-    //
 }
 
 void LoadWaterReservoirs() {
@@ -137,6 +142,9 @@ void LoadWaterReservoirs() {
     getline(file, line);
 
     while (getline(file, line)) {
+
+        line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
+
         std::istringstream lineStream(line);
         std::vector<std::string> tokens;
         std::string token;
@@ -219,6 +227,8 @@ bool createGraph(Graph<DeliverySite>* g)
         }
     }
 
+    auto a = edges.size();
+    auto b = 0;
     for(const PumpingStations& pumpingStation : edges){
         DeliverySite deliverySiteA = DeliverySite((std::string) pumpingStation.getServicePointA());
         DeliverySite deliverySiteB = DeliverySite((std::string) pumpingStation.getServicePointB());
@@ -228,7 +238,7 @@ bool createGraph(Graph<DeliverySite>* g)
                 std::cerr << "Error adding vertex";
                 return false;
             }
-
+            b++;
         }else{
             if(!g->addEdge(deliverySiteA , deliverySiteB , pumpingStation.getCapacity())){
                 std::cerr << "Error adding edge";
@@ -237,19 +247,6 @@ bool createGraph(Graph<DeliverySite>* g)
         }
 
     }
-    auto zeros = 0;
-    for(auto a : g->getVertexSet()){
-        std::cout << a->getIncoming().size() << "\n";
-        if(a->getIncoming().size() == 0){
-            zeros++;
-            std::cout << a->getInfo().getCode() << "\n";
-        }
-    }
-    std::cout << zeros;
-    std::cout << "\n";
-    std::cout << "\n";
-    std::cout << "\n";
-    std::cout << "\n";
 
     return true;
 }

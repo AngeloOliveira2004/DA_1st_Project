@@ -53,7 +53,7 @@ void testAndVisit(std::queue< Vertex<DeliverySite>*> &q, Edge<DeliverySite> *e, 
 
 bool findAugmentingPath(Graph<DeliverySite> *g, Vertex<DeliverySite> *s, Vertex<DeliverySite> *t) {
 // Mark all vertices as not visited
-    for(auto v : g->getVertexSet()) {
+    for(Vertex<DeliverySite>* v : g->getVertexSet()) {
         v->setVisited(false);
     }
 // Mark the source vertex as visited and enqueue it
@@ -72,7 +72,7 @@ bool findAugmentingPath(Graph<DeliverySite> *g, Vertex<DeliverySite> *s, Vertex<
                 if (dest->getInfo().getNodeType() == WATER_RESERVOIR){
 
                     double remainDelivery = dest->getInfo().calculateRemainingDeliviry(dest->getAdj());
-                    if (remainDelivery == 0){
+                    if (remainDelivery <= 0){
                         dest->setVisited(true);
                         continue;
                     }
@@ -114,7 +114,7 @@ void augmentFlowAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t, doub
 
 }
 
-void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite target) {
+void edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target) {
 
     auto start_time = std::chrono::steady_clock::now();
 // Find source and target vertices in the graph

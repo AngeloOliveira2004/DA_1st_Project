@@ -79,19 +79,30 @@ int DeliverySite::getPopulation() const {
 
 void DeliverySite::printInfo() const {
     // Print delivery site information
-    std::cout << "Name: " << *name << std::endl;
-    std::cout << "Municipality: " << *municipality << std::endl;
-    std::cout << "Code: " << code << std::endl;
-    std::cout << "ID: " << id << std::endl;
+    std::cout << "Name: " << *name << " ";
+    std::cout << "ID: " << id << " ";
+    std::cout << "Code: " << code << " ";
+    std::cout << "Demand: " << *demand << " ";
+    std::cout << "Population: " << *population << " ";
+    std::cout << "Municipality: " << *municipality << " " ;
     std::cout << "Max Delivery: " << *maxDelivery << std::endl;
 }
 
 nodeTypes DeliverySite::getNodeType() const {
     return type;
+
 }
 
-DeliverySite::DeliverySite(std::string code) {
-    this->code = code;
+DeliverySite::DeliverySite(std::string code)
+        : code(std::move(code)),
+          id(0), // Default value for id
+          type(CITY), // Default value for type, adjust as needed
+          name(nullptr), // Default value for name
+          municipality(nullptr), // Default value for municipality
+          maxDelivery(nullptr), // Default value for maxDelivery
+          demand(nullptr), // Default value for demand
+          population(nullptr) // Default value for population
+{
 }
 
 double DeliverySite::calculateRemainingDeliviry(const std::vector<Edge<DeliverySite> *>& adj) {
@@ -112,4 +123,3 @@ double DeliverySite::calculateRemainingDeliviry(const std::vector<Edge<DeliveryS
     return remainDelivery;
 }
 
-DeliverySite::DeliverySite() = default;

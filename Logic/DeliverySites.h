@@ -34,7 +34,6 @@ public:
                  int demand,
                  int population,
                  nodeTypes type);
-    DeliverySite();
     DeliverySite(std::string  code);
 
     // Getters

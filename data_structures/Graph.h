@@ -38,6 +38,7 @@ public:
     bool isProcessing() const;
     unsigned int getIndegree() const;
     int getIncomingFlow() const;
+    int getOutcomingFLow() const;
     double getDist() const;
     Edge<T> *getPath() const;
     std::vector<Edge<T> *> getIncoming() const;
@@ -467,7 +468,6 @@ Metrics Graph<T>::calculateMetrics() const {
 
     avgFLowWeight /= edgeVector.size();
     variance /= (num - 1);
-    variance = sqrt(variance);
     Metrics m = {avg, variance, maxDiff , avgFLowWeight};
     return m;
 }

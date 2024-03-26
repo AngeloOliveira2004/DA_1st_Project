@@ -116,7 +116,17 @@ Graph<DeliverySite> UI::getGraph() const {
 void UI::doStuff() {
     calculateMaxFlowInEntireNetwork(&g);
 
+    for(auto v : g.getVertexSet()){
+        if(v->getInfo().getNodeType() == CITY)
+            std::cout << v->getInfo().getCode() << " flow :" << v->calculateIncomingFlow() << std::endl;
+    }
+
     heuristic(&g);
+
+    for(auto v : g.getVertexSet()){
+        if(v->getInfo().getNodeType() == CITY)
+            std::cout << v->getInfo().getCode() << " flow :" << v->calculateIncomingFlow() << std::endl;
+    }
 
     double flow = 0;
 
@@ -135,6 +145,53 @@ void UI::doStuff() {
         if(e->getFlow() < 0){
             print("EITAEITAEITA" , false);
         }
+    }
+    auto incomingAqua = 0;
+    for(auto v : g.getVertexSet()){
+        if(v->getInfo().getNodeType() == CITY){
+            incomingAqua = 0;
+            for(auto e : v->getIncoming()){
+                incomingAqua += e->getFlow();
+            }
+            if(incomingAqua > v->getInfo().getDemand()){
+                print("DEMASIADA AGUA CARALHOOOO" , true);
+                print(incomingAqua , true);
+                print(v->getInfo().getDemand() , true);
+            }
+        }
+    }
+
+    for(auto v : g.getVertexSet()){
+        if(v->getInfo().getNodeType() == WATER_RESERVOIR){
+            incomingAqua = 0;
+            for(auto e : v->getAdj()){
+                incomingAqua += e->getFlow();
+            }
+            auto a = v->getInfo().getMaxDelivery();
+            if(incomingAqua > v->getInfo().getMaxDelivery()){
+                print("TA VAZANDO AGUA DO CU" , true);
+                print(incomingAqua , true);
+                print(v->getInfo().getDemand() , true);
+            }
+        }
+    }
+
+    for(auto v : g.getVertexSet()){
+        for(auto e : v->getAdj()){
+            if(e->getFlow() < 0){
+                print("EITAAA CARALHOOOOO" , true);
+            }
+        }
+    }
+
+    for(auto v : g.getVertexSet()){
+        if(v->getInfo().getNodeType() != WATER_RESERVOIR)
+            std::cout << v->getInfo().getCode() << " " << v->calculateIncomingFlow() << " " << v->calculateOutgoingFlow() << "\n";
+    }
+
+    for(auto v : g.getVertexSet()){
+        if(v->getInfo().getNodeType() == WATER_RESERVOIR)
+            std::cout << v->getInfo().getCode() << " " << v->calculateOutgoingFlow()<<" " << v->getInfo().getMaxDelivery() << "\n";
     }
 }
 
