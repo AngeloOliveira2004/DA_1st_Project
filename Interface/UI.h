@@ -3,6 +3,7 @@
 
 #include "../Logic/LoadingFunctions.h"
 #include "../Logic/stdafx.h"
+#include "../Logic/Algorithms.h"
 
 
 class UI {

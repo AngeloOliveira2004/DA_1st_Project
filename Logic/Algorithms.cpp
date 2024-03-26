@@ -1,104 +1,65 @@
 #include <climits>
 #include "Algorithms.h"
-
 #include "stdafx.h"
 
-double calculateMaxFlow(std::vector<Vertex<DeliverySite>*>& vertexSet){
-    double flow = 0;
+double findMinResidualAlongPath(Vertex<DeliverySite> *source, Vertex<DeliverySite> *sink) {
+    double f = DBL_MAX; // Traverse the augmenting path to find the minimum residual capacity
 
-    for(Vertex<DeliverySite>* v : vertexSet){
-        if(v->getInfo().getNodeType() == CITY)
-            for(auto e : v->getAdj()){
-                flow += e->getFlow();
-            }
-    }
-    return flow;
-}
-
-double findMinResidualAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t) {
-    double f = INF;
-// Traverse the augmenting path to find the minimum residual capacity
-    for (auto v = t; v != s; ) {
-        auto e = v->getPath();
-        if (e->getDest() == v) {
+    for (Vertex<DeliverySite>* v = sink; v != source;) {
+        Edge<DeliverySite>* e = v->getPath();
+        if (e->getDest() == v){
             f = std::min(f, e->getWeight() - e->getFlow());
-            if(e->getOrig()->getInfo().getNodeType() == WATER_RESERVOIR){
-                double remainDelivery = e->getOrig()->getInfo().calculateRemainingDeliviry(e->getOrig()->getAdj());
-                if(f > remainDelivery){
-                    f = remainDelivery;
-                }
-            }
             v = e->getOrig();
-        }
-        else {
+        } else {
             f = std::min(f, e->getFlow());
             v = e->getDest();
         }
     }
-// Return the minimum residual capacity
-    return f;
+    return f; // Return the minimum residual capacity
 }
 
-
-void testAndVisit(std::queue< Vertex<DeliverySite>*> &q, Edge<DeliverySite> *e, Vertex<DeliverySite> *w, double residual) {
-// Check if the vertex 'w' is not visited and there is residual capacity
-    if (! w->isVisited() && residual > 0) {
-// Mark 'w' as visited, set the path through which it was reached, and enqueue it
-        w->setVisited(true);
-        w->setPath(e);
-        q.push(w);
-    }
-}
-
-
-bool findAugmentingPath(Graph<DeliverySite> *g, Vertex<DeliverySite> *s, Vertex<DeliverySite> *t) {
+bool findAugmentingPath(Graph<DeliverySite> *g, Vertex<DeliverySite> *source, Vertex<DeliverySite> *sink, Vertex<DeliverySite> *removed) {
 // Mark all vertices as not visited
     for(Vertex<DeliverySite>* v : g->getVertexSet()) {
         v->setVisited(false);
     }
 // Mark the source vertex as visited and enqueue it
-    s->setVisited(true);
+
+    if (removed != nullptr) removed->setVisited(true);
+
     std::queue<Vertex<DeliverySite> *> q;
-    q.push(s);
+    q.push(source);
+    source->setVisited(true);
+
 // BFS to find an augmenting path
-    while( ! q.empty() && ! t->isVisited()) {
-        auto v = q.front();
+    while(!q.empty() && !sink->isVisited()) {
+        Vertex<DeliverySite>* v = q.front();
         q.pop();
-// Process outgoing edges
-        for(auto e: v->getAdj()) {
+        for (Edge<DeliverySite>* e : v->getAdj()) {
             Vertex<DeliverySite>* dest = e->getDest();
             if (!dest->isVisited() && (e->getWeight() - e->getFlow() > 0)) {
-
-                if (dest->getInfo().getNodeType() == WATER_RESERVOIR){
-
-                    double remainDelivery = dest->getInfo().calculateRemainingDeliviry(dest->getAdj());
-                    if (remainDelivery <= 0){
-                        dest->setVisited(true);
-                        continue;
-                    }
-
-                }
                 dest->setVisited(true);
                 dest->setPath(e);
                 q.push(dest);
             }
-
         }
-// Process incoming edges
-        for(auto e: v->getIncoming()) {
-            testAndVisit(q, e, e->getOrig(), e->getFlow());
+        for (Edge<DeliverySite>* e: v->getIncoming()) {
+            Vertex<DeliverySite>* origin = e->getOrig();
+            if (!origin->isVisited() && (e->getFlow() > 0)) {
+                origin->setVisited(true);
+                origin->setPath(e);
+                q.push(origin);
+            }
         }
     }
-// Return true if a path to the target is found, false otherwise
-    return t->isVisited();
+    return sink->isVisited();
 }
 
-void augmentFlowAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t, double f) {
+void augmentFlowAlongPath(Vertex<DeliverySite> *source, Vertex<DeliverySite> *sink, double f) {
 // Traverse the augmenting path and update the flow values accordingly
 
-
-    for (auto v = t; v != s; ) {
-        auto e = v->getPath();
+    for (Vertex<DeliverySite>* v = sink; v != source;) {
+        Edge<DeliverySite>* e = v->getPath();
 
         double flow = e->getFlow();
         if (e->getDest() == v) {
@@ -114,9 +75,9 @@ void augmentFlowAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t, doub
 
 }
 
-void edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target) {
+double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target) {
 
-    auto start_time = std::chrono::steady_clock::now();
+    double maxFlow = 0;
 // Find source and target vertices in the graph
     Vertex<DeliverySite>* s = g->findVertex(source);
     Vertex<DeliverySite>* t = g->findVertex(target);
@@ -125,18 +86,19 @@ void edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const Deliv
         throw std::logic_error("Invalid source and/or target vertex");
 // Initialize flow on all edges to 0
     for (auto v : g->getVertexSet()) {
-        v->setVisited(false);
         for (auto e: v->getAdj()) {
             e->setFlow(0);
+            e->setSelected(false);
         }
     }
 
 // While there is an augmenting path, augment the flow along the path
-// While there is an augmenting path, augment the flow along the path
-    while( findAugmentingPath(g, s, t) ) {
+    while(findAugmentingPath(g, s, t, nullptr) ) {
         double f = findMinResidualAlongPath(s, t);
+        maxFlow += f;
         augmentFlowAlongPath(s, t, f);
     }
+    return maxFlow;
 }
 
 //root will be the origin of edge with the lowest flow

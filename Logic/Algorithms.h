@@ -1,5 +1,7 @@
-#include "stdafx.h"
+#ifndef ALGORITHMS_H
+#define ALGORITHMS_H
 
+#include "stdafx.h"
 template <class T>
 void print(T _msg , bool _newline){
     std::cout << _msg << " ";
@@ -7,7 +9,7 @@ void print(T _msg , bool _newline){
         std::cout << std::endl;
 }
 
-void edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target);
+double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target);
 
 double calculateMaxFlow(std::vector<Vertex<DeliverySite>*>& vertexSet);
 
@@ -43,3 +45,5 @@ pegar no caminho com menor flow de momento
 //we can use bellmanFord and select the edges with lower flow on the relaxation process
 //could probably use select variable inside edge class to force the path in ford-Fulkerson algorithm
 Metrics heuristic(Graph<DeliverySite>*g);
+
+#endif

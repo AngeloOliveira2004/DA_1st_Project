@@ -46,89 +46,23 @@ void calculateMaxFlowInACity(Graph<DeliverySite>* g , DeliverySite& target ){
 //The super-source node is connected to all the original source nodes by edges with infinite capacity,
 // and the super-sink node is connected to all the original sink nodes by edges with capacity equal to their demand
 
-void calculateMaxFlowInEntireNetwork(Graph<DeliverySite>* g){
+void createSuperSourceSink(Graph<DeliverySite>* g,DeliverySite SuperSource,DeliverySite SuperSink){
+    g->addVertex(SuperSource);
+    g->addVertex(SuperSink);
 
-    //create superSink
-    if(sources.empty())
-        getSources(g);
-
-    if(sinks.empty())
-        getSinks(g);
-
-    //SuperSource
-    DeliverySite superSource = DeliverySite("SuperSource");
-    g->addVertex(superSource);
-
-    for(Vertex<DeliverySite>* s : sources){
-        g->addEdge(superSource , s->getInfo() , DBL_MAX);
-    }
-
-    //SuperSink
-    DeliverySite superSink = DeliverySite("SuperSink");
-    g->addVertex(superSink);
-
-    for(Vertex<DeliverySite>* s : sinks){
-        g->addEdge(s->getInfo() , superSink , s->getInfo().getDemand());
-    }
-
-    for(auto v : g->getVertexSet()){
-        for(auto e : v->getAdj()){
-            e->setFlow(0);
-            v->setIncomingFlow(0);
+    for (auto v: g->getVertexSet()) {
+        nodeTypes code = v->getInfo().getNodeType();
+        if (code == WATER_RESERVOIR){
+            g->addEdge(SuperSource,v->getInfo(),v->getInfo().getMaxDelivery());
+        } else if (code == CITY && v->getInfo().getCode() != "SuperSource" && v->getInfo().getCode() != "SuperSink") {
+            g->addEdge(v->getInfo(),SuperSource, v->getInfo().getDemand());
         }
     }
+}
 
-    edmondsKarp(g , superSource , superSink);
-
-    Vertex<DeliverySite>* superSinkVertex = g->findVertex(superSink);
-    Vertex<DeliverySite>* superSourceVertex = g->findVertex(superSource);
-
-    double maxFlow = 0;
-
-    for(Edge<DeliverySite>* e : superSinkVertex->getIncoming()){
-        maxFlow += e->getFlow();
-    }
-
-    std::cout << "MAXFLOWSS : " << maxFlow << "\n";
-
-    maxFlow = 0;
-    for(auto v : g->getVertexSet()){
-        if(v->getInfo().getNodeType() == CITY){
-            for(Edge<DeliverySite>* e : v->getIncoming()){
-                maxFlow += e->getFlow();
-            }
-        }
-    }
-
-/*
-    double flow = 0;
-    auto sum = 0;
-    print("------------------------------------" , true);
-    for(auto e : sources){
-        sum = 0;
-        for(auto f : e->getAdj()){
-            sum += f->getFlow();
-        }
-        for(auto f : e->getIncoming()){
-            std::cout << e->getInfo().getCode() <<" " <<e->getInfo().getMaxDelivery() << " " << f->getFlow() << " " << sum << "\n\n";
-        }
-    }
-
-
-    for(auto v : g->getVertexSet()){
-        for(auto e : v->getAdj()){
-            if(e->getFlow() > e->getWeight()){
-                std::cout << "NOOOOOOOOOOOOOOOOOOOOOOO" << "\n";
-            }
-        }
-    }
-*/
-    //print(flow , true);
-
-
-    g->removeVertex(superSink);
-    g->removeVertex(superSource);
-
+void removeSuperSourceSink(Graph<DeliverySite>* g,DeliverySite SuperSource,DeliverySite SuperSink) {
+    g->removeVertex(SuperSource);
+    g->removeVertex(SuperSink);
 }
 
 void maxFlowWithSuperSource(Graph<DeliverySite>* g , DeliverySite& target){

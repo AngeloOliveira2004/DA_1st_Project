@@ -114,7 +114,18 @@ Graph<DeliverySite> UI::getGraph() const {
 }
 
 void UI::doStuff() {
-    calculateMaxFlowInEntireNetwork(&g);
+    DeliverySite supersource = DeliverySite("SuperSource");
+    DeliverySite supersink = DeliverySite("SuperSink");
+
+    createSuperSourceSink(&g,supersource,supersink);
+    double max_flow = edmondsKarp(&g,supersource,supersink);
+    removeSuperSourceSink(&g,supersource,supersink);
+
+
+    std::cout << std::endl << "Max Flow garai: " << max_flow;
+
+    /*
+
 
     for(auto v : g.getVertexSet()){
         if(v->getInfo().getNodeType() == CITY)
@@ -193,5 +204,7 @@ void UI::doStuff() {
         if(v->getInfo().getNodeType() == WATER_RESERVOIR)
             std::cout << v->getInfo().getCode() << " " << v->calculateOutgoingFlow()<<" " << v->getInfo().getMaxDelivery() << "\n";
     }
+
+     */
 }
 
