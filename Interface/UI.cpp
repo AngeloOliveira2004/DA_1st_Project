@@ -124,21 +124,13 @@ void UI::doStuff() {
 
     std::cout << std::endl << "Max Flow garai: " << max_flow;
 
-    /*
-
-
-    for(auto v : g.getVertexSet()){
-        if(v->getInfo().getNodeType() == CITY)
-            std::cout << v->getInfo().getCode() << " flow :" << v->calculateIncomingFlow() << std::endl;
-    }
-
     heuristic(&g);
-
+/*
     for(auto v : g.getVertexSet()){
         if(v->getInfo().getNodeType() == CITY)
             std::cout << v->getInfo().getCode() << " flow :" << v->calculateIncomingFlow() << std::endl;
     }
-
+*/
     double flow = 0;
 
     for(auto v : g.getVertexSet()){
@@ -194,7 +186,7 @@ void UI::doStuff() {
             }
         }
     }
-
+/*
     for(auto v : g.getVertexSet()){
         if(v->getInfo().getNodeType() != WATER_RESERVOIR)
             std::cout << v->getInfo().getCode() << " " << v->calculateIncomingFlow() << " " << v->calculateOutgoingFlow() << "\n";
@@ -204,7 +196,6 @@ void UI::doStuff() {
         if(v->getInfo().getNodeType() == WATER_RESERVOIR)
             std::cout << v->getInfo().getCode() << " " << v->calculateOutgoingFlow()<<" " << v->getInfo().getMaxDelivery() << "\n";
     }
-
-     */
+*/
 }
 

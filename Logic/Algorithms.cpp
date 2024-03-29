@@ -196,14 +196,16 @@ Metrics heuristic(Graph<DeliverySite>*g){
             double waterToPump = maxDiff;
             if(e->getFlow() - waterToPump < 0)
                 waterToPump = e->getFlow();
+
             e->setFlow(e->getFlow() - waterToPump);
 
             pumpWater(path , waterToPump);
         }
 
+        initialMetrics = finalMetrics;
+
         finalMetrics = g->calculateMetrics();
 
-        initialMetrics = finalMetrics;
     }
 
     finalMetrics = g->calculateMetrics();
