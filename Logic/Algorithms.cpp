@@ -76,7 +76,6 @@ void augmentFlowAlongPath(Vertex<DeliverySite> *source, Vertex<DeliverySite> *si
 }
 
 double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target) {
-
     double maxFlow = 0;
 // Find source and target vertices in the graph
     Vertex<DeliverySite>* s = g->findVertex(source);

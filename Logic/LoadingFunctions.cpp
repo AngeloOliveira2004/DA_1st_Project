@@ -5,35 +5,6 @@
 std::unordered_set<DeliverySite> nodesToAdd;
 std::vector<PumpingStations> edges;
 
-
-void NormalizeString(std::string& str1 , std::string& str2) {
-
-    std::string temp;
-    for(auto c : str1)
-    {
-        if(isalnum(c))
-        {
-            temp += c;
-        }
-    }
-    for(auto c : str2)
-    {
-        if(isdigit(c))
-        {
-            temp += c;
-        }
-    }
-    size_t pos = temp.find('\r');
-    if (pos != std::string::npos) {
-        temp.erase(pos);
-    }
-    pos = temp.find('\n');
-    if (pos != std::string::npos) {
-        temp.erase(pos);
-    }
-    str1 = temp;
-}
-
 void Remove_terminations(std::string& str)
 {
     size_t pos = str.find('\r');
@@ -79,8 +50,6 @@ void LoadCities() {
 
         int maxDelivery = 0;
         int demand = std::stoi(tokens[3]);
-
-        NormalizeString(tokens[4] , tokens[5]);
 
         Remove_terminations(tokens[4]);
         int population = std::stoi(tokens[4]);

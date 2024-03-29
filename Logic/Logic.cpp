@@ -58,6 +58,13 @@ void createSuperSourceSink(Graph<DeliverySite>* g,DeliverySite SuperSource,Deliv
             g->addEdge(v->getInfo(),SuperSource, v->getInfo().getDemand());
         }
     }
+
+    for (auto v : g->getVertexSet()) {
+        if (v->getInfo().getCode() != "SuperSource" && v->getInfo().getNodeType() == CITY) {
+            g->addEdge(v->getInfo(), SuperSink, INF);
+        }
+    }
+
 }
 
 void removeSuperSourceSink(Graph<DeliverySite>* g,DeliverySite SuperSource,DeliverySite SuperSink) {
