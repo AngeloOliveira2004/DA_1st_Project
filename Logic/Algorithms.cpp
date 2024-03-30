@@ -1,67 +1,66 @@
+#include <climits>
 #include "Algorithms.h"
-#include "DeliverySites.h"
 #include "stdafx.h"
 
-double findMinResidualAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t) {
-    double f = INF;
-// Traverse the augmenting path to find the minimum residual capacity
-    for (auto v = t; v != s; ) {
-        auto e = v->getPath();
-        if (e->getDest() == v) {
+double findMinResidualAlongPath(Vertex<DeliverySite> *source, Vertex<DeliverySite> *sink) {
+    double f = DBL_MAX; // Traverse the augmenting path to find the minimum residual capacity
+
+    for (Vertex<DeliverySite>* v = sink; v != source;) {
+        Edge<DeliverySite>* e = v->getPath();
+        if (e->getDest() == v){
             f = std::min(f, e->getWeight() - e->getFlow());
             v = e->getOrig();
-        }
-        else {
+        } else {
             f = std::min(f, e->getFlow());
             v = e->getDest();
         }
     }
-// Return the minimum residual capacity
-    return f;
+    return f; // Return the minimum residual capacity
 }
 
-
-void testAndVisit(std::queue< Vertex<DeliverySite>*> &q, Edge<DeliverySite> *e, Vertex<DeliverySite> *w, double residual) {
-// Check if the vertex 'w' is not visited and there is residual capacity
-    if (! w->isVisited() && residual > 0) {
-// Mark 'w' as visited, set the path through which it was reached, and enqueue it
-        w->setVisited(true);
-        w->setPath(e);
-        q.push(w);
-    }
-}
-
-
-bool findAugmentingPath(Graph<DeliverySite> *g, Vertex<DeliverySite> *s, Vertex<DeliverySite> *t) {
+bool findAugmentingPath(Graph<DeliverySite> *g, Vertex<DeliverySite> *source, Vertex<DeliverySite> *sink, Vertex<DeliverySite> *removed) {
 // Mark all vertices as not visited
-    for(auto v : g->getVertexSet()) {
+    for(Vertex<DeliverySite>* v : g->getVertexSet()) {
         v->setVisited(false);
     }
 // Mark the source vertex as visited and enqueue it
-    s->setVisited(true);
+
+    if (removed != nullptr) removed->setVisited(true);
+
     std::queue<Vertex<DeliverySite> *> q;
-    q.push(s);
+    q.push(source);
+    source->setVisited(true);
+
 // BFS to find an augmenting path
-    while( ! q.empty() && ! t->isVisited()) {
-        auto v = q.front();
+    while(!q.empty() && !sink->isVisited()) {
+        Vertex<DeliverySite>* v = q.front();
         q.pop();
-// Process outgoing edges
-        for(auto e: v->getAdj()) {
-            testAndVisit(q, e, e->getDest(), e->getWeight() - e->getFlow());
+        for (Edge<DeliverySite>* e : v->getAdj()) {
+            Vertex<DeliverySite>* dest = e->getDest();
+            if (!dest->isVisited() && (e->getWeight() - e->getFlow() > 0)) {
+                dest->setVisited(true);
+                dest->setPath(e);
+                q.push(dest);
+            }
         }
-// Process incoming edges
-        for(auto e: v->getIncoming()) {
-            testAndVisit(q, e, e->getOrig(), e->getFlow());
+        for (Edge<DeliverySite>* e: v->getIncoming()) {
+            Vertex<DeliverySite>* origin = e->getOrig();
+            if (!origin->isVisited() && (e->getFlow() > 0)) {
+                origin->setVisited(true);
+                origin->setPath(e);
+                q.push(origin);
+            }
         }
     }
-// Return true if a path to the target is found, false otherwise
-    return t->isVisited();
+    return sink->isVisited();
 }
 
-void augmentFlowAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t, double f) {
+void augmentFlowAlongPath(Vertex<DeliverySite> *source, Vertex<DeliverySite> *sink, double f) {
 // Traverse the augmenting path and update the flow values accordingly
-    for (auto v = t; v != s; ) {
-        auto e = v->getPath();
+
+    for (Vertex<DeliverySite>* v = sink; v != source;) {
+        Edge<DeliverySite>* e = v->getPath();
+
         double flow = e->getFlow();
         if (e->getDest() == v) {
             e->setFlow(flow + f);
@@ -72,10 +71,12 @@ void augmentFlowAlongPath(Vertex<DeliverySite> *s, Vertex<DeliverySite> *t, doub
             v = e->getDest();
         }
     }
+
+
 }
 
-void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite target) {
-    auto start_time = std::chrono::steady_clock::now();
+double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target) {
+    double maxFlow = 0;
 // Find source and target vertices in the graph
     Vertex<DeliverySite>* s = g->findVertex(source);
     Vertex<DeliverySite>* t = g->findVertex(target);
@@ -86,79 +87,17 @@ void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite targe
     for (auto v : g->getVertexSet()) {
         for (auto e: v->getAdj()) {
             e->setFlow(0);
+            e->setSelected(false);
         }
     }
+
 // While there is an augmenting path, augment the flow along the path
-    while( findAugmentingPath(g, s, t) ) {
+    while(findAugmentingPath(g, s, t, nullptr) ) {
         double f = findMinResidualAlongPath(s, t);
+        maxFlow += f;
         augmentFlowAlongPath(s, t, f);
     }
-
-    auto end_time = std::chrono::steady_clock::now();
-    std::cout << "Each EdmondsKarp takes: " << std::chrono::duration<double>(end_time - start_time).count() << " seconds" << std::endl;
-
-}
-
-
-void printShortestPath(Vertex<DeliverySite> *pVertex);
-
-double averagePipeCapacity(const std::vector<Edge<DeliverySite>*>& pipes){
-
-    double sumCapacity = 0;
-    double sumFlow = 0;
-
-    for(Edge<DeliverySite>* p : pipes){
-        sumCapacity += p->getWeight();
-        sumFlow += p->getFlow();
-
-    }
-
-    double averageFlow = sumFlow / static_cast<double>(pipes.size());
-    double averageCapacity = sumCapacity / static_cast<double>(pipes.size());
-
-    return averageFlow;
-}
-
-double variancePipeCapacityFlow(const std::vector<Edge<DeliverySite>*>& pipes , std::vector<std::pair<double , Edge<DeliverySite>*>>* varianceInEachPoint){
-
-    double averageFlow = averagePipeCapacity(pipes);
-
-    double variance = 0;
-    double sumVariance = 0;
-
-    for(Edge<DeliverySite>* p : pipes){
-        variance =  (p->getFlow() - averageFlow)*(p->getFlow() - averageFlow);
-        variance = std::sqrt(variance);
-        variance /= static_cast<double>(pipes.size());
-
-        sumVariance += variance;
-
-        if(varianceInEachPoint != nullptr)
-            varianceInEachPoint->emplace_back(variance , p);
-    }
-
-    return variance;
-}
-
-std::pair<double , Edge<DeliverySite>*> maximumDIfferenceCapacityFlow(const std::vector<Edge<DeliverySite>*>& pipes){
-    double maxDif = INT32_MIN;
-
-    for(Edge<DeliverySite>* p : pipes){
-        maxDif = std::max(maxDif , (p->getWeight() - p->getFlow()));
-    }
-
-    for(Edge<DeliverySite>* p : pipes){
-        if(p->getWeight() - p->getFlow() == maxDif){
-            return std::make_pair(maxDif , p);
-        }
-    }
-
-    return std::make_pair(0.0, nullptr);
-}
-
-//objective is to identify the closest source/sink
-void BFS(){
-
+    return maxFlow;
 }
 
 //root will be the origin of edge with the lowest flow
@@ -195,264 +134,98 @@ void Dijkstra(Graph<DeliverySite>*g , Vertex<DeliverySite>* root , Vertex<Delive
     target->setDist(INF);
 }
 
-void printDistance(Graph<DeliverySite>* g){
-    for(Vertex<DeliverySite>* v : g->getVertexSet()){
-        if(v->getInfo().getNodeType() == WATER_RESERVOIR){
-            Dijkstra(g , v , nullptr);
-
-            // Print the result of Dijkstra's search from the current water reservoir
-            std::cout << "Search starting from water reservoir " << v->getInfo().getCode() << ":" << std::endl;
-            std::cout << "------------------------------------" << std::endl;
-
-            // Traverse all vertices in the graph
-            for(Vertex<DeliverySite>* u : g->getVertexSet()) {
-                if (u->getDist() != INF) {
-                    // Print the shortest path from the current water reservoir to the current vertex
-                    std::cout << "Shortest path to " << u->getInfo().getCode() << ": ";
-                    printShortestPath(u);
-                } else {
-                    // Print that there's no path to this vertex from the current water reservoir
-                    std::cout << "No path to " << u->getInfo().getCode() << std::endl;
-                }
-            }
-
-            std::cout << "------------------------------------" << std::endl;
-        }
-    }
-}
-
-void printShortestPath(Vertex<DeliverySite> *pVertex) {
-    std::stack<Edge<DeliverySite>*> pathStack;
-    Vertex<DeliverySite>* currentVertex = pVertex;
-
-    // Push all edges of the shortest path onto the stack
-    while (currentVertex->getPath() != nullptr) {
-        pathStack.push(currentVertex->getPath());
-        currentVertex = currentVertex->getPath()->getOrig();
-    }
-
-    // Print the edges in reverse order to get the shortest path
-    while (!pathStack.empty()) {
-        Edge<DeliverySite>* edge = pathStack.top();
-        pathStack.pop();
-
-        std::cout << edge->getOrig()->getInfo().getCode() << " --- " << edge->getFlow() << " ---> ";
-        std::cout << edge->getDest()->getInfo().getCode() << std::endl;
-    }
-}
-
-
-
-//well try to get all pipes to redistribute water from one to another
-//we repeat this process until the average of flow/variance are either < 1 or until a result does not improve after 5 iterations
-//sort the edges by flow and get the minimum on and try to secure a path from the closest source to cthe losest sink by using that edge
-//doing this by using Dijkstra algorithm and then pumping water from there simply by pumping the highest amount of water possible
-//we can use bellmanFord and select the edges with lower flow on the relaxation process
-//could probably use select variable inside edge class to force the path in ford-Fulkerson algorithm
-
-
-
-//sort all edges by flow , if equal by capacity in descending order
-//pick the first one because it will have the highest flow which has to be redistributed
-//calculate path with the biggest leftover distance
-//pick the path
-//test variance and repeat
-void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes){
-
-    double initialVariance = variancePipeCapacityFlow(pipes , nullptr);
-    double variance = INF , lastValue = initialVariance;
-    int attempts = 10;
-
-    std::list<std::pair<double , Edge<DeliverySite>*>> edgesFraction;
-
-    for(Edge<DeliverySite>* e : pipes){
-        edgesFraction.emplace_back(e->getFlow() , e);
-    }
-
-    edgesFraction.sort([](const std::pair<double, Edge<DeliverySite>*>& a, const std::pair<double, Edge<DeliverySite>*>& b) {
-        if (a.first == b.first) {
-            return a.second->getWeight() > b.second->getWeight();
-        }
-        return a.first > b.first;
-    });
-
-    //now for each iteration of the algorithm I don't want to calculate the shortest path but the path with leftover pipe capacity
-
-    while (1){
-        //switch vector to list
-        Edge<DeliverySite>* currEdge = edgesFraction.front().second;
-
-        //now for each iteration of the algorithm I don't want to calculate the shortest path but the path with the highest leftover pipe capacity
-        if(currEdge->getDest()->getIncoming().size() != 1) {
-
-            calculate_Max_Leftover_Capacity(g, currEdge->getOrig() , currEdge->getDest());
-
-            std::vector<Edge<DeliverySite> *> pumpPath = calculatePath(g, currEdge->getOrig() , currEdge->getDest() , currEdge);
-
-            double subtract = pumpWater(pumpPath , currEdge->getDest());
-
-            currEdge->setFlow(currEdge->getFlow() - subtract);
-
-            variance = variancePipeCapacityFlow(pipes, nullptr);
-
-            if (variance < lastValue) {
-                lastValue = variance;
-            } else {
-                if (attempts < 0) {
-                    if (lastValue < initialVariance) {
-                        print("Flow was well redistributed", true);
-                    }
-                    return;
-                } else {
-                    edgesFraction.pop_front();
-                    attempts--;
-                }
-            }
-
-            edgesFraction.sort([](const std::pair<double, Edge<DeliverySite>*>& a, const std::pair<double, Edge<DeliverySite>*>& b) {
-                if (a.first == b.first) {
-                    return a.second->getWeight() > b.second->getWeight();
-                }
-                return a.first > b.first;
-            });
-
-            print(variance , true);
-
-        }else{
-            edgesFraction.pop_front();
-        }
-    }
-
-}
-
-double pumpWater(const std::vector<Edge<DeliverySite>*>& path , Vertex<DeliverySite>* target){
-    bool present = false;
-    double flowToSubtract = INF;
-
+double minLeftOverCap(std::vector<Edge<DeliverySite>*>& path){
+    auto a = 0;
     for(auto e : path){
-        if(e->getDest() == target){
-            present = true;
-        }
-        flowToSubtract = std::min(flowToSubtract , e->getDest()->getDist());
+        if(e->getFlow() != e->getWeight())
+            a++;
     }
 
-
-    if(present) {
-        for(Edge<DeliverySite>* e : path){
-            if(e->getFlow()+flowToSubtract > e->getWeight()){
-                flowToSubtract = e->getWeight() - e->getFlow();
-                e->setFlow(e->getWeight());
-            }else {
-                e->setFlow(e->getFlow() + flowToSubtract);
-            }
+    auto min = DBL_MAX;
+    for(Edge<DeliverySite>* edge : path){
+        if(edge->getWeight() == edge->getFlow())
+            return 0;
+        if(edge->getWeight() - edge->getFlow() < min){
+            min = edge->getWeight() - edge->getFlow();
         }
     }
 
-
-
-    return flowToSubtract;
+    return min;
 }
 
+Metrics heuristic(Graph<DeliverySite>*g){
+    std::vector<Edge<DeliverySite>*> edges;
 
-std::vector<Edge<DeliverySite>*> calculatePath(Graph<DeliverySite>* g, Vertex<DeliverySite>* source , Vertex<DeliverySite>* target , Edge<DeliverySite>* edgeToAvoid){
+    edges = g->getEdges();
 
-    std::vector<Edge<DeliverySite>*> path;
-    std::unordered_set<int> valuesToAvoid;
+    Metrics finalMetrics = g->calculateMetrics();
+    Metrics initialMetrics = finalMetrics;
 
-    if(source->getPath() == nullptr){
-        print("calculate_Max_Leftover_Capacity failed" , true);
-        return path;
-    }
+    g->printMetrics(initialMetrics);
+    initialMetrics = {DBL_MAX , DBL_MAX , DBL_MAX , DBL_MAX};
 
-    for(auto v : g->getVertexSet()){
-        if(v->getAdj().size() == 0){
-            v->setVisited(true);
-        }
-    }
+    while(finalMetrics.variance < initialMetrics.variance || finalMetrics.avg < initialMetrics.avg){
 
-    Edge<DeliverySite>* pushEdge;
-    Edge<DeliverySite>* prevEdge;
-    int flow = INF;
-    int attempts = 10;
+        std::sort(edges.begin(), edges.end(), [](Edge<DeliverySite>* a, Edge<DeliverySite>* b) {
 
-    while (target != source || attempts > 0){
-        for(Edge<DeliverySite>* e : source->getAdj()){
-            if(e->getDest()->getDist() < flow && e->getDest()->getDist() != 0 && !e->getDest()->isVisited() && e != edgeToAvoid){
-                flow = e->getDest()->getDist();
-                pushEdge = e;
+            if(a->getWeight() - a->getFlow() == b->getWeight() - b->getFlow()){
+                return a->getWeight() > b->getWeight();
             }
-        }
-        if(prevEdge == pushEdge){
-            attempts--;
-        }
-        prevEdge = pushEdge;
-        source->setVisited(true);
-        path.push_back(pushEdge);
-        source = pushEdge->getDest();
-        flow = 100000000;
 
-        if(path.size() > g->getVertexSet().size()) {
-            path.clear();
-            return path;
-        }
+            return a->getWeight() - a->getFlow() < b->getWeight() - b->getFlow();
+        });
 
-    }
+        for(Edge<DeliverySite>* e : edges){
+            std::vector<Edge<DeliverySite>*> path;
+            std::vector<std::vector<Edge<DeliverySite>*>> allPaths;
 
-    return path;
-}
+            allPaths = g->allPaths(e->getOrig()->getInfo() , e->getDest()->getInfo());
 
-//literally just go to each node and get the minimum capacity - flow from each node
+            double maxDiff = -1;
+            if(allPaths.empty())
+                continue;
 
-//Let's abandon this idea and just make a BFS
-//change queue to priority queue with dist as an argument with all nodes inside and simply update dist
-void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target){
-    MutablePriorityQueue<Vertex<DeliverySite>> q;
-
-    for(Vertex<DeliverySite>* v : g->getVertexSet()){
-        v->setVisited(false);
-        v->setPath(nullptr);
-        v->setDist(INF);
-    }
-
-    for(Vertex<DeliverySite>* v : g->getVertexSet()){
-        q.insert(v);
-    }
-
-    root->setDist(0);
-
-    while (!q.empty()){
-        Vertex<DeliverySite>* node = q.extractMin();
-
-        if(node == target) continue;
-
-        for(Edge<DeliverySite>* e : node->getAdj()){
-
-            Vertex<DeliverySite>* dest = e->getDest();
-            double leftOver_Flow = e->getWeight() - e->getFlow();
-
-            if (dest->getDist() == INF){
-                dest->setDist(std::min(node->getDist() , leftOver_Flow));
-                dest->setPath(e);
-            }else{
-                if(std::min(node->getDist() , leftOver_Flow) > dest->getDist()){
-                    dest->setDist(std::min(node->getDist() , leftOver_Flow));
-                    dest->setPath(e);
+            for(std::vector<Edge<DeliverySite>*> tempPath : allPaths){
+                double minFlow = minLeftOverCap(tempPath);
+                if (minFlow > maxDiff) {
+                    maxDiff = minFlow;
+                    path = tempPath;
                 }
             }
+
+            double waterToPump = maxDiff;
+            if(e->getFlow() - waterToPump < 0)
+                waterToPump = e->getFlow();
+
+            e->setFlow(e->getFlow() - waterToPump);
+
+            pumpWater(path , waterToPump);
         }
+
+        initialMetrics = finalMetrics;
+
+        finalMetrics = g->calculateMetrics();
+
     }
 
-    for(Vertex<DeliverySite>* node : g->getVertexSet()){
-        if(node->getInfo().getNodeType() == WATER_RESERVOIR || node->getDist() == INF)
-            node->setDist(0);
-    }
-/*
-    for(auto v : g->getVertexSet()){
-        if(v != target && v->getDist() > target->getDist()) {
-            print(v->getInfo().getCode(), false);
-            print(" ", false);
-            print(v->getDist(), true);
+    finalMetrics = g->calculateMetrics();
+
+    g->printMetrics(finalMetrics);
+
+    for(auto e : g->getEdges()){
+        if(e->getFlow() > e->getWeight()){
+            print("SOBRECARGAAAA    " , false);
         }
+        if(e->getFlow() < 0)
+            print("DESCEU O CANOOOOO" , false);
     }
-    */
+    return  finalMetrics;
+}
+
+void pumpWater(std::vector<Edge<DeliverySite>*>& path , double flowToPump){
+    if(flowToPump != 0)
+        auto a = 0;
+    for(Edge<DeliverySite>* e : path){
+        e->setFlow(e->getFlow() + flowToPump);
+    }
 }

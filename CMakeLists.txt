@@ -19,4 +19,5 @@ add_executable(Projeto main.cpp
         Logic/Algorithms.cpp
         Logic/PumpingStations.cpp
         Logic/PumpingStations.cpp
-        Logic/LoadingFunctions.cpp)
+        Logic/LoadingFunctions.cpp
+        data_structures/UFDS.h)

@@ -1,6 +1,7 @@
-#include "stdafx.h"
-#include "DeliverySites.h"
+#ifndef ALGORITHMS_H
+#define ALGORITHMS_H
 
+#include "stdafx.h"
 template <class T>
 void print(T _msg , bool _newline){
     std::cout << _msg << " ";
@@ -8,20 +9,22 @@ void print(T _msg , bool _newline){
         std::cout << std::endl;
 }
 
-void edmondsKarp(Graph<DeliverySite> *g, DeliverySite source, DeliverySite target);
+double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target);
+
+double calculateMaxFlow(std::vector<Vertex<DeliverySite>*>& vertexSet);
 
 
 double averagePipeCapacity(const std::vector<Edge<DeliverySite>*>& pipes);
 double variancePipeCapacityFlow(const std::vector<Edge<DeliverySite>*>& pipes , std::vector<std::pair<double , Edge<DeliverySite>*>>* varianceInEachPoint);
 std::pair<double , Edge<DeliverySite>*>  maximumDIfferenceCapacityFlow(const std::vector<Edge<DeliverySite>*>& pipes);
 
+double minLeftOverCap(std::vector<Edge<DeliverySite>*>& path);
 
 void printDistance(Graph<DeliverySite>* g);
 void Dijkstra(Graph<DeliverySite>*g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target);
-void calculate_Max_Leftover_Capacity(Graph<DeliverySite>* g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target);
-double pumpWater(const std::vector<Edge<DeliverySite>*>& path , Vertex<DeliverySite>* target);
-double pumpWater(const std::vector<Edge<DeliverySite>*>& path , Vertex<DeliverySite>* target);
-std::vector<Edge<DeliverySite>*> calculatePath(Graph<DeliverySite>* g, Vertex<DeliverySite>* source , Vertex<DeliverySite>* target , Edge<DeliverySite>* edgeToAvoid);
+std::pair<std::vector<Vertex<DeliverySite>*> , int> calculatePath(Graph<DeliverySite>* g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target);
+void pumpWater(std::vector<Edge<DeliverySite>*>& path , double flowToPump);
+//std::vector<Edge<DeliverySite>*> calculatePath(Graph<DeliverySite>* g, Vertex<DeliverySite>* source , Vertex<DeliverySite>* target , Edge<DeliverySite>* edgeToAvoid);
 
 
 //New heuristic
@@ -41,4 +44,6 @@ pegar no caminho com menor flow de momento
 //doing this by using Bell-Man ford algorithm and then pumping water from there simply by pumping the highest amount of water possible
 //we can use bellmanFord and select the edges with lower flow on the relaxation process
 //could probably use select variable inside edge class to force the path in ford-Fulkerson algorithm
-void heuristic(Graph<DeliverySite>*g , std::vector<Edge<DeliverySite>*>& pipes);
+Metrics heuristic(Graph<DeliverySite>*g);
+
+#endif

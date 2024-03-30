@@ -40,7 +40,7 @@ public:
         std::cout << servicePointA << " " << servicePointB << " " << capacity << " " << direction << "\n";
     }
 
-    bool canRemovePumping(Graph<DeliverySite> g, std::string PumpingStationRemove);
+    static bool canRemovePumping(Graph<DeliverySite> g, std::string PumpingStationRemove);
 };
 
 
