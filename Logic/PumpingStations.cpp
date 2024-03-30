@@ -3,5 +3,5 @@
 #include "DeliverySites.h"
 
 bool PumpingStations::canRemovePumping(Graph<DeliverySite> g, std::string PumpingStationRemove) {
-
+    for(auto )
 }
