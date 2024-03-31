@@ -19,7 +19,7 @@ int main() {
     DeliverySite cityToTest = DeliverySite("C_6");
 
     //calculateMaxFlow(&g , cityToTest);
-    calculateMaxFlowInEntireNetwork(&g);
+    //calculateMaxFlowInEntireNetwork(&g);
     //maxFlowWithSuperSource(&g , cityToTest);
 
 /*
@@ -128,8 +128,8 @@ int main() {
         int difference = ds->getInfo().getDemand() - ds->getIncomingFlow();
     }*/
 
-    std::string a = "PS_71";
-    PumpingStations::canRemovePumping(&g, a);
+    std::string a = "PS_81";
+    std::cout << PumpingStations::canRemovePumping(&g, a);
 
     return 0;
 }

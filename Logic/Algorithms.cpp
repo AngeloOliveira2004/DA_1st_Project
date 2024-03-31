@@ -1,5 +1,5 @@
 #include <climits>
-#include <d2d1helper.h>
+
 #include "Algorithms.h"
 #include "stdafx.h"
 
