@@ -15,6 +15,8 @@ public:
     static bool validate_input(char &op, const char lower_bound, const char upper_bound);
     void main_menu();
     void max_flow();
+    void check_demand();
+    void check_heuristic();
     void doStuff();
 
     Graph<DeliverySite> getGraph() const;

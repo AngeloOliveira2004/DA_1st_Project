@@ -94,8 +94,10 @@ void UI::main_menu(){
             max_flow();
             break;
         case 'B':
+            check_demand();
             break;
         case 'C':
+            check_heuristic();
             break;
         case 'D':
             break;
@@ -186,6 +188,42 @@ void UI::max_flow(){
     }
 
 };
+
+
+void UI::check_demand(){
+
+    DeliverySite supersource = DeliverySite("SuperSource");
+    DeliverySite supersink = DeliverySite("SuperSink");
+    createSuperSourceSink(&g,supersource,supersink);
+    edmondsKarp(&g,supersource,supersink);
+    removeSuperSourceSink(&g,supersource,supersink);
+
+
+    for(Vertex<DeliverySite>* ds: g.getVertexSet()){
+        int sumFlow = 0;
+        for(Edge<DeliverySite>* p : ds->getIncoming()){
+            sumFlow += p->getFlow();
+        }
+        ds->setIncomingFlow(sumFlow);
+
+        int difference = ds->getInfo().getDemand() - ds->getIncomingFlow();
+
+        if(ds->getInfo().getNodeType() == CITY && difference > 0 ){
+            std::cout << "The city of " << ds->getInfo().getName() << " with code " << ds->getInfo().getCode() << " doesn't receive enough water needing more " << difference << " units \n";
+        }
+    }
+}
+
+void UI::check_heuristic(){
+    DeliverySite supersource = DeliverySite("SuperSource");
+    DeliverySite supersink = DeliverySite("SuperSink");
+
+    createSuperSourceSink(&g,supersource,supersink);
+    edmondsKarp(&g,supersource,supersink);
+    removeSuperSourceSink(&g,supersource,supersink);
+
+    heuristic(&g);
+}
 
 
 
