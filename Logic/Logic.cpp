@@ -67,9 +67,27 @@ void createSuperSourceSink(Graph<DeliverySite>* g,DeliverySite SuperSource,Deliv
 
 }
 
+void createSuperSource(Graph<DeliverySite>* g,DeliverySite SuperSource){
+    g->addVertex(SuperSource);
+
+    for (auto v: g->getVertexSet()) {
+        nodeTypes code = v->getInfo().getNodeType();
+        if (code == WATER_RESERVOIR){
+            g->addEdge(SuperSource,v->getInfo(),v->getInfo().getMaxDelivery());
+        } else if (code == CITY && v->getInfo().getCode() != "SuperSource" && v->getInfo().getCode() != "SuperSink") {
+            g->addEdge(v->getInfo(),SuperSource, v->getInfo().getDemand());
+        }
+    }
+
+}
+
 void removeSuperSourceSink(Graph<DeliverySite>* g,DeliverySite SuperSource,DeliverySite SuperSink) {
     g->removeVertex(SuperSource);
     g->removeVertex(SuperSink);
+}
+
+void removeSuperSource(Graph<DeliverySite>* g,DeliverySite SuperSource,DeliverySite SuperSink) {
+    g->removeVertex(SuperSource);
 }
 
 void maxFlowWithSuperSource(Graph<DeliverySite>* g , DeliverySite& target){

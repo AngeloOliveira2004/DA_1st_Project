@@ -14,6 +14,7 @@ public:
     void loading_stuff(UI &ui);
     static bool validate_input(char &op, const char lower_bound, const char upper_bound);
     void main_menu();
+    void max_flow();
     void doStuff();
 
     Graph<DeliverySite> getGraph() const;

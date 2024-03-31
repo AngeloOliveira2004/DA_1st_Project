@@ -43,7 +43,8 @@ void UI::loading_stuff(UI &ui) {
     std::cout << "Load Finished" << std::endl;
     std::cout << "Press A to start the program: ";
     char op;
-    //validate_input(op,'A','A');
+    validate_input(op,'A','A');
+    menu_start();
 }
 
 void UI::menu_start() {
@@ -62,8 +63,8 @@ void UI::menu_start() {
     validate_input(op,'A','B');
     switch(op){
         case 'A':
-            break;
             main_menu();
+            break;
         case 'B':
             std::cout << "Thanks for using our analysis tool for water supply management!" << std::endl << "\n"
                  << "Made by: " << std::endl
@@ -77,6 +78,7 @@ void UI::menu_start() {
 }
 
 void UI::main_menu(){
+    clear_screen();
     char op;
    std::cout << "What would you like to know?" <<std::endl;
    std::cout << "A. Run Max Flow algorithm" <<std::endl
@@ -89,6 +91,7 @@ void UI::main_menu(){
     validate_input(op, 'A', 'E');
     switch(op){
         case 'A':
+            max_flow();
             break;
         case 'B':
             break;
@@ -112,6 +115,79 @@ void UI::main_menu(){
 Graph<DeliverySite> UI::getGraph() const {
     return g;
 }
+
+void UI::max_flow(){
+    char op;
+    std::cout << "What would you like to do?" << std::endl
+              << "A. Calculate max flow for the entire network" << std::endl
+              << "B. Calculate max flow for a specific city" << std::endl
+              << "Insert your choice:";
+
+    validate_input(op, 'A', 'B');
+    switch (op) {
+        case 'A': {
+            char op1;
+            std:: cout << "Would you like to only get the max flow result or the listing of max flows of the cities" << std::endl
+                       << "A. Only the result" << std::endl
+                       << "B. Listing for all cities" << std::endl
+                       << "Insert your choice:" << std::endl;
+            validate_input(op1, 'A', 'B');
+
+            DeliverySite supersource = DeliverySite("SuperSource");
+            DeliverySite supersink = DeliverySite("SuperSink");
+            createSuperSourceSink(&g,supersource,supersink);
+            double max_flow = edmondsKarp(&g,supersource,supersink);
+            removeSuperSourceSink(&g,supersource,supersink);
+
+            switch (op1) {
+                case 'A': {
+                    std::cout << "The max flow for the entire network is: " << max_flow << std::endl;
+                    break;
+                }
+                case 'B': {
+                    for(auto v : g.getVertexSet()){
+                        if(v->getInfo().getNodeType() == CITY)
+                            std::cout << "|Name: " << v->getInfo().getName() << " | Code: " <<  v->getInfo().getCode() << " | Flow : " << v->calculateIncomingFlow() << "|" << std::endl;
+                    }
+                    std::cout << "The max flow for the entire network is: " << max_flow << std::endl;
+
+                    break;
+                }
+            }
+            break;
+        }
+        case 'B':{
+            std::string code;
+            bool foundVertex = false;
+            DeliverySite supersource = DeliverySite("SuperSource");
+
+            while (!foundVertex) {
+                std::cout << "Insert the code of the city: " << std::endl;
+                std::cin >> code;
+
+                DeliverySite sink = DeliverySite(code);
+
+                if (!g.findVertex(sink)) {
+                    std::cout << "Error: Vertex with code '" << code << "' not found. Please try again." << std::endl;
+                } else {
+                    foundVertex = true;
+                }
+            }
+            DeliverySite sink = DeliverySite(code);
+
+            createSuperSource(&g,supersource);
+            double max_flow = edmondsKarp(&g,supersource,sink);
+            removeSuperSourceSink(&g,supersource,sink);
+
+            std::cout << "The max flow for the city " << code << " is: " << max_flow << std::endl;
+
+            break;
+        }
+    }
+
+};
+
+
 
 void UI::doStuff() {
     DeliverySite supersource = DeliverySite("SuperSource");
