@@ -78,7 +78,7 @@ int main() {
 
     print("Cities meeting requirements: " , false);
     print(required , true);
-    */
+
 
     std::unordered_set<Edge<DeliverySite>*> edgesSet;
 
@@ -126,9 +126,10 @@ int main() {
         ds->setIncomingFlow(sumFlow);
 
         int difference = ds->getInfo().getDemand() - ds->getIncomingFlow();
-    }
+    }*/
+
     std::string a = "PS_71";
-    PumpingStations::canRemovePumping(g, a);
+    PumpingStations::canRemovePumping(&g, a);
 
     return 0;
 }

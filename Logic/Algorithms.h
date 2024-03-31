@@ -24,6 +24,8 @@ void printDistance(Graph<DeliverySite>* g);
 void Dijkstra(Graph<DeliverySite>*g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target);
 std::pair<std::vector<Vertex<DeliverySite>*> , int> calculatePath(Graph<DeliverySite>* g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target);
 void pumpWater(std::vector<Edge<DeliverySite>*>& path , double flowToPump);
+void Supersource_create(Graph<DeliverySite>* g);
+void SuperSink_crete(Graph<DeliverySite>* g);
 //std::vector<Edge<DeliverySite>*> calculatePath(Graph<DeliverySite>* g, Vertex<DeliverySite>* source , Vertex<DeliverySite>* target , Edge<DeliverySite>* edgeToAvoid);
 
 

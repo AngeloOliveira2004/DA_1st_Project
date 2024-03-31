@@ -1,4 +1,5 @@
 #include <climits>
+#include <d2d1helper.h>
 #include "Algorithms.h"
 #include "stdafx.h"
 
@@ -227,5 +228,29 @@ void pumpWater(std::vector<Edge<DeliverySite>*>& path , double flowToPump){
         auto a = 0;
     for(Edge<DeliverySite>* e : path){
         e->setFlow(e->getFlow() + flowToPump);
+    }
+}
+
+
+//creating supersource
+void Supersource_create(Graph<DeliverySite>* g){
+    DeliverySite sourcieee("", "", "supersourciiie", 0, 0, 0, 0, WATER_RESERVOIR);
+    g->addVertex(sourcieee);
+    for (auto vertex:g->getVertexSet()) {
+        if (vertex->getInfo().getNodeType() == WATER_RESERVOIR){
+            g->addEdge(sourcieee, vertex->getInfo(), vertex->getInfo().getMaxDelivery());
+        }
+    }
+
+}
+
+//creating supersink
+void SuperSink_crete(Graph<DeliverySite>* g){
+    DeliverySite sinkieee("", "", "supersinkieee", 0, 0, 0, 0, CITY);
+    g->addVertex(sinkieee);
+    for(auto vertex:g->getVertexSet()){
+        if (vertex->getInfo().getNodeType() == CITY){
+            g->addEdge(sinkieee, vertex->getInfo(), vertex->getInfo().getDemand());
+        }
     }
 }
