@@ -40,6 +40,22 @@ public:
     {
         std::cout << servicePointA << " " << servicePointB << " " << capacity << " " << direction << "\n";
     }
+
+    size_t hash() const {
+        size_t hashValue = 0;
+
+        // Combine hash values of member variables
+        std::hash<std::string> stringHasher;
+        std::hash<int> intHasher;
+        std::hash<bool> boolHasher;
+
+        hashValue ^= stringHasher(servicePointA) + 0x9e3779b9 + (hashValue << 6) + (hashValue >> 2);
+        hashValue ^= stringHasher(servicePointB) + 0x9e3779b9 + (hashValue << 6) + (hashValue >> 2);
+        hashValue ^= intHasher(capacity) + 0x9e3779b9 + (hashValue << 6) + (hashValue >> 2);
+        hashValue ^= boolHasher(direction) + 0x9e3779b9 + (hashValue << 6) + (hashValue >> 2);
+
+        return hashValue;
+    }
 };
 
 
