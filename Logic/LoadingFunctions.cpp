@@ -5,6 +5,24 @@
 std::unordered_set<DeliverySite> nodesToAdd;
 std::vector<PumpingStations> edges;
 
+void NormaliseString(std::string& str1 , std::string& str2){
+    std::string temp;
+    Remove_terminations(str1);
+    Remove_terminations(str2);
+
+    for(auto char_ : str1) {
+        if (isdigit(char_)){
+            temp += char_;
+        }
+    }
+    for(auto char_ : str2) {
+        if (isdigit(char_)){
+            temp += char_;
+        }
+    }
+    str1 = temp;
+}
+
 /**
  * @brief Removes termination characters (e.g., '\r', '\n', '\0') from the given string.
  * @param str The string from which to remove termination characters.
@@ -31,6 +49,8 @@ void Remove_terminations(std::string& str)
  * @complexity O(n*p), where n is the number of lines in the CSV file and p is the length of each line.
  */
 void LoadCities() {
+
+    std::string path = "LargeDataSet";
 
     std::ifstream file("LargeDataSet/Cities.csv");
     if (!file.is_open()) {
@@ -60,8 +80,17 @@ void LoadCities() {
         int maxDelivery = 0;
         int demand = std::stoi(tokens[3]);
 
-        Remove_terminations(tokens[4]);
-        int population = std::stoi(tokens[4]);
+        int population = 0;
+
+        if(path == "LargeDataSet"){
+            NormaliseString(tokens[4] , tokens[5]);
+            population = std::stoi(tokens[4]);
+        }else{
+            Remove_terminations(tokens[4]);
+            population = std::stoi(tokens[4]);
+        }
+
+
 
         DeliverySite deliverySite(name, municipality, code, id, maxDelivery , demand , population , CITY);
 
