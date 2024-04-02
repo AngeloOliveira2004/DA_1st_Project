@@ -65,7 +65,7 @@ void removeSuperSourceSink(Graph<DeliverySite>* g,DeliverySite SuperSource,Deliv
     g->removeVertex(SuperSink);
 }
 
-void removeSuperSource(Graph<DeliverySite>* g,DeliverySite SuperSource,DeliverySite SuperSink) {
+void removeSuperSource(Graph<DeliverySite>* g,DeliverySite SuperSource) {
     g->removeVertex(SuperSource);
 }
 

@@ -182,7 +182,7 @@ void UI::max_flow(){
             createSuperSource(&g,supersource);
             DeliverySite dummy = DeliverySite("Empty");
             double max_flow = edmondsKarp(&g,supersource,sink,dummy);
-            removeSuperSourceSink(&g,supersource,sink);
+            removeSuperSource(&g,supersource);
 
             std::cout << "The max flow for the city " << code << " is: " << max_flow << std::endl;
 
