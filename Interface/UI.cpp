@@ -268,11 +268,14 @@ void UI::evalute_resiliency(){
 
             DeliverySite supersource = DeliverySite("SuperSource");
             DeliverySite supersink = DeliverySite("SuperSink");
-            DeliverySite dummy = DeliverySite(code);
+            DeliverySite water_reservoir = DeliverySite(code);
             createSuperSourceSink(&g,supersource,supersink);
-            edmondsKarp(&g,supersource,supersink,code);
+            double max_flow = edmondsKarp(&g,supersource,supersink,water_reservoir);
             removeSuperSourceSink(&g,supersource,supersink);
 
+            std::cout << "The max flow of the network removing " << code << " is: " << max_flow << std::endl;
+
+            back_menu();
         }
     }
 
