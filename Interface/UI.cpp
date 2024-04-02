@@ -40,6 +40,21 @@ void UI::loading_stuff(UI &ui) {
     LoadPipes();
     LoadCities();
     createGraph(&g);
+
+    DeliverySite supersource = DeliverySite("SuperSource");
+    DeliverySite supersink = DeliverySite("SuperSink");
+    DeliverySite dummy = DeliverySite("Empty");
+    createSuperSourceSink(&g,supersource,supersink);
+    inital_max_flow = edmondsKarp(&g,supersource,supersink, dummy);
+    removeSuperSourceSink(&g,supersource,supersink);
+
+    for(Vertex<DeliverySite>* v: g.getVertexSet()){
+        if(v->getInfo().getNodeType() == CITY){
+            codeToFlow[v->getInfo().getCode()] = v->getIncomingFlow();
+        }
+    }
+
+
     std::cout << "Load Finished" << std::endl;
     std::cout << "Press A to start the program: ";
     char op;
@@ -274,6 +289,7 @@ void UI::evalute_resiliency(){
             removeSuperSourceSink(&g,supersource,supersink);
 
             std::cout << "The max flow of the network removing " << code << " is: " << max_flow << std::endl;
+
 
             back_menu();
         }

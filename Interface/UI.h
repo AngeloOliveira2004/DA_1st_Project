@@ -24,6 +24,8 @@ public:
     Graph<DeliverySite> getGraph() const;
 private:
     Graph<DeliverySite> g;
+    std::unordered_map<std::string, int> codeToFlow;
+    int inital_max_flow;
 
 
 };
