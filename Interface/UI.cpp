@@ -255,14 +255,16 @@ void UI::back_menu(){
     main_menu();
 }
 
+//sacar all paths from each city to superSource and put weight 0
 void UI::evalute_resiliency(){
     char op;
     std:: cout << "How would you like to evaluate the resiliency?" << std::endl
                << "A. Water Reservoir out of comission" << std::endl
                << "B. Pumping Station out of comission /in maintenance" << std::endl
                << "C. Pipeline out of comission / ruptured" << std::endl
+               << "D. Each City Essential Pipelines" << std::endl
                << "Insert your choice:" << std::endl;
-    validate_input(op, 'A', 'C');
+    validate_input(op, 'A', 'D');
     switch(op){
         case 'A':{
             std::string code;
@@ -305,6 +307,30 @@ void UI::evalute_resiliency(){
             }
 
 
+            back_menu();
+        }
+        case 'D':{
+
+            std::unordered_map<Vertex<DeliverySite>* , double> vertexToFlow;
+
+            for(Vertex<DeliverySite>* v : g.getVertexSet()){
+                vertexToFlow[v] = v->calculateIncomingFlow();
+            }
+
+            DeliverySite supersource = DeliverySite("SuperSource");
+            DeliverySite supersink = DeliverySite("SuperSink");
+
+            createSuperSourceSink(&g,supersource,supersink);
+
+            //for each edge set the capacity to 0, call edmonds karp and check the incoming flow in each vertex
+            //maybe call allPaths, get all edges and set all permutations of the possible edges with capacity 0 to calculate
+            //get the min Permutation possible that change the incoming flow
+
+            //this is, however, extremely heavy
+
+
+
+            removeSuperSourceSink(&g,supersource,supersink);
             back_menu();
         }
     }
