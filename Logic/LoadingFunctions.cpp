@@ -5,6 +5,11 @@
 std::unordered_set<DeliverySite> nodesToAdd;
 std::vector<PumpingStations> edges;
 
+/**
+ * @brief Removes termination characters (e.g., '\r', '\n', '\0') from the given string.
+ * @param str The string from which to remove termination characters.
+ * @complexity O(n), where n is the length of the string.
+ */
 void Remove_terminations(std::string& str)
 {
     size_t pos = str.find('\r');
@@ -21,6 +26,10 @@ void Remove_terminations(std::string& str)
     }
 }
 
+/**
+ * @brief Loads cities data from a CSV file.
+ * @complexity O(n*p), where n is the number of lines in the CSV file and p is the length of each line.
+ */
 void LoadCities() {
 
     std::ifstream file("LargeDataSet/Cities.csv");
@@ -63,6 +72,10 @@ void LoadCities() {
 
 }
 
+/**
+ * @brief Loads pipes data from a CSV file.
+ * @complexity O(n*p), where n is the number of lines in the CSV file and p is the length of each line.
+ */
 void LoadPipes() {
 
     std::ifstream file("LargeDataSet/Pipes.csv");
@@ -100,6 +113,10 @@ void LoadPipes() {
 
 }
 
+/**
+ * @brief Loads water reservoirs data from a CSV file.
+ * @complexity O(n*p), where n is the number of lines in the CSV file and p is the length of each line.
+ */
 void LoadWaterReservoirs() {
 
     std::ifstream file("LargeDataSet/Reservoir.csv");
@@ -143,6 +160,10 @@ void LoadWaterReservoirs() {
     //
 }
 
+/**
+ * @brief Loads fire stations data from a CSV file.
+ * @complexity O(n*p), where n is the number of lines in the CSV file and p is the length of each line.
+ */
 void LoadFireStations()
 {
     std::ifstream file("LargeDataSet/Stations.csv");
@@ -186,6 +207,12 @@ void LoadFireStations()
     //std::this_thread::sleep_for(std::chrono::seconds(5));
 }
 
+/**
+ * @brief Creates a graph based on the loaded data.
+ * @param g Pointer to the graph to be created.
+ * @return True if the graph creation is successful, false otherwise.
+ * @complexity O(m + n), where m is the number of edges (pipes) and n is the number of vertices (delivery sites).
+ */
 bool createGraph(Graph<DeliverySite>* g)
 {
 

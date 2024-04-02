@@ -2,6 +2,13 @@
 #include "Algorithms.h"
 #include "stdafx.h"
 
+/**
+ * @brief Finds the minimum residual capacity along an augmenting path from a source vertex to a sink vertex.
+ * @param source The source vertex.
+ * @param sink The sink vertex.
+ * @return The minimum residual capacity along the augmenting path.
+ * @details Time Complexity: O(N), where N is the number of vertices along the path.
+ */
 double findMinResidualAlongPath(Vertex<DeliverySite> *source, Vertex<DeliverySite> *sink) {
     double f = DBL_MAX; // Traverse the augmenting path to find the minimum residual capacity
 
@@ -18,6 +25,17 @@ double findMinResidualAlongPath(Vertex<DeliverySite> *source, Vertex<DeliverySit
     return f; // Return the minimum residual capacity
 }
 
+/**
+ * @brief Finds an augmenting path in the graph using BFS.
+ * @param g Pointer to the graph.
+ * @param source Pointer to the source vertex.
+ * @param sink Pointer to the sink vertex.
+ * @param removed Pointer to the removed vertex (optional).
+ * @return True if an augmenting path is found, otherwise false.
+ * @details Time Complexity: O(V + E), where:
+ * - V is the number of vertices in the graph.
+ * - E is the number of edges in the graph.
+ */
 bool findAugmentingPath(Graph<DeliverySite> *g, Vertex<DeliverySite> *source, Vertex<DeliverySite> *sink, Vertex<DeliverySite> *removed) {
 // Mark all vertices as not visited
     for(Vertex<DeliverySite>* v : g->getVertexSet()) {
@@ -55,6 +73,13 @@ bool findAugmentingPath(Graph<DeliverySite> *g, Vertex<DeliverySite> *source, Ve
     return sink->isVisited();
 }
 
+/**
+ * @brief Augments the flow along the augmenting path found using BFS.
+ * @param source Pointer to the source vertex.
+ * @param sink Pointer to the sink vertex.
+ * @param f The flow to augment along the path.
+ * @details Time Complexity: O(N), where N is the number of vertices along the path.
+ */
 void augmentFlowAlongPath(Vertex<DeliverySite> *source, Vertex<DeliverySite> *sink, double f) {
 // Traverse the augmenting path and update the flow values accordingly
 
@@ -75,6 +100,17 @@ void augmentFlowAlongPath(Vertex<DeliverySite> *source, Vertex<DeliverySite> *si
 
 }
 
+/**
+ * @brief Implements the Edmonds-Karp algorithm to find the maximum flow in the graph.
+ * @param g Pointer to the graph.
+ * @param source The source delivery site.
+ * @param target The target delivery site.
+ * @param removed The removed delivery site.
+ * @return The maximum flow in the graph.
+ * @details Time Complexity: O((V^2) * E), where:
+ * - V is the number of vertices in the graph.
+ * - E is the number of edges in the graph.
+ */
 double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target,const DeliverySite& removed) {
     double maxFlow = 0;
 // Find source and target vertices in the graph
@@ -105,6 +141,15 @@ double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const Del
 //this edge will be locked to guarantee that it is not picked during this algorithm
 //we can try to tell this algo to
 //djikstra picks the paths with full edges
+/**
+ * @brief Performs Dijkstra's algorithm to find the shortest paths in terms of flow from a root vertex to a target vertex.
+ * @param g Pointer to the graph.
+ * @param root Pointer to the root vertex.
+ * @param target Pointer to the target vertex.
+ * @details Time Complexity: O((V + E) * log(V)), where:
+ * - V is the number of vertices in the graph.
+ * - E is the number of edges in the graph.
+ */
 void Dijkstra(Graph<DeliverySite>*g , Vertex<DeliverySite>* root , Vertex<DeliverySite>* target) {
 
     MutablePriorityQueue<Vertex<DeliverySite>> vertexQueue;
@@ -135,6 +180,12 @@ void Dijkstra(Graph<DeliverySite>*g , Vertex<DeliverySite>* root , Vertex<Delive
     target->setDist(INF);
 }
 
+/**
+ * @brief Calculates the minimum left-over capacity along a given path.
+ * @param path The path for which to calculate the minimum left-over capacity.
+ * @return The minimum left-over capacity.
+ * @details Time Complexity: O(N), where N is the number of edges in the path.
+ */
 double minLeftOverCap(std::vector<Edge<DeliverySite>*>& path){
     auto a = 0;
     for(auto e : path){
@@ -154,17 +205,25 @@ double minLeftOverCap(std::vector<Edge<DeliverySite>*>& path){
     return min;
 }
 
+/**
+ * @brief Computes metrics heuristic for optimizing water delivery.
+ * @param g Pointer to the graph of delivery sites.
+ * @return Metrics after optimization.
+ * @details Time Complexity: O(((V+E) * E +E) * P), where:
+ * - N is the number of delivery sites in the graph.
+ * - E is the number of edges in the graph.
+ * - P is the number of times that the while cycle is repeated
+ */
 Metrics heuristic(Graph<DeliverySite>*g){
     std::vector<Edge<DeliverySite>*> edges;
 
-    edges = g->getEdges();
+    edges = g->getEdges(); //O(V+E)
 
     Metrics finalMetrics = g->calculateMetrics();
     Metrics initialMetrics = finalMetrics;
 
     g->printMetrics(initialMetrics);
     initialMetrics = {DBL_MAX , DBL_MAX , DBL_MAX , DBL_MAX};
-
     while(finalMetrics.variance < initialMetrics.variance || finalMetrics.avg < initialMetrics.avg){
 
         std::sort(edges.begin(), edges.end(), [](Edge<DeliverySite>* a, Edge<DeliverySite>* b) {
@@ -174,12 +233,14 @@ Metrics heuristic(Graph<DeliverySite>*g){
             }
 
             return a->getWeight() - a->getFlow() < b->getWeight() - b->getFlow();
-        });
+        });//O(E log E)
 
+        //O(E)
         for(Edge<DeliverySite>* e : edges){
             std::vector<Edge<DeliverySite>*> path;
             std::vector<std::vector<Edge<DeliverySite>*>> allPaths;
 
+            //O(V+E)
             allPaths = g->allPaths(e->getOrig()->getInfo() , e->getDest()->getInfo());
 
             double maxDiff = -1;
@@ -215,7 +276,7 @@ Metrics heuristic(Graph<DeliverySite>*g){
 
     for(auto e : g->getEdges()){
         if(e->getFlow() > e->getWeight()){
-            print("SOBRECARGAAAA    " , false);
+            print("SOBRECARGAAAA" , false);
         }
         if(e->getFlow() < 0)
             print("DESCEU O CANOOOOO" , false);
@@ -223,6 +284,12 @@ Metrics heuristic(Graph<DeliverySite>*g){
     return  finalMetrics;
 }
 
+/**
+ * @brief Pumps water along the given path with the specified flow rate.
+ * @param path The path along which water is to be pumped.
+ * @param flowToPump The flow rate of water to pump.
+ * @details Time Complexity: O(N), where N is the number of edges in the path.
+ */
 void pumpWater(std::vector<Edge<DeliverySite>*>& path , double flowToPump){
     if(flowToPump != 0)
         auto a = 0;
