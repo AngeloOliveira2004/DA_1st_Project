@@ -49,8 +49,11 @@ void UI::loading_stuff(UI &ui) {
     removeSuperSourceSink(&g,supersource,supersink);
 
     for(Vertex<DeliverySite>* v: g.getVertexSet()){
+
+        int sumFlow = calculate_incoming_flow(v);
+
         if(v->getInfo().getNodeType() == CITY){
-            codeToFlow[v->getInfo().getCode()] = v->getIncomingFlow();
+            codeToFlow[v->getInfo().getCode()] = sumFlow;
         }
     }
 
@@ -219,10 +222,7 @@ void UI::check_demand(){
 
 
     for(Vertex<DeliverySite>* ds: g.getVertexSet()){
-        int sumFlow = 0;
-        for(Edge<DeliverySite>* p : ds->getIncoming()){
-            sumFlow += p->getFlow();
-        }
+        int sumFlow = calculate_incoming_flow(ds);
         ds->setIncomingFlow(sumFlow);
 
         int difference = ds->getInfo().getDemand() - ds->getIncomingFlow();
@@ -289,6 +289,20 @@ void UI::evalute_resiliency(){
             removeSuperSourceSink(&g,supersource,supersink);
 
             std::cout << "The max flow of the network removing " << code << " is: " << max_flow << std::endl;
+
+            for(Vertex<DeliverySite>* v: g.getVertexSet()){
+                if(v->getInfo().getNodeType() == CITY){
+
+                    int sumFlow = calculate_incoming_flow(v);
+
+                    v->setIncomingFlow(sumFlow);
+                    int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
+                    int demand_value = v->getIncomingFlow() - v->getInfo().getDemand();
+                    if(result < 0){
+                        std::cout << "The city " << v->getInfo().getName() << " with code: '" << v->getInfo().getCode() << "' is affected needing more: " << abs(demand_value) << " units" << std::endl;
+                    }
+                }
+            }
 
 
             back_menu();
@@ -384,5 +398,13 @@ void UI::doStuff() {
             std::cout << v->getInfo().getCode() << " " << v->calculateOutgoingFlow()<<" " << v->getInfo().getMaxDelivery() << "\n";
     }
 */
+}
+
+int UI::calculate_incoming_flow(Vertex<DeliverySite>* v){
+    int sumFlow = 0;
+    for(Edge<DeliverySite>* p : v->getIncoming()){
+        sumFlow += p->getFlow();
+    }
+    return sumFlow;
 }
 

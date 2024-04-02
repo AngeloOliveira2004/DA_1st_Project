@@ -20,14 +20,13 @@ public:
     void back_menu();
     void evalute_resiliency();
     void doStuff();
+    int calculate_incoming_flow(Vertex<DeliverySite> *v);
 
     Graph<DeliverySite> getGraph() const;
 private:
     Graph<DeliverySite> g;
     std::unordered_map<std::string, int> codeToFlow;
     int inital_max_flow;
-
-
 };
 
 
