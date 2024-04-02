@@ -303,10 +303,29 @@ void UI::evalute_resiliency(){
                     }
                 }
             }
-
-
             back_menu();
         }
+        case 'B':
+            DeliverySite supersource = DeliverySite ("SuperSource");
+            DeliverySite supersink  = DeliverySite("SuperSink");
+
+            DeliverySite dummy = DeliverySite("Empty");
+            createSuperSourceSink(&g,supersource,supersink);
+            removeSuperSourceSink(&g,supersource,supersink);
+
+            std::vector<std::pair<PumpingStations, Vertex<DeliverySite>*>> essentpumpingstation;
+            std::unordered_set<Vertex<DeliverySite>*> initialflow;
+            std::unordered_map<PumpingStations, std::vector<Vertex<DeliverySite>*>, PumpingStationsHash> newflow;
+            for (auto vertex:g.getVertexSet()) {
+                for (auto edge:vertex->getAdj()) {
+                    g.removeEdge(vertex->getInfo(), edge->getDest()->getInfo());
+                    edmondsKarp(&g,supersource, supersink, dummy);
+                    if (){
+
+                    }
+                }
+
+            }
     }
 
 }
