@@ -17,6 +17,8 @@ public:
     void max_flow();
     void check_demand();
     void check_heuristic();
+    void back_menu();
+    void evalute_resiliency();
     void doStuff();
 
     Graph<DeliverySite> getGraph() const;

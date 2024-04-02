@@ -9,7 +9,7 @@ void print(T _msg , bool _newline){
         std::cout << std::endl;
 }
 
-double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target);
+double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target, const DeliverySite& removed);
 
 double calculateMaxFlow(std::vector<Vertex<DeliverySite>*>& vertexSet);
 

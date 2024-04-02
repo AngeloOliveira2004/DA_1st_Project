@@ -75,11 +75,12 @@ void augmentFlowAlongPath(Vertex<DeliverySite> *source, Vertex<DeliverySite> *si
 
 }
 
-double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target) {
+double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target,const DeliverySite& removed) {
     double maxFlow = 0;
 // Find source and target vertices in the graph
     Vertex<DeliverySite>* s = g->findVertex(source);
     Vertex<DeliverySite>* t = g->findVertex(target);
+    Vertex<DeliverySite>* remove = g->findVertex(removed);
 // Validate source and target vertices
     if (s == nullptr || t == nullptr || s == t)
         throw std::logic_error("Invalid source and/or target vertex");
@@ -92,7 +93,7 @@ double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const Del
     }
 
 // While there is an augmenting path, augment the flow along the path
-    while(findAugmentingPath(g, s, t, nullptr) ) {
+    while(findAugmentingPath(g, s, t, remove) ) {
         double f = findMinResidualAlongPath(s, t);
         maxFlow += f;
         augmentFlowAlongPath(s, t, f);

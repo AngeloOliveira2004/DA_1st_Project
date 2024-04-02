@@ -85,7 +85,7 @@ void UI::main_menu(){
              << "B. Check if every city meets it's water demand" <<std::endl
              << "C. Check heuristic stats of the max flow" <<std::endl
              << "D. Evaluate network's resiliency" <<std::endl
-             << "E. Exit the program"
+             << "E. Exit the program" << std::endl
              << "Insert your choice:";
 
     validate_input(op, 'A', 'E');
@@ -100,9 +100,10 @@ void UI::main_menu(){
             check_heuristic();
             break;
         case 'D':
+            evalute_resiliency();
             break;
         case 'E':
-           std::cout << "Thanks for using our management system app!" <<std::endl << "\n"
+           std::cout << "Thanks for using our water management tool!" <<std::endl << "\n"
                  << "Made by: " <<std::endl
                  << "Ângelo Oliveira || 202207798" <<std::endl
                  << "José Costa      || 202207871" <<std::endl
@@ -137,8 +138,9 @@ void UI::max_flow(){
 
             DeliverySite supersource = DeliverySite("SuperSource");
             DeliverySite supersink = DeliverySite("SuperSink");
+            DeliverySite dummy = DeliverySite("Empty");
             createSuperSourceSink(&g,supersource,supersink);
-            double max_flow = edmondsKarp(&g,supersource,supersink);
+            double max_flow = edmondsKarp(&g,supersource,supersink, dummy);
             removeSuperSourceSink(&g,supersource,supersink);
 
             switch (op1) {
@@ -170,7 +172,7 @@ void UI::max_flow(){
                 DeliverySite sink = DeliverySite(code);
 
                 if (!g.findVertex(sink)) {
-                    std::cout << "Error: Vertex with code '" << code << "' not found. Please try again." << std::endl;
+                    std::cout << "Error: City with code '" << code << "' not found. Please try again." << std::endl;
                 } else {
                     foundVertex = true;
                 }
@@ -178,7 +180,8 @@ void UI::max_flow(){
             DeliverySite sink = DeliverySite(code);
 
             createSuperSource(&g,supersource);
-            double max_flow = edmondsKarp(&g,supersource,sink);
+            DeliverySite dummy = DeliverySite("Empty");
+            double max_flow = edmondsKarp(&g,supersource,sink,dummy);
             removeSuperSourceSink(&g,supersource,sink);
 
             std::cout << "The max flow for the city " << code << " is: " << max_flow << std::endl;
@@ -186,7 +189,7 @@ void UI::max_flow(){
             break;
         }
     }
-
+    back_menu();
 };
 
 
@@ -194,8 +197,9 @@ void UI::check_demand(){
 
     DeliverySite supersource = DeliverySite("SuperSource");
     DeliverySite supersink = DeliverySite("SuperSink");
+    DeliverySite dummy = DeliverySite("Empty");
     createSuperSourceSink(&g,supersource,supersink);
-    edmondsKarp(&g,supersource,supersink);
+    edmondsKarp(&g,supersource,supersink,dummy);
     removeSuperSourceSink(&g,supersource,supersink);
 
 
@@ -212,17 +216,66 @@ void UI::check_demand(){
             std::cout << "The city of " << ds->getInfo().getName() << " with code " << ds->getInfo().getCode() << " doesn't receive enough water needing more " << difference << " units \n";
         }
     }
+    back_menu();
 }
 
 void UI::check_heuristic(){
     DeliverySite supersource = DeliverySite("SuperSource");
     DeliverySite supersink = DeliverySite("SuperSink");
+    DeliverySite dummy = DeliverySite("Empty");
 
     createSuperSourceSink(&g,supersource,supersink);
-    edmondsKarp(&g,supersource,supersink);
+    edmondsKarp(&g,supersource,supersink,dummy);
     removeSuperSourceSink(&g,supersource,supersink);
 
     heuristic(&g);
+    std::cout << std::endl;
+    back_menu();
+}
+
+void UI::back_menu(){
+    char op;
+    std::cout << "Press A to go back to the menu: ";
+    validate_input(op,'A','A');
+    main_menu();
+}
+
+void UI::evalute_resiliency(){
+    char op;
+    std:: cout << "How would you like to evaluate the resiliency?" << std::endl
+               << "A. Water Reservoir out of comission" << std::endl
+               << "B. Pumping Station out of comission /in maintenance" << std::endl
+               << "C. Pipeline out of comission / ruptured" << std::endl
+               << "Insert your choice:" << std::endl;
+    validate_input(op, 'A', 'C');
+    switch(op){
+        case 'A':{
+            std::string code;
+            bool foundVertex = false;
+
+            while (!foundVertex) {
+                std::cout << "Insert the code of the water reservoir: " << std::endl;
+                std::cin >> code;
+
+                DeliverySite water_reservoir = DeliverySite(code);
+
+                if (!g.findVertex(water_reservoir)) {
+                    std::cout << "Error: Water Reservoir with code '" << code << "' not found. Please try again." << std::endl;
+                } else {
+                    foundVertex = true;
+                }
+            }
+
+            DeliverySite supersource = DeliverySite("SuperSource");
+            DeliverySite supersink = DeliverySite("SuperSink");
+            DeliverySite dummy = DeliverySite(code);
+            createSuperSourceSink(&g,supersource,supersink);
+            edmondsKarp(&g,supersource,supersink,code);
+            removeSuperSourceSink(&g,supersource,supersink);
+
+        }
+    }
+
 }
 
 
@@ -230,9 +283,10 @@ void UI::check_heuristic(){
 void UI::doStuff() {
     DeliverySite supersource = DeliverySite("SuperSource");
     DeliverySite supersink = DeliverySite("SuperSink");
+    DeliverySite dummy = DeliverySite("Empty");
 
     createSuperSourceSink(&g,supersource,supersink);
-    double max_flow = edmondsKarp(&g,supersource,supersink);
+    double max_flow = edmondsKarp(&g,supersource,supersink,dummy);
     removeSuperSourceSink(&g,supersource,supersink);
 
 
