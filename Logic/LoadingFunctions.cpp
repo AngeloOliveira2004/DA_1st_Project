@@ -50,9 +50,9 @@ void Remove_terminations(std::string& str)
  */
 void LoadCities() {
 
-    std::string path = "LargeDataSet";
+    std::string path = "SmallDataSet";
 
-    std::ifstream file("LargeDataSet/Cities.csv");
+    std::ifstream file("SmallDataSet/Cities_Madeira.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -82,7 +82,7 @@ void LoadCities() {
 
         int population = 0;
 
-        if(path == "LargeDataSet"){
+        if(path == "SmallDataSet"){
             NormaliseString(tokens[4] , tokens[5]);
             population = std::stoi(tokens[4]);
         }else{
@@ -107,7 +107,7 @@ void LoadCities() {
  */
 void LoadPipes() {
 
-    std::ifstream file("LargeDataSet/Pipes.csv");
+    std::ifstream file("SmallDataSet/Pipes_Madeira.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -148,7 +148,7 @@ void LoadPipes() {
  */
 void LoadWaterReservoirs() {
 
-    std::ifstream file("LargeDataSet/Reservoir.csv");
+    std::ifstream file("SmallDataSet/Reservoirs_Madeira.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -195,7 +195,7 @@ void LoadWaterReservoirs() {
  */
 void LoadFireStations()
 {
-    std::ifstream file("LargeDataSet/Stations.csv");
+    std::ifstream file("SmallDataSet/Stations_Madeira.csv");
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }

@@ -297,18 +297,55 @@ void UI::evalute_resiliency(){
 
                     v->setIncomingFlow(sumFlow);
                     int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
-                    int demand_value = v->getIncomingFlow() - v->getInfo().getDemand();
                     if(result < 0){
-                        std::cout << "The city " << v->getInfo().getName() << " with code: '" << v->getInfo().getCode() << "' is affected needing more: " << abs(demand_value) << " units" << std::endl;
+                        std::cout << "The city " << v->getInfo().getName() << " with code: '" << v->getInfo().getCode() << "' is affected needing more: " << abs(result) << " units" << std::endl;
+                    }
+                }
+            }
+        }
+        case 'B':{
+            std::string code;
+            bool foundVertex = false;
+
+            while (!foundVertex) {
+                std::cout << "Insert the code of the pumping station: " << std::endl;
+                std::cin >> code;
+
+                DeliverySite pump_station = DeliverySite(code);
+
+                if (!g.findVertex(pump_station)) {
+                    std::cout << "Error: Pumping Station with code '" << code << "' not found. Please try again." << std::endl;
+                } else {
+                    foundVertex = true;
+                }
+            }
+
+            DeliverySite supersource = DeliverySite("SuperSource");
+            DeliverySite supersink = DeliverySite("SuperSink");
+            DeliverySite pump_station = DeliverySite(code);
+            createSuperSourceSink(&g,supersource,supersink);
+            double max_flow = edmondsKarp(&g,supersource,supersink,pump_station);
+            removeSuperSourceSink(&g,supersource,supersink);
+
+            std::cout << "The max flow of the network removing " << code << " is: " << max_flow << std::endl;
+
+            for(Vertex<DeliverySite>* v: g.getVertexSet()){
+                if(v->getInfo().getNodeType() == CITY){
+
+                    int sumFlow = calculate_incoming_flow(v);
+
+                    v->setIncomingFlow(sumFlow);
+                    int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
+                    if(result < 0){
+                        std::cout << "The city " << v->getInfo().getName() << " with code: '" << v->getInfo().getCode() << "' is affected needing more: " << abs(result) << " units" << std::endl;
                     }
                 }
             }
 
 
-            back_menu();
         }
     }
-
+    back_menu();
 }
 
 
