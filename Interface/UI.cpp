@@ -379,6 +379,9 @@ void UI::evalute_resiliency(){
                 if(!foundEdge){
                     std::cout << "Error: Pipe not found. Please try again." << std::endl;
                 }else{
+                    if(edgeFound->getReverse() != nullptr){
+                        pointerVector.push_back(edgeFound->getReverse());
+                    }
                     pointerVector.push_back(edgeFound);
                     std::cout << "Do you want to add another pipeline to the out of comission/ruptured list ?" << std::endl
                               << "A. Yes" << std::endl
@@ -404,11 +407,11 @@ void UI::evalute_resiliency(){
 
             for(Vertex<DeliverySite>* v: g.getVertexSet()){
                 if(v->getInfo().getNodeType() == CITY){
+                    if(v->getInfo().getName() == "Funchal"){}
 
                     int sumFlow = calculate_incoming_flow(v);
 
                     v->setIncomingFlow(sumFlow);
-                    if(v->getInfo().getName() == "Funchal"){}
                     int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
                     if(result < 0){
                         std::cout << "The city " << v->getInfo().getName() << " with code: '" << v->getInfo().getCode() << "' is affected needing more: " << abs(result) << " units" << std::endl;
