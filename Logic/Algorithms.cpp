@@ -54,6 +54,9 @@ bool findAugmentingPath(Graph<DeliverySite> *g, Vertex<DeliverySite> *source, Ve
         Vertex<DeliverySite>* v = q.front();
         q.pop();
         for (Edge<DeliverySite>* e : v->getAdj()) {
+            if(e->isSelected()){
+                continue;
+            }
             Vertex<DeliverySite>* dest = e->getDest();
             if (!dest->isVisited() && (e->getWeight() - e->getFlow() > 0)) {
                 dest->setVisited(true);
@@ -130,6 +133,34 @@ double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const Del
 
 // While there is an augmenting path, augment the flow along the path
     while(findAugmentingPath(g, s, t, remove) ) {
+        double f = findMinResidualAlongPath(s, t);
+        maxFlow += f;
+        augmentFlowAlongPath(s, t, f);
+    }
+    return maxFlow;
+}
+
+double edmondsKarpPipe(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target,const Edge<DeliverySite>* pump) {
+    double maxFlow = 0;
+// Find source and target vertices in the graph
+    Vertex<DeliverySite>* s = g->findVertex(source);
+    Vertex<DeliverySite>* t = g->findVertex(target);
+// Validate source and target vertices
+    if (s == nullptr || t == nullptr || s == t)
+        throw std::logic_error("Invalid source and/or target vertex");
+// Initialize flow on all edges to 0
+    for (auto v : g->getVertexSet()) {
+        for (auto e: v->getAdj()) {
+            e->setFlow(0);
+            e->setSelected(false);
+            if(e->getOrig()->getInfo().getCode() == pump->getOrig()->getInfo().getCode() && e->getDest()->getInfo().getCode() == pump->getDest()->getInfo().getCode()){
+                e->setSelected(true);
+            }
+        }
+    }
+
+// While there is an augmenting path, augment the flow along the path
+    while(findAugmentingPath(g, s, t, nullptr) ) {
         double f = findMinResidualAlongPath(s, t);
         maxFlow += f;
         augmentFlowAlongPath(s, t, f);

@@ -27,6 +27,10 @@ void print(T _msg , bool _newline){
  */
 double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target, const DeliverySite& removed);
 
+
+
+double edmondsKarpPipe(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target,const Edge<DeliverySite>* pump);
+
 /**
  * @brief Calculates the maximum flow through the graph.
  * @param vertexSet The set of vertices in the graph.
