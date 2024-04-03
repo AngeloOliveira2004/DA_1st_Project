@@ -110,6 +110,6 @@ struct PumpingStationsHash {
         return ps.hash();
     }
 };
-};
+
 
 #endif //PROJETO_PUMPINGSTATIONS_H

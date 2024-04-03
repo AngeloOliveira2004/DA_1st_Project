@@ -127,3 +127,11 @@ std::vector<Edge<DeliverySite>*> getPipes(Graph<DeliverySite>* g){
 
     return result;
 }
+
+std::vector<Vertex<DeliverySite>*> findAffectedCities(Graph<DeliverySite> *g, ){
+    std::vector<Vertex<DeliverySite>*> affectedcities;
+    for (auto vertex:g->getVertexSet()) {
+
+
+    }
+}

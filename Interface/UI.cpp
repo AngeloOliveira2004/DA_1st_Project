@@ -305,28 +305,40 @@ void UI::evalute_resiliency(){
             }
             back_menu();
         }
-        case 'B':
-            DeliverySite supersource = DeliverySite ("SuperSource");
-            DeliverySite supersink  = DeliverySite("SuperSink");
-
+        case 'B': {
+            DeliverySite supersource = DeliverySite("SuperSource");
+            DeliverySite supersink = DeliverySite("SuperSink");
             DeliverySite dummy = DeliverySite("Empty");
-            createSuperSourceSink(&g,supersource,supersink);
-            removeSuperSourceSink(&g,supersource,supersink);
-
-            std::vector<std::pair<PumpingStations, Vertex<DeliverySite>*>> essentpumpingstation;
-            std::unordered_set<Vertex<DeliverySite>*> initialflow;
-            std::unordered_map<PumpingStations, std::vector<Vertex<DeliverySite>*>, PumpingStationsHash> newflow;
-            for (auto vertex:g.getVertexSet()) {
-                for (auto edge:vertex->getAdj()) {
+            createSuperSourceSink(&g, supersource, supersink);
+            removeSuperSourceSink(&g, supersource, supersink);
+            std::vector<std::pair<PumpingStations, Vertex<DeliverySite> *>> essentpumpingstation;
+            std::unordered_map<Vertex<DeliverySite> *, double> initialflow;
+            for (auto vertex: g.getVertexSet()) {
+                double initialMaxFlow = edmondsKarp(&g, supersource, supersink, dummy);
+                initialflow[vertex] = initialMaxFlow;
+            }
+            std::unordered_map<PumpingStations, std::vector<Vertex<DeliverySite> *>, PumpingStationsHash> newflow;
+            for (auto vertex: g.getVertexSet()) {
+                for (auto edge: vertex->getAdj()) {
                     g.removeEdge(vertex->getInfo(), edge->getDest()->getInfo());
-                    edmondsKarp(&g,supersource, supersink, dummy);
-                    if (){
-
+                    double newmaxflow = edmondsKarp(&g, supersource, supersink, dummy);
+                    if (newmaxflow < initialflow[vertex]) {
+                        newflow[edge->getDest()->getInfo().].push_back(edge->getDest());
+                    }
+                    g.addEdge(vertex->getInfo(), edge->getDest()->getInfo(), edge->getWeight());
+                }
+            }
+            for (auto pair: newflow) {
+                for (auto vertex: pair.second) {
+                    if (initialflow[vertex] > newflow[pair.first].size()) {
+                        essentpumpingstation.emplace_back(pair.first, vertex);
                     }
                 }
-
             }
+            essentpumpingstation;
+        }
     }
+
 
 }
 
