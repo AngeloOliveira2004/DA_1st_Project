@@ -260,7 +260,7 @@ void UI::evalute_resiliency(){
     std:: cout << "How would you like to evaluate the resiliency?" << std::endl
                << "A. Water Reservoir out of comission" << std::endl
                << "B. Pumping Station out of comission /in maintenance" << std::endl
-               << "C. Pipeline out of comission / ruptured" << std::endl
+               << "C. Pipeline/s out of comission / ruptured" << std::endl
                << "Insert your choice:" << std::endl;
     validate_input(op, 'A', 'C');
     switch(op){
@@ -302,6 +302,8 @@ void UI::evalute_resiliency(){
                     }
                 }
             }
+
+            break;
         }
         case 'B':{
             std::string code;
@@ -342,15 +344,16 @@ void UI::evalute_resiliency(){
                 }
             }
 
-
+            break;
         }
         case 'C':{
             std::string code1;
             std::string code2;
             bool foundEdge = false;
-            Edge<DeliverySite>* edgeFound = nullptr;
+            std::vector<Edge<DeliverySite>*> pointerVector;
 
             while (!foundEdge) {
+                Edge<DeliverySite>* edgeFound = nullptr;
                 std::cout << "Insert the code of the first delivery site: " << std::endl;
                 std::cin >> code1;
 
@@ -362,28 +365,42 @@ void UI::evalute_resiliency(){
                 DeliverySite ds2 = DeliverySite(code2);
 
                 if (!g.findVertex(ds1) && !g.findVertex(ds2)) {
-                    std::cout << "Error: Pumping Stations not found. Please try again." << std::endl;
+                    std::cout << "Error: Delivery Sites not found. Please try again." << std::endl;
                 }
 
                 for(auto edge: g.getEdges()){
                     if(edge->getOrig()->getInfo().getCode() == ds1.getCode() && edge->getDest()->getInfo().getCode() == ds2.getCode()){
                         foundEdge = true;
                         edgeFound = edge;
+                        break;
                     }
                 }
 
                 if(!foundEdge){
                     std::cout << "Error: Pipe not found. Please try again." << std::endl;
+                }else{
+                    pointerVector.push_back(edgeFound);
+                    std::cout << "Do you want to add another pipeline to the out of comission/ruptured list ?" << std::endl
+                              << "A. Yes" << std::endl
+                              << "B. No" << std::endl;
+                    char op1;
+                    validate_input(op1,'A','B');
+                    if(op1 == 'A'){
+                        foundEdge = false;
+                    }
                 }
             }
 
             DeliverySite supersource = DeliverySite("SuperSource");
             DeliverySite supersink = DeliverySite("SuperSink");
             createSuperSourceSink(&g,supersource,supersink);
-            double max_flow = edmondsKarpPipe(&g,supersource,supersink,edgeFound);
+            double max_flow = edmondsKarpPipe(&g,supersource,supersink,pointerVector);
             removeSuperSourceSink(&g,supersource,supersink);
 
-            std::cout << "The max flow of the network removing the pipe " << edgeFound->getOrig()->getInfo().getCode() << "-" << edgeFound->getDest()->getInfo().getCode() << " is: " << max_flow << std::endl;
+            std::cout << "The max flow of the network is " << max_flow << " removing the pipes: " << std::endl;
+            for(auto pipe: pointerVector){
+                std::cout << pipe->getOrig()->getInfo().getCode() << "-" << pipe->getDest()->getInfo().getCode() << std::endl;
+            }
 
             for(Vertex<DeliverySite>* v: g.getVertexSet()){
                 if(v->getInfo().getNodeType() == CITY){
@@ -391,6 +408,7 @@ void UI::evalute_resiliency(){
                     int sumFlow = calculate_incoming_flow(v);
 
                     v->setIncomingFlow(sumFlow);
+                    if(v->getInfo().getName() == "Funchal"){}
                     int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
                     if(result < 0){
                         std::cout << "The city " << v->getInfo().getName() << " with code: '" << v->getInfo().getCode() << "' is affected needing more: " << abs(result) << " units" << std::endl;
@@ -399,6 +417,8 @@ void UI::evalute_resiliency(){
             }
 
         }
+
+        break;
     }
 
     back_menu();
@@ -496,7 +516,9 @@ void UI::doStuff() {
 int UI::calculate_incoming_flow(Vertex<DeliverySite>* v){
     int sumFlow = 0;
     for(Edge<DeliverySite>* p : v->getIncoming()){
-        sumFlow += p->getFlow();
+        if(!p->isSelected()) {
+            sumFlow += p->getFlow();
+        }
     }
     return sumFlow;
 }

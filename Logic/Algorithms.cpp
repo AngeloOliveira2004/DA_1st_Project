@@ -140,7 +140,7 @@ double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const Del
     return maxFlow;
 }
 
-double edmondsKarpPipe(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target,const Edge<DeliverySite>* pump) {
+double edmondsKarpPipe(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target,const std::vector<Edge<DeliverySite>*> pump) {
     double maxFlow = 0;
 // Find source and target vertices in the graph
     Vertex<DeliverySite>* s = g->findVertex(source);
@@ -153,8 +153,10 @@ double edmondsKarpPipe(Graph<DeliverySite> *g, const DeliverySite& source, const
         for (auto e: v->getAdj()) {
             e->setFlow(0);
             e->setSelected(false);
-            if(e->getOrig()->getInfo().getCode() == pump->getOrig()->getInfo().getCode() && e->getDest()->getInfo().getCode() == pump->getDest()->getInfo().getCode()){
-                e->setSelected(true);
+            for(auto edge : pump){
+                if(e->getOrig()->getInfo().getCode() == edge->getOrig()->getInfo().getCode() && e->getDest()->getInfo().getCode() == edge->getDest()->getInfo().getCode()){
+                    e->setSelected(true);
+                }
             }
         }
     }

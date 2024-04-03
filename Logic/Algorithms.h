@@ -29,7 +29,7 @@ double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const Del
 
 
 
-double edmondsKarpPipe(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target,const Edge<DeliverySite>* pump);
+double edmondsKarpPipe(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target,const std::vector<Edge<DeliverySite>*> pump);
 
 /**
  * @brief Calculates the maximum flow through the graph.
