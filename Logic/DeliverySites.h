@@ -89,7 +89,7 @@ public:
      * @param adj Adjacent edges of the delivery site.
      * @return The remaining delivery.
      */
-    double calculateRemainingDeliviry(const std::vector<Edge<DeliverySite> *>& adj) const;
+    double calculateRemainingDelivery(const std::vector<Edge<DeliverySite> *>& adj) const;
 
     /**
     * @brief Overloaded equality operator.

@@ -111,6 +111,6 @@ void pumpWater(std::vector<Edge<DeliverySite>*>& path , double flowToPump);
  */
 Metrics heuristic(Graph<DeliverySite>*g);
 
-void redistributeWithoutMaxFlowAlgorithm(Graph<DeliverySite>*g, Vertex<DeliverySite>* removed);
+bool redistributeWithoutMaxFlowAlgorithm(Graph<DeliverySite>*g, Vertex<DeliverySite>* removed);
 
 #endif

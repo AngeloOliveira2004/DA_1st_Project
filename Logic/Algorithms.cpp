@@ -1,6 +1,7 @@
 #include <climits>
 #include "Algorithms.h"
 #include "stdafx.h"
+#include "Logic.h"
 
 /**
  * @brief Finds the minimum residual capacity along an augmenting path from a source vertex to a sink vertex.
@@ -331,10 +332,8 @@ void pumpWater(std::vector<Edge<DeliverySite>*>& path , double flowToPump){
     }
 }
 
-void redistributeWithoutMaxFlowAlgorithm(Graph<DeliverySite>*g, Vertex<DeliverySite>* removed){
+bool redistributeWithoutMaxFlowAlgorithm(Graph<DeliverySite>*g, Vertex<DeliverySite>* removed){
     bool flag_edmonds_Karp = false;
-
-    for(Vertex<DeliverySite>* v: g->getVertexSet() ) v->setVisited(false);
     std::vector<Vertex<DeliverySite>*> cities;
 
     std::stack<Vertex<DeliverySite>*> pumpUsed;
@@ -353,7 +352,6 @@ void redistributeWithoutMaxFlowAlgorithm(Graph<DeliverySite>*g, Vertex<DeliveryS
         if(ver->getInfo().getNodeType() == CITY){
             cities.push_back(ver);
         }
-
     }
 
     while(!pumpUsed.empty()){
@@ -369,6 +367,7 @@ void redistributeWithoutMaxFlowAlgorithm(Graph<DeliverySite>*g, Vertex<DeliveryS
                 }else{
                     augmentFlowAlongPath(pump,city, f - abs(pump->getInfo().getDemand() - f));
                     pump->getInfo().setDemand(0);
+                    break;
                 }
             }
 
@@ -382,10 +381,17 @@ void redistributeWithoutMaxFlowAlgorithm(Graph<DeliverySite>*g, Vertex<DeliveryS
     }
 
     if(flag_edmonds_Karp){
-        std::cout << "Failed to rebalance the graph using a simpler algorithm! Executing Edmonds Karp" << std::endl;
+        for(Vertex<DeliverySite>* ver: g->getVertexSet()){
+            if(ver->getInfo().getNodeType() == FIRE_STATION){
+                ver->getInfo().setDemand(0);
+            }
+        }
+        std::cout << "Failed to balance the graph using a simpler algorithm! Executing Edmonds Karp" << std::endl;
+    }else{
+        std::cout << "Balancing well done" << std::endl;
     }
 
 
-
+    return flag_edmonds_Karp;
 }
 

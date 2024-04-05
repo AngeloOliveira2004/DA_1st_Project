@@ -2,6 +2,7 @@
 #include "../Logic/Logic.h"
 #include <thread>
 #include <chrono>
+#include <iomanip>
 
 UI::UI() {}
 
@@ -51,6 +52,7 @@ void UI::loading_stuff(UI &ui) {
     for(Vertex<DeliverySite>* v: g.getVertexSet()){
 
         int sumFlow = calculate_incoming_flow(v);
+        v->setIncomingFlow(sumFlow);
 
         if(v->getInfo().getNodeType() == CITY){
             codeToFlow[v->getInfo().getCode()] = sumFlow;
@@ -118,7 +120,7 @@ void UI::main_menu(){
             check_heuristic();
             break;
         case 'D':
-            evalute_resiliency();
+            evaluate_resiliency();
             break;
         case 'E':
            std::cout << "Thanks for using our water management tool!" <<std::endl << "\n"
@@ -167,9 +169,17 @@ void UI::max_flow(){
                     break;
                 }
                 case 'B': {
+                    std::cout << std::left << std::setw(20) << "City Name"
+                              << std::setw(20) << "City Code"
+                              << std::setw(20) << "Flow" << std::endl;
+
                     for(auto v : g.getVertexSet()){
-                        if(v->getInfo().getNodeType() == CITY)
-                            std::cout << "|Name: " << v->getInfo().getName() << " | Code: " <<  v->getInfo().getCode() << " | Flow : " << v->calculateIncomingFlow() << "|" << std::endl;
+                        if(v->getInfo().getNodeType() == CITY){
+                            std::cout << std::left << std::setw(20) << v->getInfo().getName()
+                                      << std::setw(20) << v->getInfo().getCode()
+                                      << std::setw(20) << v->calculateIncomingFlow() << std::endl;
+                        }
+
                     }
                     std::cout << "The max flow for the entire network is: " << max_flow << std::endl;
 
@@ -220,7 +230,14 @@ void UI::check_demand(){
     edmondsKarp(&g,supersource,supersink,dummy);
     removeSuperSourceSink(&g,supersource,supersink);
 
+    std::cout << std::left << std::left << std::setw(20) << "City Name"
+              << std::setw(20) << "City Code"
+              << std::setw(20) << "Demand"
+              << std::setw(20) << "Flow"
+              << std::setw(20) << "Defecit" << std::endl;
 
+
+    std::cout << "The following cities don't receive enough water : " << std::endl;
     for(Vertex<DeliverySite>* ds: g.getVertexSet()){
         int sumFlow = calculate_incoming_flow(ds);
         ds->setIncomingFlow(sumFlow);
@@ -228,9 +245,14 @@ void UI::check_demand(){
         int difference = ds->getInfo().getDemand() - ds->getIncomingFlow();
 
         if(ds->getInfo().getNodeType() == CITY && difference > 0 ){
-            std::cout << "The city of " << ds->getInfo().getName() << " with code " << ds->getInfo().getCode() << " doesn't receive enough water needing more " << difference << " units \n";
+            std::cout << std::left << std::setw(20) << ds->getInfo().getName()
+                      << std::setw(20) << ds->getInfo().getCode()
+                      << std::setw(20) << ds->getInfo().getDemand()
+                      << std::setw(20) << ds->getIncomingFlow()
+                      << std::setw(20) << abs(difference) << std::endl;
         }
     }
+    std::cout << std::endl;
     back_menu();
 }
 
@@ -255,7 +277,7 @@ void UI::back_menu(){
     main_menu();
 }
 
-void UI::evalute_resiliency(){
+void UI::evaluate_resiliency() {
     char op;
     std:: cout << "How would you like to evaluate the resiliency?" << std::endl
                << "A. Water Reservoir out of comission" << std::endl
@@ -281,28 +303,21 @@ void UI::evalute_resiliency(){
                 }
             }
 
-            DeliverySite supersource = DeliverySite("SuperSource");
-            DeliverySite supersink = DeliverySite("SuperSink");
-            DeliverySite water_reservoir = DeliverySite(code);
-            createSuperSourceSink(&g,supersource,supersink);
-            double max_flow = edmondsKarp(&g,supersource,supersink,water_reservoir);
-            removeSuperSourceSink(&g,supersource,supersink);
+            std::cout << "Would you like to try the balancing algorithm without the whole network?" << std::endl
+                      << "A. Yes" << std::endl
+                      << "B. No" << std::endl
+                      << "Insert your choice:" << std::endl;
+            validate_input(op, 'A', 'B');
 
-            std::cout << "The max flow of the network removing " << code << " is: " << max_flow << std::endl;
+            switch(op){
+                case 'A':
+                    redistributeWithoutMaxFlow(code,true);
+                    break;
+                case 'B':
+                    redistributeWithoutMaxFlow(code,false);
+                    break;
 
-            for(Vertex<DeliverySite>* v: g.getVertexSet()){
-                if(v->getInfo().getNodeType() == CITY){
-
-                    int sumFlow = calculate_incoming_flow(v);
-
-                    v->setIncomingFlow(sumFlow);
-                    int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
-                    if(result < 0){
-                        std::cout << "The city " << v->getInfo().getName() << " with code: '" << v->getInfo().getCode() << "' is affected needing more: " << abs(result) << " units" << std::endl;
-                    }
-                }
             }
-
             break;
         }
         case 'B':{
@@ -331,6 +346,12 @@ void UI::evalute_resiliency(){
 
             std::cout << "The max flow of the network removing " << code << " is: " << max_flow << std::endl;
 
+            std::cout << std::left << std::setw(20) << "City Name"
+                      << std::setw(20) << "City Code"
+                      << std::setw(20) << "Required Units"
+                      << std::setw(20) << "New Flow"
+                      << std::setw(20) << "Old Flow" << std::endl;
+
             for(Vertex<DeliverySite>* v: g.getVertexSet()){
                 if(v->getInfo().getNodeType() == CITY){
 
@@ -339,7 +360,11 @@ void UI::evalute_resiliency(){
                     v->setIncomingFlow(sumFlow);
                     int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
                     if(result < 0){
-                        std::cout << "The city " << v->getInfo().getName() << " with code: '" << v->getInfo().getCode() << "' is affected needing more: " << abs(result) << " units" << std::endl;
+                        std::cout << std::left << std::setw(20) << v->getInfo().getName()
+                                  << std::setw(20) << v->getInfo().getCode()
+                                  << std::setw(20) << abs(result)
+                                  << std::setw(20) << v->getIncomingFlow()
+                                  << std::setw(20) << codeToFlow[v->getInfo().getCode()] << std::endl;
                     }
                 }
             }
@@ -404,21 +429,32 @@ void UI::evalute_resiliency(){
             for(auto pipe: pointerVector){
                 std::cout << pipe->getOrig()->getInfo().getCode() << "-" << pipe->getDest()->getInfo().getCode() << std::endl;
             }
+            std::cout << std::endl;
+
+            std::cout << std::left << std::setw(20) << "City Name"
+                      << std::setw(20) << "City Code"
+                      << std::setw(20) << "Required Units"
+                      << std::setw(20) << "New Flow"
+                      << std::setw(20) << "Old Flow" << std::endl;
+
 
             for(Vertex<DeliverySite>* v: g.getVertexSet()){
                 if(v->getInfo().getNodeType() == CITY){
-                    if(v->getInfo().getName() == "Funchal"){}
 
                     int sumFlow = calculate_incoming_flow(v);
 
                     v->setIncomingFlow(sumFlow);
                     int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
                     if(result < 0){
-                        std::cout << "The city " << v->getInfo().getName() << " with code: '" << v->getInfo().getCode() << "' is affected needing more: " << abs(result) << " units" << std::endl;
+                        std::cout << std::left << std::setw(20) << v->getInfo().getName()
+                                  << std::setw(20) << v->getInfo().getCode()
+                                  << std::setw(20) << abs(result)
+                                  << std::setw(20) << v->getIncomingFlow()
+                                  << std::setw(20) << codeToFlow[v->getInfo().getCode()] << std::endl;
                     }
                 }
             }
-
+            std::cout << std::endl;
         }
 
         break;
@@ -429,13 +465,48 @@ void UI::evalute_resiliency(){
 
 
 
-void UI::doStuff() {
-    std::string city = "C_1";
+void UI::redistributeWithoutMaxFlow(std::string wr,bool is_algo) {
 
-    DeliverySite ci = DeliverySite(city);
+    DeliverySite reservoir_ds = DeliverySite(wr);
 
-    redistributeWithoutMaxFlowAlgorithm(&g,g.findVertex(ci));
+    if(is_algo){
+        redistributeWithoutMaxFlowAlgorithm(&g, g.findVertex(reservoir_ds));
+    }else{
+        DeliverySite supersource = DeliverySite("SuperSource");
+        DeliverySite supersink = DeliverySite("SuperSink");
+        DeliverySite water_reservoir = DeliverySite(wr);
+        createSuperSourceSink(&g,supersource,supersink);
+        double max_flow = edmondsKarp(&g,supersource,supersink,water_reservoir);
+        removeSuperSourceSink(&g,supersource,supersink);
+
+        std::cout << "The max flow of the network removing " << wr << " is: " << max_flow << std::endl;
+
+    }
+
+    std::cout << std::left << std::setw(20) << "City Name"
+              << std::setw(20) << "City Code"
+              << std::setw(20) << "Required Units"
+              << std::setw(20) << "New Flow"
+              << std::setw(20) << "Old Flow" << std::endl;
+
+    for (Vertex<DeliverySite> *v: g.getVertexSet()) {
+        if (v->getInfo().getNodeType() == CITY) {
+            int sumFlow = calculate_incoming_flow(v);
+
+            v->setIncomingFlow(sumFlow);
+
+            int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
+            if (result < 0) {
+                std::cout << std::left << std::setw(20) << v->getInfo().getName()
+                          << std::setw(20) << v->getInfo().getCode()
+                          << std::setw(20) << abs(result)
+                          << std::setw(20) << v->getIncomingFlow()
+                          << std::setw(20) << codeToFlow[v->getInfo().getCode()] << std::endl;
+            }
+        }
+    }
 }
+
 
 int UI::calculate_incoming_flow(Vertex<DeliverySite>* v){
     int sumFlow = 0;
@@ -446,4 +517,3 @@ int UI::calculate_incoming_flow(Vertex<DeliverySite>* v){
     }
     return sumFlow;
 }
-

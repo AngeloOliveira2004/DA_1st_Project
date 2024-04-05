@@ -52,7 +52,11 @@ void DeliverySite::setId(int id) {
  * @details Time Complexity: O(1)
  */
 void DeliverySite::setMunicipality(const std::string& municipality) {
-    this->municipality = std::make_shared<std::string>(municipality);
+    if (!this->municipality) {
+        this->municipality = std::make_shared<std::string>(municipality);
+    } else {
+        *this->municipality = municipality;
+    }
 }
 
 // Setter for name
@@ -62,7 +66,11 @@ void DeliverySite::setMunicipality(const std::string& municipality) {
  * @details Time Complexity: O(1)
  */
 void DeliverySite::setName(const std::string& name) {
-    this->name = std::make_shared<std::string>(name);
+    if (!this->name) {
+        this->name = std::make_shared<std::string>(name);
+    } else {
+        *this->name = name;
+    }
 }
 
 // Setter for maxDelivery
@@ -72,7 +80,11 @@ void DeliverySite::setName(const std::string& name) {
  * @details Time Complexity: O(1)
  */
 void DeliverySite::setMaxDelivery(int maxDelivery) {
-    this->maxDelivery = std::make_shared<int>(maxDelivery);
+    if (!this->maxDelivery) {
+        this->maxDelivery = std::make_shared<int>(maxDelivery);
+    } else {
+        *this->maxDelivery = maxDelivery;
+    }
 }
 
 // Setter for demand
@@ -82,7 +94,11 @@ void DeliverySite::setMaxDelivery(int maxDelivery) {
  * @details Time Complexity: O(1)
  */
 void DeliverySite::setDemand(int demand) {
-    this->demand = std::make_shared<int>(demand);
+    if (!this->demand) {
+        this->demand = std::make_shared<int>(demand);
+    } else {
+        *this->demand = demand;
+    }
 }
 
 // Setter for population
@@ -92,7 +108,11 @@ void DeliverySite::setDemand(int demand) {
  * @details Time Complexity: O(1)
  */
 void DeliverySite::setPopulation(int population) {
-    this->population = std::make_shared<int>(population);
+    if (!this->population) {
+        this->population = std::make_shared<int>(population);
+    } else {
+        *this->population = population;
+    }
 }
 
 // Getter definitions
@@ -202,7 +222,7 @@ DeliverySite::DeliverySite(std::string code)
  * @return The remaining delivery.
  * @details Time Complexity: O(n), where n is the number of adjacent edges.
  */
-double DeliverySite::calculateRemainingDeliviry(const std::vector<Edge<DeliverySite> *>& adj) const {
+double DeliverySite::calculateRemainingDelivery(const std::vector<Edge<DeliverySite> *>& adj) const {
 
     if(getNodeType() != WATER_RESERVOIR){
         return 0.0;
