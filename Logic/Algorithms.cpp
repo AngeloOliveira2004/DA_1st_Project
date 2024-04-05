@@ -331,3 +331,61 @@ void pumpWater(std::vector<Edge<DeliverySite>*>& path , double flowToPump){
     }
 }
 
+void redistributeWithoutMaxFlowAlgorithm(Graph<DeliverySite>*g, Vertex<DeliverySite>* removed){
+    bool flag_edmonds_Karp = false;
+
+    for(Vertex<DeliverySite>* v: g->getVertexSet() ) v->setVisited(false);
+    std::vector<Vertex<DeliverySite>*> cities;
+
+    std::stack<Vertex<DeliverySite>*> pumpUsed;
+
+    for(Edge<DeliverySite>* edge : g->getEdges()){
+        edge->setSelected(false);
+    }
+
+    for(Edge<DeliverySite>* edge : removed->getAdj()){
+        edge->getDest()->getInfo().setDemand(edge->getFlow());
+        pumpUsed.push(edge->getDest());
+        edge->setSelected(true);
+    }
+
+    for(Vertex<DeliverySite>* ver: g->getVertexSet()){
+        if(ver->getInfo().getNodeType() == CITY){
+            cities.push_back(ver);
+        }
+
+    }
+
+    while(!pumpUsed.empty()){
+        Vertex<DeliverySite>* pump = pumpUsed.top();
+        pumpUsed.pop();
+
+        for(Vertex<DeliverySite>* city : cities){
+            while(findAugmentingPath(g, pump, city, removed) ) {
+                double f = findMinResidualAlongPath(pump, city);
+                if(pump->getInfo().getDemand() - f >= 0){
+                    augmentFlowAlongPath(pump, city, f);
+                    pump->getInfo().setDemand(pump->getInfo().getDemand() - f);
+                }else{
+                    augmentFlowAlongPath(pump,city, f - abs(pump->getInfo().getDemand() - f));
+                    pump->getInfo().setDemand(0);
+                }
+            }
+
+        }
+
+        if(pump->getInfo().getDemand() > 0){
+            flag_edmonds_Karp = true;
+            break;
+        }
+
+    }
+
+    if(flag_edmonds_Karp){
+        std::cout << "Failed to rebalance the graph using a simpler algorithm! Executing Edmonds Karp" << std::endl;
+    }
+
+
+
+}
+
