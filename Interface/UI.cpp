@@ -496,7 +496,7 @@ void UI::redistributeWithoutMaxFlow(std::string wr,bool is_algo) {
             v->setIncomingFlow(sumFlow);
 
             int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
-            if (result < 0) {
+            if (result < 0 || (is_algo && result != 0) ) {
                 std::cout << std::left << std::setw(20) << v->getInfo().getName()
                           << std::setw(20) << v->getInfo().getCode()
                           << std::setw(20) << abs(result)
