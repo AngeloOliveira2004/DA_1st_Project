@@ -338,6 +338,31 @@ bool redistributeWithoutMaxFlowAlgorithm(Graph<DeliverySite>*g, Vertex<DeliveryS
 
     std::stack<Vertex<DeliverySite>*> pumpUsed;
 
+    std::stack<std::vector<std::vector<Edge<DeliverySite>*>>> allPaths;
+
+    for(Vertex<DeliverySite>* ver: g->getVertexSet()){
+        if(ver->getInfo().getNodeType() == CITY){
+            cities.push_back(ver);
+        }
+    }
+
+    for(Vertex<DeliverySite>* city : cities){
+        allPaths.push(g->allPaths(removed->getInfo(),city->getInfo()));
+    }
+
+    while(!allPaths.empty()){
+        std::vector<std::vector<Edge<DeliverySite>*>> stackTop = allPaths.top();
+        allPaths.pop();
+
+        for(std::vector<Edge<DeliverySite>*> path : stackTop){
+            double minFlow = DBL_MAX;
+            for(auto & i : path) minFlow = std::min(minFlow,i->getFlow());
+
+            for(auto & i : path) i->setFlow(i->getFlow() - minFlow);
+        }
+
+    }
+
     for(Edge<DeliverySite>* edge : g->getEdges()){
         edge->setSelected(false);
     }
@@ -346,12 +371,6 @@ bool redistributeWithoutMaxFlowAlgorithm(Graph<DeliverySite>*g, Vertex<DeliveryS
         edge->getDest()->getInfo().setDemand(edge->getFlow());
         pumpUsed.push(edge->getDest());
         edge->setSelected(true);
-    }
-
-    for(Vertex<DeliverySite>* ver: g->getVertexSet()){
-        if(ver->getInfo().getNodeType() == CITY){
-            cities.push_back(ver);
-        }
     }
 
     while(!pumpUsed.empty()){
@@ -386,9 +405,9 @@ bool redistributeWithoutMaxFlowAlgorithm(Graph<DeliverySite>*g, Vertex<DeliveryS
                 ver->getInfo().setDemand(0);
             }
         }
-        std::cout << "Failed to balance the graph using a simpler algorithm! Executing Edmonds Karp" << std::endl;
+        std::cout << "Failed to find the whole impact" << std::endl;
     }else{
-        std::cout << "Balancing well done" << std::endl;
+        std::cout << "Impact well found" << std::endl;
     }
 
 

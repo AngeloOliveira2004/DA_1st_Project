@@ -348,7 +348,7 @@ void UI::evaluate_resiliency() {
 
             std::cout << std::left << std::setw(20) << "City Name"
                       << std::setw(20) << "City Code"
-                      << std::setw(20) << "Required Units"
+                      << std::setw(20) << "New Units"
                       << std::setw(20) << "New Flow"
                       << std::setw(20) << "Old Flow" << std::endl;
 
@@ -468,10 +468,41 @@ void UI::evaluate_resiliency() {
 void UI::redistributeWithoutMaxFlow(std::string wr,bool is_algo) {
 
     DeliverySite reservoir_ds = DeliverySite(wr);
+    bool value;
 
     if(is_algo){
-        redistributeWithoutMaxFlowAlgorithm(&g, g.findVertex(reservoir_ds));
-    }else{
+        value = redistributeWithoutMaxFlowAlgorithm(&g, g.findVertex(reservoir_ds));
+
+        std::cout << "This are the results of the simpler algorithm" << std::endl;
+
+        std::cout << std::left << std::setw(20) << "City Name"
+                  << std::setw(20) << "City Code"
+                  << std::setw(20) << "Required Units"
+                  << std::setw(20) << "New Flow"
+                  << std::setw(20) << "Old Flow" << std::endl;
+
+        for (Vertex<DeliverySite> *v: g.getVertexSet()) {
+            if (v->getInfo().getNodeType() == CITY) {
+                int sumFlow = calculate_incoming_flow(v);
+
+                v->setIncomingFlow(sumFlow);
+
+                int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
+                if (result < 0) {
+                    std::cout << std::left << std::setw(20) << v->getInfo().getName()
+                              << std::setw(20) << v->getInfo().getCode()
+                              << std::setw(20) << abs(result)
+                              << std::setw(20) << v->getIncomingFlow()
+                              << std::setw(20) << codeToFlow[v->getInfo().getCode()] << std::endl;
+                }
+            }
+        }
+    }
+
+    if(!is_algo || value){
+
+        std::cout << "This are the results of the whole network max flow calculation" << std::endl;
+
         DeliverySite supersource = DeliverySite("SuperSource");
         DeliverySite supersink = DeliverySite("SuperSink");
         DeliverySite water_reservoir = DeliverySite(wr);
@@ -481,29 +512,29 @@ void UI::redistributeWithoutMaxFlow(std::string wr,bool is_algo) {
 
         std::cout << "The max flow of the network removing " << wr << " is: " << max_flow << std::endl;
 
-    }
+        std::cout << std::left << std::setw(20) << "City Name"
+                  << std::setw(20) << "City Code"
+                  << std::setw(20) << "Required Units"
+                  << std::setw(20) << "New Flow"
+                  << std::setw(20) << "Old Flow" << std::endl;
 
-    std::cout << std::left << std::setw(20) << "City Name"
-              << std::setw(20) << "City Code"
-              << std::setw(20) << "Required Units"
-              << std::setw(20) << "New Flow"
-              << std::setw(20) << "Old Flow" << std::endl;
+        for (Vertex<DeliverySite> *v: g.getVertexSet()) {
+            if (v->getInfo().getNodeType() == CITY) {
+                int sumFlow = calculate_incoming_flow(v);
 
-    for (Vertex<DeliverySite> *v: g.getVertexSet()) {
-        if (v->getInfo().getNodeType() == CITY) {
-            int sumFlow = calculate_incoming_flow(v);
+                v->setIncomingFlow(sumFlow);
 
-            v->setIncomingFlow(sumFlow);
-
-            int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
-            if (result < 0 || (is_algo && result != 0) ) {
-                std::cout << std::left << std::setw(20) << v->getInfo().getName()
-                          << std::setw(20) << v->getInfo().getCode()
-                          << std::setw(20) << abs(result)
-                          << std::setw(20) << v->getIncomingFlow()
-                          << std::setw(20) << codeToFlow[v->getInfo().getCode()] << std::endl;
+                int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
+                if (result < 0) {
+                    std::cout << std::left << std::setw(20) << v->getInfo().getName()
+                              << std::setw(20) << v->getInfo().getCode()
+                              << std::setw(20) << abs(result)
+                              << std::setw(20) << v->getIncomingFlow()
+                              << std::setw(20) << codeToFlow[v->getInfo().getCode()] << std::endl;
+                }
             }
         }
+
     }
 }
 
