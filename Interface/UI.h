@@ -19,8 +19,8 @@ public:
     void check_heuristic();
     void back_menu();
     void evaluate_resiliency();
-    void redistributeWithoutMaxFlow(std::string wr,bool is_algo);
-    void redistributeWithoutMaxFlowVersion2();
+    void redistributeWithoutMaxFlow(std::string wr);
+    void redistributeWithoutMaxFlowVersion2(std::string& wr_code);
     int calculate_incoming_flow(Vertex<DeliverySite> *v);
 
     Graph<DeliverySite> getGraph() const;

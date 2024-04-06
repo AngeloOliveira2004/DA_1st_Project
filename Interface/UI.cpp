@@ -97,7 +97,7 @@ void UI::menu_start() {
     validate_input(op,'A','B');
     switch(op){
         case 'A':
-            redistributeWithoutMaxFlowVersion2();
+            main_menu();
             break;
         case 'B':
             std::cout << "Thanks for using our analysis tool for water supply management!" << std::endl << "\n"
@@ -325,10 +325,10 @@ void UI::evaluate_resiliency() {
 
             switch(op){
                 case 'A':
-                    redistributeWithoutMaxFlow(code,true);
+                    redistributeWithoutMaxFlowVersion2(code);
                     break;
                 case 'B':
-                    redistributeWithoutMaxFlow(code,false);
+                    redistributeWithoutMaxFlow(code);
                     break;
 
             }
@@ -479,82 +479,49 @@ void UI::evaluate_resiliency() {
 
 
 
-void UI::redistributeWithoutMaxFlow(std::string wr,bool is_algo) {
+void UI::redistributeWithoutMaxFlow(std::string wr) {
 
     DeliverySite reservoir_ds = DeliverySite(wr);
-    bool value;
+    Vertex<DeliverySite>* ds = g.findVertex(reservoir_ds);
+    DeliverySite supersource = DeliverySite("SuperSource");
+    DeliverySite supersink = DeliverySite("SuperSink");
 
-    if(is_algo){
-        value = redistributeWithoutMaxFlowAlgorithm(&g, g.findVertex(reservoir_ds));
+    createSuperSourceSink(&g,supersource,supersink);
+    inital_max_flow = edmondsKarp(&g,supersource,supersink, reservoir_ds);
+    removeSuperSourceSink(&g,supersource,supersink);
 
-        std::cout << "This are the results of the simpler algorithm" << std::endl;
+    std::cout << "The max flow of the network removing " << ds->getInfo().getCode() << " is: " << inital_max_flow << std::endl;
 
-        std::cout << std::left << std::setw(20) << "City Name"
-                  << std::setw(20) << "City Code"
-                  << std::setw(20) << "Required Units"
-                  << std::setw(20) << "New Flow"
-                  << std::setw(20) << "Old Flow" << std::endl;
+    std::cout << std::left << std::setw(20) << "City Name"
+              << std::setw(20) << "City Code"
+              << std::setw(20) << "Required Units"
+              << std::setw(20) << "New Flow"
+              << std::setw(20) << "Old Flow" << std::endl;
 
-        for (Vertex<DeliverySite> *v: g.getVertexSet()) {
-            if (v->getInfo().getNodeType() == CITY) {
-                int sumFlow = calculate_incoming_flow(v);
+    for (Vertex<DeliverySite> *v: g.getVertexSet()) {
+        if (v->getInfo().getNodeType() == CITY) {
+            int sumFlow = 0;
+            for(auto e : v->getIncoming()){
+                sumFlow += e->getFlow();
+            }
+            v->setIncomingFlow(sumFlow);
 
-                v->setIncomingFlow(sumFlow);
-
-                int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
-                if (result < 0) {
-                    std::cout << std::left << std::setw(20) << v->getInfo().getName()
-                              << std::setw(20) << v->getInfo().getCode()
-                              << std::setw(20) << abs(result)
-                              << std::setw(20) << v->getIncomingFlow()
-                              << std::setw(20) << codeToFlow[v->getInfo().getCode()] << std::endl;
-                }
+            int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
+            if (result < 0) {
+                std::cout << std::left << std::setw(20) << v->getInfo().getName()
+                          << std::setw(20) << v->getInfo().getCode()
+                          << std::setw(20) << abs(result)
+                          << std::setw(20) << v->getIncomingFlow()
+                          << std::setw(20) << codeToFlow[v->getInfo().getCode()] << std::endl;
             }
         }
     }
 
-    if(!is_algo || value){
-
-        std::cout << "This are the results of the whole network max flow calculation" << std::endl;
-
-        DeliverySite supersource = DeliverySite("SuperSource");
-        DeliverySite supersink = DeliverySite("SuperSink");
-        DeliverySite water_reservoir = DeliverySite(wr);
-        createSuperSourceSink(&g,supersource,supersink);
-        double max_flow = edmondsKarp(&g,supersource,supersink,water_reservoir);
-        removeSuperSourceSink(&g,supersource,supersink);
-
-        std::cout << "The max flow of the network removing " << wr << " is: " << max_flow << std::endl;
-
-        std::cout << std::left << std::setw(20) << "City Name"
-                  << std::setw(20) << "City Code"
-                  << std::setw(20) << "Required Units"
-                  << std::setw(20) << "New Flow"
-                  << std::setw(20) << "Old Flow" << std::endl;
-
-        for (Vertex<DeliverySite> *v: g.getVertexSet()) {
-            if (v->getInfo().getNodeType() == CITY) {
-                int sumFlow = calculate_incoming_flow(v);
-
-                v->setIncomingFlow(sumFlow);
-
-                int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
-                if (result < 0) {
-                    std::cout << std::left << std::setw(20) << v->getInfo().getName()
-                              << std::setw(20) << v->getInfo().getCode()
-                              << std::setw(20) << abs(result)
-                              << std::setw(20) << v->getIncomingFlow()
-                              << std::setw(20) << codeToFlow[v->getInfo().getCode()] << std::endl;
-                }
-            }
-        }
-
-    }
 }
 
 
-void UI::redistributeWithoutMaxFlowVersion2(){
-    DeliverySite reservoir_ds = DeliverySite("R_2");
+void UI::redistributeWithoutMaxFlowVersion2(std::string& wr_code){
+    DeliverySite reservoir_ds = DeliverySite(wr_code);
 
     std::vector<std::vector<Edge<DeliverySite>*>> paths;
 

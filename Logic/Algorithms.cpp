@@ -460,8 +460,6 @@ double minResidualAugPath(Graph<DeliverySite>*g,Vertex<DeliverySite>* source, Ve
 
         maxFlow = std::min(maxFlow,e->getWeight() - e->getFlow());
 
-        if(e->getNeeds() != DBL_MAX) maxFlow = std::min(maxFlow,e->getNeeds());
-
         if(v->getInfo().getNodeType() == WATER_RESERVOIR){
             double remain = v->getInfo().getMaxDelivery() - v->calculateOutgoingFlow();
             maxFlow = std::min(maxFlow,remain);
