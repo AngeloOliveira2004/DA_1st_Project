@@ -420,6 +420,7 @@ Vertex<DeliverySite>* findAugPath(Graph<DeliverySite>*g, Vertex<DeliverySite> *s
     for(Vertex<DeliverySite>* v : g->getVertexSet()){
         v->setVisited(false);
     }
+
     removed->setVisited(true);
 
     std::queue<Vertex<DeliverySite>*> q;
@@ -597,6 +598,13 @@ void createSuperSourceSink_(Graph<DeliverySite>* g,DeliverySite SuperSource,Deli
     for (auto v : g->getVertexSet()) {
         if (v->getInfo().getCode() != "SuperSource" && v->getInfo().getCode() != "SuperSink" && v->getInfo().getNodeType() == CITY) {
             g->addEdge(v->getInfo(), SuperSink, v->getInfo().getDemand());
+        }
+    }
+
+    for(auto v : g->getVertexSet()){
+        v->setVisited(false);
+        for(Edge<DeliverySite>* edge: v->getAdj()){
+            edge->setSelected(false);
         }
     }
 

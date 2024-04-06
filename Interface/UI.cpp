@@ -561,6 +561,10 @@ void UI::redistributeWithoutMaxFlowVersion2(){
     Vertex<DeliverySite>* ds = g.findVertex(reservoir_ds);
     std::vector<Edge<DeliverySite>*> path;
 
+    for(auto ver: g.getVertexSet()){
+        ver->setVisited(false);
+    }
+
     findAllPathsRedistribute(&g,ds,path,paths);
 
     double maxflow = redistributeWaterWithoutMaxFlow2(&g,paths);
