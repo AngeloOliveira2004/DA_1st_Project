@@ -48,11 +48,16 @@ void Remove_terminations(std::string& str)
  * @brief Loads cities data from a CSV file.
  * @complexity O(n*p), where n is the number of lines in the CSV file and p is the length of each line.
  */
-void LoadCities() {
+void LoadCities(const std::string& path) {
 
-    std::string path = "SmallDataSet";
+    std::string tempPath ;
+    if(path == "SmallDataSet"){
+        tempPath = "SmallDataSet/Cities.csv";
+    }else{
+        tempPath = "LargeDataSet/Cities.csv";
+    }
 
-    std::ifstream file("SmallDataSet/Cities_Madeira.csv");
+    std::ifstream file(tempPath);
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -105,9 +110,16 @@ void LoadCities() {
  * @brief Loads pipes data from a CSV file.
  * @complexity O(n*p), where n is the number of lines in the CSV file and p is the length of each line.
  */
-void LoadPipes() {
+void LoadPipes(const std::string& path) {
 
-    std::ifstream file("SmallDataSet/Pipes_Madeira.csv");
+    std::string tempPath ;
+    if(path == "SmallDataSet"){
+        tempPath = "SmallDataSet/Pipes.csv";
+    }else{
+        tempPath = "LargeDataSet/Pipes.csv";
+    }
+
+    std::ifstream file(tempPath);
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -146,9 +158,16 @@ void LoadPipes() {
  * @brief Loads water reservoirs data from a CSV file.
  * @complexity O(n*p), where n is the number of lines in the CSV file and p is the length of each line.
  */
-void LoadWaterReservoirs() {
+void LoadWaterReservoirs(const std::string& path) {
 
-    std::ifstream file("SmallDataSet/Reservoirs_Madeira.csv");
+    std::string tempPath ;
+    if(path == "SmallDataSet"){
+        tempPath = "SmallDataSet/Reservoir.csv";
+    }else{
+        tempPath = "LargeDataSet/Reservoir.csv";
+    }
+
+    std::ifstream file(tempPath);
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }
@@ -193,9 +212,17 @@ void LoadWaterReservoirs() {
  * @brief Loads fire stations data from a CSV file.
  * @complexity O(n*p), where n is the number of lines in the CSV file and p is the length of each line.
  */
-void LoadFireStations()
+void LoadFireStations(const std::string& path)
 {
-    std::ifstream file("SmallDataSet/Stations_Madeira.csv");
+
+    std::string tempPath ;
+    if(path == "SmallDataSet"){
+        tempPath = "SmallDataSet/Stations.csv";
+    }else{
+        tempPath = "LargeDataSet/Stations.csv";
+    }
+
+    std::ifstream file(tempPath);
     if (!file.is_open()) {
         std::cerr << "Failed to open the CSV file." << std::endl;
     }

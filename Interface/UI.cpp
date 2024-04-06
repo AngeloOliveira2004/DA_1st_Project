@@ -36,10 +36,24 @@ bool UI::validate_input(char &op, const char lower_bound, const char upper_bound
 }
 
 void UI::loading_stuff(UI &ui) {
-    LoadFireStations();
-    LoadWaterReservoirs();
-    LoadPipes();
-    LoadCities();
+    char op;
+    std::string path;
+    std::cout << "Which data set do you wish to use during the analysis?" << std::endl
+      << "A. Small Data Set" << std::endl
+      << "B. Large Data Set" << std::endl
+      << "Insert the letter: " ;
+    validate_input(op,'A','B');
+
+    if(op == 'A'){
+        path = "SmallDataSet";
+    }else{
+        path = "LargeDataSet";
+    }
+
+    LoadFireStations(path);
+    LoadWaterReservoirs(path);
+    LoadPipes(path);
+    LoadCities(path);
     createGraph(&g);
 
     DeliverySite supersource = DeliverySite("SuperSource");
@@ -62,7 +76,7 @@ void UI::loading_stuff(UI &ui) {
 
     std::cout << "Load Finished" << std::endl;
     std::cout << "Press A to start the program: ";
-    char op;
+    op;
     validate_input(op,'A','A');
     menu_start();
 }

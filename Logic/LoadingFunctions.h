@@ -26,25 +26,25 @@ void Remove_terminations(std::string& str);
  * @brief Loads cities data from a CSV file.
  * @complexity O(n), where n is the number of lines in the CSV file.
  */
-void LoadCities();
+void LoadCities(const std::string& path);
 
 /**
  * @brief Loads pipes data from a CSV file.
  * @complexity O(n), where n is the number of lines in the CSV file.
  */
-void LoadPipes();
+void LoadPipes(const std::string& path);
 
 /**
  * @brief Loads water reservoirs data from a CSV file.
  * @complexity O(n), where n is the number of lines in the CSV file.
  */
-void LoadWaterReservoirs();
+void LoadWaterReservoirs(const std::string& path);
 
 /**
  * @brief Loads fire stations data from a CSV file.
  * @complexity O(n), where n is the number of lines in the CSV file.
  */
-void LoadFireStations();
+void LoadFireStations(const std::string& path);
 
 /**
  * @brief Creates a graph based on the loaded data.
