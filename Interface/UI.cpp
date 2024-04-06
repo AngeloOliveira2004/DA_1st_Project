@@ -559,7 +559,7 @@ void UI::redistributeWithoutMaxFlowVersion2(){
     std::vector<std::vector<Edge<DeliverySite>*>> paths;
 
     Vertex<DeliverySite>* ds = g.findVertex(reservoir_ds);
-    std::vector<Edge<DeliverySite>*> path = ds->getAdj();
+    std::vector<Edge<DeliverySite>*> path;
 
     findAllPathsRedistribute(&g,ds,path,paths);
 
@@ -589,8 +589,6 @@ void UI::redistributeWithoutMaxFlowVersion2(){
             }
         }
     }
-
-
 
 }
 

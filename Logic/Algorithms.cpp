@@ -496,7 +496,6 @@ void findAllPathsRedistribute(Graph<DeliverySite>*g,Vertex<DeliverySite>* source
 }
 
 double redistributeWaterWithoutMaxFlow2(Graph<DeliverySite>*g, std::vector<std::vector<Edge<DeliverySite>*>>& paths){
-    double maxFlow = 0;
     if(paths.empty()) return 0;
 
     for(auto v : g->getVertexSet()){
@@ -516,6 +515,7 @@ double redistributeWaterWithoutMaxFlow2(Graph<DeliverySite>*g, std::vector<std::
         if(!edge->isSelected()){
             Vertex<DeliverySite>* cityFound = edge->getDest();
             cityFound->setInNeed(cityFound->getInNeed() + edge->getFlow());
+            edge->setNeeds(edge->getFlow());
             cities.push_back(edge->getDest());
         }
     }
@@ -573,12 +573,24 @@ double redistributeWaterWithoutMaxFlow2(Graph<DeliverySite>*g, std::vector<std::
                 }
 
                 edge->setFlow(edge->getFlow() + waterNeeded);
-                city->setAlreadyHas(city->getAlreadyHas() + waterNeeded);
+                city->setAlreadyHas(city->getAlreadyHas() - waterNeeded);
                 edge->setNeeds(edge->getNeeds() - waterNeeded);
             }
         }
     }
 
-    return maxFlow;
+    double flow = 0;
+        for(Vertex<DeliverySite>* v : g->getVertexSet()){
+            if(v->getInfo().getNodeType() == CITY){
+                continue;
+            }
+            double in = 0;
+            for(Edge<DeliverySite>* e : v->getIncoming()){
+                in += e->getFlow();
+            }
+
+            flow += in;
+        }
+    return flow;
 }
 
