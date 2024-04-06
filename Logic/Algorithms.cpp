@@ -569,21 +569,6 @@ double redistributeWaterWithoutMaxFlow2(Graph<DeliverySite>*g, std::vector<std::
         }
     }
 
-    for(Vertex<DeliverySite>* city : cities){
-        for(Edge<DeliverySite>* edge : city->getAdj()){
-            if(edge->getNeeds() > 0 ){
-                double waterNeeded = city->getAlreadyHas();
-                if(waterNeeded > edge->getNeeds()) {
-                    waterNeeded = edge->getNeeds();
-                }
-
-                edge->setFlow(edge->getFlow() + waterNeeded);
-                city->setAlreadyHas(city->getAlreadyHas() - waterNeeded);
-                edge->setNeeds(edge->getNeeds() - waterNeeded);
-            }
-        }
-    }
-
     double flow = 0;
     for(Vertex<DeliverySite>* v : g->getVertexSet()){
         if(v->getInfo().getNodeType() == CITY ){
