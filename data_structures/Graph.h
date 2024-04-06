@@ -42,6 +42,8 @@ public:
     double getDist() const;
     Edge<T> *getPath() const;
     std::vector<Edge<T> *> getIncoming() const;
+    double getInNeed() const;
+    double getAlreadyHas() const;
 
     void setInfo(T info);
     void setVisited(bool visited);
@@ -50,6 +52,8 @@ public:
     void setDist(double dist);
     void setIncomingFlow(int flow);
     void setPath(Edge<T> *path);
+    void setInNeed(double inneed);
+    void setAlreadyHas(double alreadyhas);
     Edge<T> * addEdge(Vertex<T> *dest, double w);
     bool removeEdge(T in);
     void removeOutgoingEdges();
@@ -71,6 +75,8 @@ protected:
     double dist = 0;
     Edge<T> *path = nullptr;
     int incomingFlow = 0;
+    double inNeed; //Both values used in the 3.1 function , one needed that has the value the city still needs and the other the value of flow it already has
+    double alreadyHas;
 
     std::vector<Edge<T> *> incoming; // incoming edges
 
@@ -78,6 +84,16 @@ protected:
 
     void deleteEdge(Edge<T> *edge);
 };
+
+template<class T>
+void Vertex<T>::setInNeed(double inneed) {
+    this->inNeed = inneed;
+}
+
+template<class T>
+void Vertex<T>::setAlreadyHas(double alreadyhas) {
+    this->alreadyHas = alreadyhas;
+}
 
 template<class T>
 bool Vertex<T>::noIncomingFlow() const {
@@ -132,10 +148,12 @@ public:
     Vertex<T> * getOrig() const;
     Edge<T> *getReverse() const;
     double getFlow() const;
+    double getNeeds() const;
 
     void setSelected(bool selected);
     void setReverse(Edge<T> *reverse);
     void setFlow(double flow);
+    void setNeeds(double needs);
 protected:
     Vertex<T> * dest; // destination vertex
     double weight; // edge weight, can also be used for capacity
@@ -148,6 +166,7 @@ protected:
     Edge<T> *reverse = nullptr;
 
     double flow; // for flow-related problems
+    double needs;
 };
 
 /********************** Graph  ****************************/
@@ -302,6 +321,16 @@ bool Vertex<T>::isVisited() const {
 }
 
 template <class T>
+double Vertex<T>::getInNeed() const {
+    return this->inNeed;
+}
+
+template <class T>
+double Vertex<T>::getAlreadyHas() const {
+    return this->alreadyHas;
+}
+
+template <class T>
 bool Vertex<T>::isProcessing() const {
     return this->processing;
 }
@@ -417,6 +446,11 @@ double Edge<T>::getFlow() const {
     return flow;
 }
 
+template<class T>
+double Edge<T>::getNeeds() const {
+    return this->needs;
+}
+
 template <class T>
 void Edge<T>::setSelected(bool selected) {
     this->selected = selected;
@@ -430,6 +464,12 @@ void Edge<T>::setReverse(Edge<T> *reverse) {
 template <class T>
 void Edge<T>::setFlow(double flow) {
     this->flow = flow;
+}
+
+
+template<class T>
+void Edge<T>::setNeeds(double needs) {
+    this->needs = needs;
 }
 
 /********************** Graph  ****************************/

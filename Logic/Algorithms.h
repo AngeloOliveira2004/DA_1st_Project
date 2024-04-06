@@ -113,4 +113,8 @@ Metrics heuristic(Graph<DeliverySite>*g);
 
 bool redistributeWithoutMaxFlowAlgorithm(Graph<DeliverySite>*g, Vertex<DeliverySite>* removed);
 
+void findAllPathsRedistribute(Graph<DeliverySite>*g,Vertex<DeliverySite>* source, std::vector<Edge<DeliverySite>*>& path, std::vector<std::vector<Edge<DeliverySite>*>>& paths);
+
+double redistributeWaterWithoutMaxFlow2(Graph<DeliverySite>*g, std::vector<std::vector<Edge<DeliverySite>*>>& paths);
+
 #endif

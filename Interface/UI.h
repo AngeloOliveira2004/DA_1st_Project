@@ -20,6 +20,7 @@ public:
     void back_menu();
     void evaluate_resiliency();
     void redistributeWithoutMaxFlow(std::string wr,bool is_algo);
+    void redistributeWithoutMaxFlowVersion2();
     int calculate_incoming_flow(Vertex<DeliverySite> *v);
 
     Graph<DeliverySite> getGraph() const;
