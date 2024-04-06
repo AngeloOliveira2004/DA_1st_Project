@@ -97,7 +97,7 @@ void UI::menu_start() {
     validate_input(op,'A','B');
     switch(op){
         case 'A':
-            main_menu();
+            redistributeWithoutMaxFlowVersion2();
             break;
         case 'B':
             std::cout << "Thanks for using our analysis tool for water supply management!" << std::endl << "\n"
@@ -550,6 +550,48 @@ void UI::redistributeWithoutMaxFlow(std::string wr,bool is_algo) {
         }
 
     }
+}
+
+
+void UI::redistributeWithoutMaxFlowVersion2(){
+    DeliverySite reservoir_ds = DeliverySite("R_4");
+
+    std::vector<std::vector<Edge<DeliverySite>*>> paths;
+
+    Vertex<DeliverySite>* ds = g.findVertex(reservoir_ds);
+    std::vector<Edge<DeliverySite>*> path = ds->getAdj();
+
+    findAllPathsRedistribute(&g,ds,path,paths);
+
+    double maxflow = redistributeWaterWithoutMaxFlow2(&g,paths);
+
+    std::cout << "The max flow of the network removing " << ds->getInfo().getCode() << " is: " << maxflow << std::endl;
+
+    std::cout << std::left << std::setw(20) << "City Name"
+              << std::setw(20) << "City Code"
+              << std::setw(20) << "Required Units"
+              << std::setw(20) << "New Flow"
+              << std::setw(20) << "Old Flow" << std::endl;
+
+    for (Vertex<DeliverySite> *v: g.getVertexSet()) {
+        if (v->getInfo().getNodeType() == CITY) {
+            int sumFlow = calculate_incoming_flow(v);
+
+            v->setIncomingFlow(sumFlow);
+
+            int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
+            if (result < 0) {
+                std::cout << std::left << std::setw(20) << v->getInfo().getName()
+                          << std::setw(20) << v->getInfo().getCode()
+                          << std::setw(20) << abs(result)
+                          << std::setw(20) << v->getIncomingFlow()
+                          << std::setw(20) << codeToFlow[v->getInfo().getCode()] << std::endl;
+            }
+        }
+    }
+
+
+
 }
 
 

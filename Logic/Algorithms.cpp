@@ -414,3 +414,171 @@ bool redistributeWithoutMaxFlowAlgorithm(Graph<DeliverySite>*g, Vertex<DeliveryS
     return flag_edmonds_Karp;
 }
 
+Vertex<DeliverySite>* findAugPath(Graph<DeliverySite>*g, Vertex<DeliverySite> *source, Vertex<DeliverySite>* removed){
+    if(source->getInfo().getNodeType() == CITY && source->getInNeed() == 0) return nullptr;
+
+    for(Vertex<DeliverySite>* v : g->getVertexSet()){
+        v->setVisited(false);
+    }
+    removed->setVisited(true);
+
+    std::queue<Vertex<DeliverySite>*> q;
+    q.push(source);
+    source->setVisited(true);
+
+    while(!q.empty()) {
+        Vertex<DeliverySite>* v = q.front();
+        q.pop();
+        if(v->getInfo().getNodeType() == WATER_RESERVOIR) {
+            return v;
+        }
+
+        for(Edge<DeliverySite>* edge : v->getIncoming()){
+            Vertex<DeliverySite>* origin = edge->getOrig();
+            if(!origin->isVisited() && (edge->getWeight() - edge->getFlow() > 0)){
+                if(origin->getInfo().getNodeType() == WATER_RESERVOIR){
+                    double remain = origin->getInfo().getMaxDelivery() - origin->calculateOutgoingFlow();
+                    if(remain <= 0){
+                        origin->setVisited(true);
+                        continue;
+                    }
+                }
+                origin->setVisited(true);
+                origin->setPath(edge);
+                q.push(origin);
+            }
+        }
+    }
+    return nullptr;
+}
+
+double minResidualAugPath(Graph<DeliverySite>*g,Vertex<DeliverySite>* source, Vertex<DeliverySite>* sink){
+    double maxFlow = DBL_MAX;
+    for(Vertex<DeliverySite>* v = source; v != sink;){
+        Edge<DeliverySite>* e = v->getPath();
+
+        maxFlow = std::min(maxFlow,e->getWeight() - e->getFlow());
+        if(v->getInfo().getNodeType() == WATER_RESERVOIR){
+            double remain = v->getInfo().getMaxDelivery() - v->calculateOutgoingFlow();
+            maxFlow = std::min(maxFlow,remain);
+        }
+        v = e->getDest();
+    }
+    return maxFlow;
+}
+
+void augmentFlowPath(Vertex<DeliverySite>* source,Vertex<DeliverySite>* sink, double flow){
+    for(Vertex<DeliverySite>* v = source; v != sink;){
+        Edge<DeliverySite>* edge = v->getPath();
+        edge->setFlow(edge->getFlow() + flow);
+        v = edge->getDest();
+    }
+}
+
+
+
+void findAllPathsRedistribute(Graph<DeliverySite>*g,Vertex<DeliverySite>* source, std::vector<Edge<DeliverySite>*>& path, std::vector<std::vector<Edge<DeliverySite>*>>& paths){
+    source->setVisited(true);
+
+    if(source->getInfo().getNodeType() == CITY){
+        paths.push_back(path);
+    }else{
+        for(Edge<DeliverySite>* edge : source->getAdj()){
+            if(!edge->getDest()->isVisited()){
+                path.push_back(edge);
+                findAllPathsRedistribute(g,edge->getDest(),path,paths);
+            }
+        }
+    }
+
+    if(!path.empty()) path.pop_back();
+    source->setVisited(false);
+}
+
+double redistributeWaterWithoutMaxFlow2(Graph<DeliverySite>*g, std::vector<std::vector<Edge<DeliverySite>*>>& paths){
+    double maxFlow = 0;
+    if(paths.empty()) return 0;
+
+    for(auto v : g->getVertexSet()){
+        v->setInNeed(0);
+        v->setAlreadyHas(0);
+        v->setVisited(false);
+        for(Edge<DeliverySite>* edge: v->getAdj()){
+            edge->setSelected(false);
+            edge->setNeeds(0);
+        }
+    }
+
+    std::vector<Vertex<DeliverySite>*> cities;
+    for(auto path : paths){
+        if(path.size() < 2) continue;
+        Edge<DeliverySite>* edge = path[path.size() - 1];
+        if(!edge->isSelected()){
+            Vertex<DeliverySite>* cityFound = edge->getDest();
+            cityFound->setInNeed(cityFound->getInNeed() + edge->getFlow());
+            cities.push_back(edge->getDest());
+        }
+    }
+
+    for(std::vector<Edge<DeliverySite>*> path : paths){
+        double minFlow = DBL_MAX;
+        for(auto & i : path) minFlow = std::min(minFlow,i->getFlow());
+
+        for(auto & i : path) i->setFlow(i->getFlow() - minFlow);
+    }
+
+    for(Vertex<DeliverySite>* v: g->getVertexSet()){
+        for(Edge<DeliverySite>* e : v->getAdj()){
+            e->setSelected(false);
+        }
+    }
+
+    for(std::vector<Edge<DeliverySite>*> path : paths){
+        if(path.size() < 2) continue;
+        Edge<DeliverySite>* edge = path[path.size() - 1];
+        if(!edge->isSelected()){
+            Vertex<DeliverySite>* city = edge->getDest();
+            city->setInNeed(city->getInNeed() - edge->getFlow());
+            edge->setNeeds(edge->getNeeds() - edge->getFlow());
+            edge->setSelected(true);
+        }
+    }
+
+    Vertex<DeliverySite>* water_reservoir = paths[0][0]->getOrig();
+
+    for(Vertex<DeliverySite>* city : cities){
+        while(true){
+            Vertex<DeliverySite>* augment = findAugPath(g,city,water_reservoir);
+            if(augment == nullptr){
+                break;
+            }
+            double flow = minResidualAugPath(g,augment,city);
+
+            if(flow > city->getInNeed()){
+                flow = city->getInNeed();
+            }
+            augmentFlowPath(augment,city,flow);
+            city->setInNeed(city->getInNeed() - flow);
+            city->setAlreadyHas(city->getAlreadyHas() + flow);
+
+        }
+    }
+
+    for(Vertex<DeliverySite>* city : cities){
+        for(Edge<DeliverySite>* edge : city->getAdj()){
+            if(edge->getNeeds() > 0 ){
+                double waterNeeded = city->getAlreadyHas();
+                if(waterNeeded > edge->getNeeds()) {
+                    waterNeeded = edge->getNeeds();
+                }
+
+                edge->setFlow(edge->getFlow() + waterNeeded);
+                city->setAlreadyHas(city->getAlreadyHas() + waterNeeded);
+                edge->setNeeds(edge->getNeeds() - waterNeeded);
+            }
+        }
+    }
+
+    return maxFlow;
+}
+
