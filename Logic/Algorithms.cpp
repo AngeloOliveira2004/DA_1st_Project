@@ -585,17 +585,17 @@ double redistributeWaterWithoutMaxFlow2(Graph<DeliverySite>*g, std::vector<std::
     }
 
     double flow = 0;
-        for(Vertex<DeliverySite>* v : g->getVertexSet()){
-            if(v->getInfo().getNodeType() == CITY){
-                for(Edge<DeliverySite>* e : v->getIncoming()){
-                    flow += e->getFlow();
-                }
+    for(Vertex<DeliverySite>* v : g->getVertexSet()){
+        if(v->getInfo().getNodeType() == CITY ){
+            for(auto e : v->getIncoming()){
+                flow += e->getFlow();
             }
         }
+    }
 
-        for(auto edge: g->getEdges()){
-            edge->setSelected(false);
-        }
+    for(auto edge: g->getEdges()){
+        edge->setSelected(false);
+    }
     return flow;
 }
 

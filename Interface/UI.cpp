@@ -575,8 +575,10 @@ void UI::redistributeWithoutMaxFlowVersion2(){
 
     for (Vertex<DeliverySite> *v: g.getVertexSet()) {
         if (v->getInfo().getNodeType() == CITY) {
-            int sumFlow = calculate_incoming_flow(v);
-
+            int sumFlow = 0;
+            for(auto e : v->getIncoming()){
+                sumFlow += e->getFlow();
+            }
             v->setIncomingFlow(sumFlow);
 
             int result = v->getIncomingFlow() - codeToFlow[v->getInfo().getCode()];
