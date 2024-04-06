@@ -458,6 +458,9 @@ double minResidualAugPath(Graph<DeliverySite>*g,Vertex<DeliverySite>* source, Ve
         Edge<DeliverySite>* e = v->getPath();
 
         maxFlow = std::min(maxFlow,e->getWeight() - e->getFlow());
+
+        if(e->getNeeds() != DBL_MAX) maxFlow = std::min(maxFlow,e->getNeeds());
+
         if(v->getInfo().getNodeType() == WATER_RESERVOIR){
             double remain = v->getInfo().getMaxDelivery() - v->calculateOutgoingFlow();
             maxFlow = std::min(maxFlow,remain);
@@ -470,6 +473,8 @@ double minResidualAugPath(Graph<DeliverySite>*g,Vertex<DeliverySite>* source, Ve
 void augmentFlowPath(Vertex<DeliverySite>* source,Vertex<DeliverySite>* sink, double flow){
     for(Vertex<DeliverySite>* v = source; v != sink;){
         Edge<DeliverySite>* edge = v->getPath();
+
+        if(edge->getNeeds() != DBL_MAX) edge->setNeeds(edge->getNeeds() - flow);
         edge->setFlow(edge->getFlow() + flow);
         v = edge->getDest();
     }
@@ -582,14 +587,14 @@ double redistributeWaterWithoutMaxFlow2(Graph<DeliverySite>*g, std::vector<std::
     double flow = 0;
         for(Vertex<DeliverySite>* v : g->getVertexSet()){
             if(v->getInfo().getNodeType() == CITY){
-                continue;
+                for(Edge<DeliverySite>* e : v->getIncoming()){
+                    flow += e->getFlow();
+                }
             }
-            double in = 0;
-            for(Edge<DeliverySite>* e : v->getIncoming()){
-                in += e->getFlow();
-            }
+        }
 
-            flow += in;
+        for(auto edge: g->getEdges()){
+            edge->setSelected(false);
         }
     return flow;
 }
