@@ -578,9 +578,33 @@ double redistributeWaterWithoutMaxFlow2(Graph<DeliverySite>*g, std::vector<std::
         }
     }
 
-    for(auto edge: g->getEdges()){
-        edge->setSelected(false);
-    }
+
+    DeliverySite supersource = DeliverySite("SuperSource");
+    DeliverySite supersink = DeliverySite("SuperSink");
+    DeliverySite dummy = DeliverySite("R_4");
+    createSuperSourceSink_(g,supersource,supersink);
+    edmondsKarp(g,supersource,supersink, dummy);
+
     return flow;
 }
 
+void createSuperSourceSink_(Graph<DeliverySite>* g,DeliverySite SuperSource,DeliverySite SuperSink){
+    g->addVertex(SuperSource);
+    g->addVertex(SuperSink);
+
+    for (auto v: g->getVertexSet()) {
+        nodeTypes code = v->getInfo().getNodeType();
+        if (code == WATER_RESERVOIR){
+            g->addEdge(SuperSource,v->getInfo(),v->getInfo().getMaxDelivery());
+        } else if (code == CITY && v->getInfo().getCode() != "SuperSource" && v->getInfo().getCode() != "SuperSink") {
+            g->addEdge(v->getInfo(),SuperSource, v->getInfo().getDemand());
+        }
+    }
+
+    for (auto v : g->getVertexSet()) {
+        if (v->getInfo().getCode() != "SuperSource" && v->getInfo().getCode() != "SuperSink" && v->getInfo().getNodeType() == CITY) {
+            g->addEdge(v->getInfo(), SuperSink, v->getInfo().getDemand());
+        }
+    }
+
+}

@@ -117,4 +117,5 @@ void findAllPathsRedistribute(Graph<DeliverySite>*g,Vertex<DeliverySite>* source
 
 double redistributeWaterWithoutMaxFlow2(Graph<DeliverySite>*g, std::vector<std::vector<Edge<DeliverySite>*>>& paths);
 
+void createSuperSourceSink_(Graph<DeliverySite>* g,DeliverySite SuperSource,DeliverySite SuperSink);
 #endif
