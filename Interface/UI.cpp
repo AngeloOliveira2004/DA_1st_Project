@@ -244,14 +244,14 @@ void UI::check_demand(){
     edmondsKarp(&g,supersource,supersink,dummy);
     removeSuperSourceSink(&g,supersource,supersink);
 
+    std::cout << "The following cities don't receive enough water : " << std::endl;
+
     std::cout << std::left << std::left << std::setw(20) << "City Name"
               << std::setw(20) << "City Code"
               << std::setw(20) << "Demand"
               << std::setw(20) << "Flow"
               << std::setw(20) << "Defecit" << std::endl;
 
-
-    std::cout << "The following cities don't receive enough water : " << std::endl;
     for(Vertex<DeliverySite>* ds: g.getVertexSet()){
         int sumFlow = calculate_incoming_flow(ds);
         ds->setIncomingFlow(sumFlow);
