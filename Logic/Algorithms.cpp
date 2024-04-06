@@ -578,13 +578,6 @@ double redistributeWaterWithoutMaxFlow2(Graph<DeliverySite>*g, std::vector<std::
         }
     }
 
-
-    DeliverySite supersource = DeliverySite("SuperSource");
-    DeliverySite supersink = DeliverySite("SuperSink");
-    DeliverySite dummy = DeliverySite("R_4");
-    createSuperSourceSink_(g,supersource,supersink);
-    edmondsKarp(g,supersource,supersink, dummy);
-
     return flow;
 }
 

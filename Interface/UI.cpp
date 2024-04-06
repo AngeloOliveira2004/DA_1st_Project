@@ -554,7 +554,7 @@ void UI::redistributeWithoutMaxFlow(std::string wr,bool is_algo) {
 
 
 void UI::redistributeWithoutMaxFlowVersion2(){
-    DeliverySite reservoir_ds = DeliverySite("R_4");
+    DeliverySite reservoir_ds = DeliverySite("R_2");
 
     std::vector<std::vector<Edge<DeliverySite>*>> paths;
 
