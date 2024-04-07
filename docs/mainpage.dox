@@ -1,18 +1,17 @@
-/** \mainpage Air Travel Flight Management System
+/** \mainpage Flow Network Analysis Tool
   *
-  * This project is a simple terminal-based application used for consulting statistics and travels of a flight management system.
+  * This project is a simple terminal-based application used for analysing flows across a graph using a pre-determined input.
   *
   * ## Features
   *
   * - Read and parse data from csv files and load it into optimized data structures
   * - Calculate and list statistics of the network.
-  * - View airport's specific statistics, for example, number of flights, reachable destinations, etc.
-  * - Find the best flight option using very diversificated filtering options.
-  * - Delight yourself around an old tale while waiting for the load time.
+  * - Calculate the flow of each city using different filters.
+  * - Network balancing algorithms and resilency tests.
   *
   * ## Installation Guide:
   *
-  * 1. Clone the repository to your local machine: git clone https://github.com/JoseCostaUni/Projeto_AED_2.git
+  * 1. Clone the repository to your local machine: git clone https://github.com/JoseCostaUni/DA-1st-Project.git
   * 2. Open it on your IDE application (Made using Clion)
   * 3. Create cmake and compile project.
   * 4. Enjoy your program
@@ -33,9 +32,9 @@
   *
   * - José Costa
   * - Ângelo Oliveira
-  * - Bernardo Sousa
+  * - Bruno Fortes
   *
-  * For "Algoritmo e Estrutura de Dados" class
+  * For "Desenho de Algoritmos" class
   *
   * ## Contact
   *
