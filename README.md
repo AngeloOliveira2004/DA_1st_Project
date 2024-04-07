@@ -2,49 +2,30 @@
 
 ## Inputs to reach each point in the program:
 
-### 3.i Global number of airports and number of available flights
+-> Start Program
 
--> Consult Flight Statistics, Global Statistics
+-> Proceed the application
 
-### 3.ii Number of flights out of an airport; and from how many different airlines
+### 2.1 Determine the maximum amount of water
 
--> Consult Flights, Option A
+- Run Max Flow Algorithm
 
-### 3.iii Number of flights per city/airline
+### 2.2 Determine if the water reservoirs supply enough water to all its delivery sites
 
--> Consult Flight Statistics, Airline/City Statistics
+- Run Check if every city meets it's water demand
 
-### 3.iv Number of different countries that a given airport/city flies to
+### 2.3 Determine the heuristic to balance the load across the network
 
--> Consult Flight Statistics, Country Statistics
+- Run Check heuristic stats of the max flow
 
-### 3.v Number of destinations (airports, cities or countries) available for a given airport
+### 3.1 Evaluate what happens in terms of the delivery capacity of the network if one specific water reservoir is out of commission.
+- Evaluate network's resiliency, Water Reservoir out of comission.
 
--> Consult Flight Statistics, Airport Statistics, Option A
+### 3.2 Can any pumping station be temporarily taken out of service without affecting the delivery capacity to all the cities
+- Evaluate network's resiliency, Pumping Station out of comission /in maintenance.
 
-### 3.vi Number of reachable destinations (airports, cities or countries) from a given airport in a maximum number of X stops (lay-overs)
-
--> Consult Flight Statistics, Airport Statistics, Option B
-
-### 3.vii Maximum trip and corresponding pair of source-destination airports (or pairs, if more than one), that is, the flight trip(s) with the greatest number of stops in between them
-
--> Consult Flight Statistics, Option E
-
-### 3.viii Identify the top-k airport with the greatest air traffic capacity, that is, with the greatest number of flights
-
--> Consult Flight Statistics, Airport Statistics, Option C
-
-### 3.ix Identify the airports that are essential to the network’s circulation capability (airports are essential if, when removed, areas of the network start to be unreachable)
-
--> Consult Flight Statistics, Airport Statistics, Option D
-
-### 4. Present the best flight option
-
-->  Plan a Trip , choose the next option accordingly
-
-### 5. Search for the best flight option with filters
-
-->  Plan a Trip , choose the next option accordingly
+### 3.3 Determine which pipelines, if ruptured, would make it impossible to deliver the desired amount of water to a given city.
+- Evaluate network's resiliency, Pipeline/s out of comission / ruptured.
 
 ## Post Scriptum:
 If you are having troubles with running the project:
@@ -54,16 +35,14 @@ If you are having troubles with running the project:
 4. Put the folder copy inside the new cmake-build-debug
 5. Have fun using the program
 
-Also important, if you have the problem of not loading the csv files, be sure that they are in a folder named dataset inside the cmake-build-debug. Furthermore, the names of the datasets were altered 
-for simplification issues. If you have any problem while loading the CSVs please use the following names: 
-1. LargeDataSet/Cities.csv 
-; LargeDataSet/Pipes.csv
-; LargeDataSet/Reservoir.csv
-; LargeDataSet/Stations.csv
+Also important, if you have the problem of not loading the csv files, be sure that they are in a folder named dataset inside the cmake-build-debug. Furthermore, the names of the datasets were altered
+for simplification issues. If you have any problem while loading the CSVs please use the following names:
+1. LargeDataSet/Cities.csv
+   ; LargeDataSet/Pipes.csv
+   ; LargeDataSet/Reservoir.csv
+   ; LargeDataSet/Stations.csv
 
 2. LargeDataSet/Cities.csv
-; SmallDataSet/Pipes.csv
-; SmallDataSet/Reservoir.csv
-; SmallDataSet/Stations.csv
-
-
+   ; SmallDataSet/Pipes.csv
+   ; SmallDataSet/Reservoir.csv
+   ; SmallDataSet/Stations.csv
