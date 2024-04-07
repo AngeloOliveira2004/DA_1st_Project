@@ -5,6 +5,12 @@
 std::unordered_set<DeliverySite> nodesToAdd;
 std::vector<PumpingStations> edges;
 
+/**
+ * @brief Normalizes two strings by removing leading and trailing whitespaces and converting them to lowercase.
+ * @param str1 The first string to be normalized.
+ * @param str2 The second string to be normalized.
+ * @complexity O(n), where n is the length of the longer string between str1 and str2.
+ */
 void NormaliseString(std::string& str1 , std::string& str2){
     std::string temp;
     Remove_terminations(str1);
