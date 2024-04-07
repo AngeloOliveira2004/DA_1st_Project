@@ -60,7 +60,7 @@ for simplification issues. If you have any problem while loading the CSVs please
 ; LargeDataSet/Pipes.csv
 ; LargeDataSet/Reservoir.csv
 ; LargeDataSet/Stations.csv
-<br>
+
 2. LargeDataSet/Cities.csv
 ; SmallDataSet/Pipes.csv
 ; SmallDataSet/Reservoir.csv
