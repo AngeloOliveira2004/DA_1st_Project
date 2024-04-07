@@ -1,0 +1,39 @@
+\doxysection{UI.\+h}
+\hypertarget{_u_i_8h_source}{}\label{_u_i_8h_source}\index{Interface/UI.h@{Interface/UI.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PROJETO\_UI\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PROJETO\_UI\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../Logic/LoadingFunctions.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../Logic/stdafx.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../Logic/Algorithms.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00011\ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_i}{UI}}\ \{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{class_u_i_a675985a56b5e87ebdc8e5884b9f2ee09}{UI}}();}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_u_i_aa4f5f0000b864a5019c797b8a7da8891}{menu\_start}}();}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_u_i_a298d81ef3106436a00bed98330d4c5a8}{clear\_screen}}();}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_u_i_a19639c490c34c5b0c66684c2670b7076}{loading\_stuff}}(\mbox{\hyperlink{class_u_i}{UI}}\ \&ui);}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_u_i_a83fba9739cde5eda8391c2020ab3dcff}{validate\_input}}(\textcolor{keywordtype}{char}\ \&op,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ lower\_bound,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ upper\_bound);}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_u_i_ae6e6f8381ec34388c4bd8811c4e86e1c}{main\_menu}}();}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_u_i_af821fec1a35eed362ef7f97ac1b099d7}{max\_flow}}();}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_u_i_a8811c89ff8886f5aafb5c7b7a528fc12}{check\_demand}}();}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_u_i_a99d40d593963898a973a3753a4c8c8e3}{check\_heuristic}}();}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_u_i_a7400f4d4e0b03b04121de9208070aa6b}{back\_menu}}();}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_u_i_a99814b952a9dbc3fdbc25df75f0a04ba}{evaluate\_resiliency}}();}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_u_i_a155d0fe6ad95f45f0db7234a8e5e2a16}{redistributeWithoutMaxFlow}}(std::string\ wr);}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_u_i_af1812dca79e504a6ce27c9729b1a2983}{redistributeWithoutMaxFlowVersion2}}(std::string\&\ wr\_code);}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_u_i_a3b1531228e9fac38d5100929418d8444}{calculate\_incoming\_flow}}(Vertex<DeliverySite>\ *v);}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00089\ \ \ \ \ Graph<DeliverySite>\ \mbox{\hyperlink{class_u_i_ae3dbb3883ea935fdb4d74c459328f4c6}{getGraph}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00090\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00091\ \ \ \ \ Graph<DeliverySite>\ g;\ }
+\DoxyCodeLine{00092\ \ \ \ \ std::unordered\_map<std::string,\ int>\ codeToFlow;\ }
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{int}\ inital\_max\_flow;\ }
+\DoxyCodeLine{00094\ \};}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//PROJETO\_UI\_H}}
+
+\end{DoxyCode}

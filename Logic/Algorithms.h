@@ -111,11 +111,50 @@ void pumpWater(std::vector<Edge<DeliverySite>*>& path , double flowToPump);
  */
 Metrics heuristic(Graph<DeliverySite>*g);
 
+/**
+ * @brief Redistributes water without using the Max Flow algorithm.
+ *
+ * This function redistributes water in the network graph without utilizing the Max Flow algorithm.
+ * It iteratively redistributes water from one source to other vertices based on available paths.
+ *
+ * @param g Pointer to the graph representing the water distribution network.
+ * @param removed Pointer to the vertex representing the removed site.
+ * @return True if redistribution fails, False otherwise.
+ */
 bool redistributeWithoutMaxFlowAlgorithm(Graph<DeliverySite>*g, Vertex<DeliverySite>* removed);
 
+/**
+ * @brief Finds all possible paths in the graph starting from a given source vertex.
+ *
+ * This function recursively finds all possible paths starting from the given source vertex.
+ *
+ * @param g Pointer to the graph representing the water distribution network.
+ * @param source Pointer to the source vertex of the paths.
+ * @param path Vector storing the current path being explored.
+ * @param paths Vector storing all found paths.
+ */
 void findAllPathsRedistribute(Graph<DeliverySite>*g,Vertex<DeliverySite>* source, std::vector<Edge<DeliverySite>*>& path, std::vector<std::vector<Edge<DeliverySite>*>>& paths);
 
+/**
+ * @brief Redistributes water without using the Max Flow algorithm.
+ *
+ * This function redistributes water in the network graph without utilizing the Max Flow algorithm.
+ * It redistributes water along all given paths.
+ *
+ * @param g Pointer to the graph representing the water distribution network.
+ * @param paths Vector of vectors storing paths for water redistribution.
+ * @return The total redistributed flow.
+ */
 double redistributeWaterWithoutMaxFlow2(Graph<DeliverySite>*g, std::vector<std::vector<Edge<DeliverySite>*>>& paths);
 
+/**
+ * @brief Creates super source and sink vertices in the graph.
+ *
+ * This function creates super source and sink vertices and connects them to the appropriate vertices in the graph.
+ *
+ * @param g Pointer to the graph representing the water distribution network.
+ * @param SuperSource The DeliverySite object representing the super source.
+ * @param SuperSink The DeliverySite object representing the super sink.
+ */
 void createSuperSourceSink_(Graph<DeliverySite>* g,DeliverySite SuperSource,DeliverySite SuperSink);
 #endif

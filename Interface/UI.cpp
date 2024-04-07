@@ -14,6 +14,16 @@ void UI::clear_screen() {
     }
 }
 
+/**
+ * @brief Validates user input to ensure it is within a specified range.
+ *
+ * @param op Reference to the character variable where the input will be stored.
+ * @param lower_bound Lower bound of the valid input range.
+ * @param upper_bound Upper bound of the valid input range.
+ * @return true if input is valid, false otherwise.
+ *
+ * @note Time complexity: O(1)
+ */
 bool UI::validate_input(char &op, const char lower_bound, const char upper_bound) {
     std::string tempValue;
     while(true){
@@ -35,6 +45,13 @@ bool UI::validate_input(char &op, const char lower_bound, const char upper_bound
     return true;
 }
 
+/**
+ * @brief Loads data and initializes the program.
+ *
+ * @param ui Reference to the UI object.
+ *
+ * @note Time complexity: Depends on the loading process, including file I/O and graph creation.
+ */
 void UI::loading_stuff(UI &ui) {
     char op;
     std::string path;
@@ -81,6 +98,11 @@ void UI::loading_stuff(UI &ui) {
     menu_start();
 }
 
+/**
+ * @brief Displays the main menu of the program.
+ *
+ * @note Time complexity: O(1)
+ */
 void UI::menu_start() {
     char op;
     std::cout << "######################################################################" << std::endl
@@ -111,6 +133,11 @@ void UI::menu_start() {
     }
 }
 
+/**
+ * @brief Displays the main menu of the program after clearing the screen.
+ *
+ * @note Time complexity: O(1)
+ */
 void UI::main_menu(){
     clear_screen();
     char op;
@@ -149,10 +176,22 @@ void UI::main_menu(){
     }
 }
 
+/**
+ * @brief Retrieves the graph associated with the UI object.
+ *
+ * @return The graph object.
+ *
+ * @note Time complexity: O(1)
+ */
 Graph<DeliverySite> UI::getGraph() const {
     return g;
 }
 
+/**
+ * @brief Executes the max flow algorithm based on user input.
+ *
+ * @note Time complexity: Depends on the execution of the max flow algorithm, including graph traversal and flow calculations.
+ */
 void UI::max_flow(){
     char op;
     std::cout << "What would you like to do?" << std::endl
@@ -234,7 +273,11 @@ void UI::max_flow(){
     back_menu();
 };
 
-
+/**
+ * @brief Checks if every city meets its water demand.
+ *
+ * @note Time complexity: Depends on the graph traversal and demand checking process.
+ */
 void UI::check_demand(){
 
     DeliverySite supersource = DeliverySite("SuperSource");
@@ -270,6 +313,11 @@ void UI::check_demand(){
     back_menu();
 }
 
+/**
+ * @brief Calculates and displays heuristic stats of the max flow.
+ *
+ * @note Time complexity: Depends on the execution of the heuristic algorithm.
+ */
 void UI::check_heuristic(){
     DeliverySite supersource = DeliverySite("SuperSource");
     DeliverySite supersink = DeliverySite("SuperSink");
@@ -284,6 +332,11 @@ void UI::check_heuristic(){
     back_menu();
 }
 
+/**
+ * @brief Redirects the user back to the main menu.
+ *
+ * @note Time complexity: O(1)
+ */
 void UI::back_menu(){
     char op;
     std::cout << "Press A to go back to the menu: ";
@@ -291,6 +344,11 @@ void UI::back_menu(){
     main_menu();
 }
 
+/**
+ * @brief Displays the menu to evaluate the network's resiliency and performs the chosen evaluation.
+ *
+ * @note Time complexity: Depends on the chosen evaluation method and associated computations.
+ */
 void UI::evaluate_resiliency() {
     char op;
     std:: cout << "How would you like to evaluate the resiliency?" << std::endl
@@ -478,7 +536,13 @@ void UI::evaluate_resiliency() {
 }
 
 
-
+/**
+ * @brief Redistributes water without calculating the max flow.
+ *
+ * @param wr Code of the water reservoir to be removed.
+ *
+ * @note Time complexity: Depends on the graph traversal and redistribution process.
+ */
 void UI::redistributeWithoutMaxFlow(std::string wr) {
 
     DeliverySite reservoir_ds = DeliverySite(wr);
@@ -519,7 +583,13 @@ void UI::redistributeWithoutMaxFlow(std::string wr) {
 
 }
 
-
+/**
+ * @brief Redistributes water without calculating the max flow (version 2).
+ *
+ * @param wr_code Code of the water reservoir to be removed.
+ *
+ * @note Time complexity: Depends on the graph traversal and redistribution process.
+ */
 void UI::redistributeWithoutMaxFlowVersion2(std::string& wr_code){
     DeliverySite reservoir_ds = DeliverySite(wr_code);
 
@@ -565,7 +635,14 @@ void UI::redistributeWithoutMaxFlowVersion2(std::string& wr_code){
 
 }
 
-
+/**
+ * @brief Calculates the total incoming flow for a given vertex.
+ *
+ * @param v Pointer to the vertex for which incoming flow needs to be calculated.
+ * @return The total incoming flow for the vertex.
+ *
+ * @note Time complexity: O(E), where E is the number of edges incident to the vertex.
+ */
 int UI::calculate_incoming_flow(Vertex<DeliverySite>* v){
     int sumFlow = 0;
     for(Edge<DeliverySite>* p : v->getIncoming()){

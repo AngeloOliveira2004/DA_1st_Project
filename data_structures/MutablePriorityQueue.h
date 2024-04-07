@@ -12,20 +12,59 @@
 #include <vector>
 
 /**
+ * @brief A simple implementation of mutable priority queues.
+ *
+ * @tparam T The type of elements stored in the priority queue.
  * class T must have: (i) accessible field int queueIndex; (ii) operator< defined.
  */
 
 template <class T>
 class MutablePriorityQueue {
-	std::vector<T *> H;
+	std::vector<T *> H;/**< Array to store pointers to elements. */
+
+    /**
+     * @brief Move element up in the heap to maintain heap property.
+     * @param i Index of the element to be moved up.
+     */
 	void heapifyUp(unsigned i);
+    /**
+    * @brief Move element down in the heap to maintain heap property.
+    * @param i Index of the element to be moved down.
+    */
 	void heapifyDown(unsigned i);
+
+    /**
+     * @brief Set element at index i to x and update its queueIndex.
+     * @param i Index where the element will be set.
+     * @param x Element to be set at index i.
+     */
 	inline void set(unsigned i, T * x);
 public:
+    /**
+    * @brief Default constructor to create a MutablePriorityQueue object.
+    */
 	MutablePriorityQueue();
+    /**
+      * @brief Insert an element into the priority queue.
+      * @param x Pointer to the element to be inserted.
+      */
 	void insert(T * x);
+    /**
+    * @brief Extract the minimum element from the priority queue.
+    * @return Pointer to the minimum element.
+    */
 	T * extractMin();
+
+    /**
+    * @brief Decrease the key of an element in the priority queue.
+    * @param x Pointer to the element whose key needs to be decreased.
+    */
+
 	void decreaseKey(T * x);
+    /**
+    * @brief Check if the priority queue is empty.
+    * @return True if the priority queue is empty, otherwise false.
+    */
 	bool empty();
 };
 

@@ -332,6 +332,22 @@ void pumpWater(std::vector<Edge<DeliverySite>*>& path , double flowToPump){
     }
 }
 
+/**
+ * @brief Redistributes water without using the Max Flow algorithm.
+ *
+ * This function redistributes water in the network graph without utilizing the Max Flow algorithm.
+ * It iteratively redistributes water from one source to other vertices based on available paths.
+ *
+ * @param g Pointer to the graph representing the water distribution network.
+ * @param removed Pointer to the vertex representing the removed site.
+ * @return True if redistribution fails, False otherwise.
+ *
+ * @note This function modifies the flow in the edges of the graph.
+ *
+ * @see findAugPath, minResidualAugPath, augmentFlowPath
+ *
+ * @timecomplexity O(E * V^2), where E is the number of edges and V is the number of vertices in the graph.
+ */
 bool redistributeWithoutMaxFlowAlgorithm(Graph<DeliverySite>*g, Vertex<DeliverySite>* removed){
     bool flag_edmonds_Karp = false;
     std::vector<Vertex<DeliverySite>*> cities;
@@ -414,6 +430,19 @@ bool redistributeWithoutMaxFlowAlgorithm(Graph<DeliverySite>*g, Vertex<DeliveryS
     return flag_edmonds_Karp;
 }
 
+/**
+ * @brief Finds an augmenting path in the graph using BFS.
+ *
+ * This function finds an augmenting path from the given source vertex to the removed site.
+ * It utilizes BFS (Breadth-First Search) algorithm to traverse the graph.
+ *
+ * @param g Pointer to the graph representing the water distribution network.
+ * @param source Pointer to the source vertex.
+ * @param removed Pointer to the vertex representing the removed site.
+ * @return Pointer to the vertex representing the augmenting path, or nullptr if not found.
+ *
+ * @timecomplexity O(V + E), where V is the number of vertices and E is the number of edges in the graph.
+ */
 Vertex<DeliverySite>* findAugPath(Graph<DeliverySite>*g, Vertex<DeliverySite> *source, Vertex<DeliverySite>* removed){
     if(source->getInfo().getNodeType() == CITY && source->getInNeed() == 0) return nullptr;
 
@@ -453,6 +482,18 @@ Vertex<DeliverySite>* findAugPath(Graph<DeliverySite>*g, Vertex<DeliverySite> *s
     return nullptr;
 }
 
+/**
+ * @brief Finds the minimum residual along an augmenting path.
+ *
+ * This function calculates the minimum residual capacity along an augmenting path.
+ *
+ * @param g Pointer to the graph representing the water distribution network.
+ * @param source Pointer to the source vertex of the path.
+ * @param sink Pointer to the sink vertex of the path.
+ * @return The minimum residual capacity along the augmenting path.
+ *
+ * @timecomplexity O(V), where V is the number of vertices in the augmenting path.
+ */
 double minResidualAugPath(Graph<DeliverySite>*g,Vertex<DeliverySite>* source, Vertex<DeliverySite>* sink){
     double maxFlow = DBL_MAX;
     for(Vertex<DeliverySite>* v = source; v != sink;){
@@ -469,6 +510,17 @@ double minResidualAugPath(Graph<DeliverySite>*g,Vertex<DeliverySite>* source, Ve
     return maxFlow;
 }
 
+/**
+ * @brief Augments flow along an augmenting path.
+ *
+ * This function augments the flow along the given augmenting path in the graph.
+ *
+ * @param source Pointer to the source vertex of the path.
+ * @param sink Pointer to the sink vertex of the path.
+ * @param flow The amount of flow to be augmented along the path.
+ *
+ * @timecomplexity O(V), where V is the number of vertices in the augmenting path.
+ */
 void augmentFlowPath(Vertex<DeliverySite>* source,Vertex<DeliverySite>* sink, double flow){
     for(Vertex<DeliverySite>* v = source; v != sink;){
         Edge<DeliverySite>* edge = v->getPath();
@@ -480,7 +532,18 @@ void augmentFlowPath(Vertex<DeliverySite>* source,Vertex<DeliverySite>* sink, do
 }
 
 
-
+/**
+ * @brief Finds all possible paths in the graph starting from a given source vertex.
+ *
+ * This function recursively finds all possible paths starting from the given source vertex.
+ *
+ * @param g Pointer to the graph representing the water distribution network.
+ * @param source Pointer to the source vertex of the paths.
+ * @param path Vector storing the current path being explored.
+ * @param paths Vector storing all found paths.
+ *
+ * @timecomplexity Exponential in the size of the graph.
+ */
 void findAllPathsRedistribute(Graph<DeliverySite>*g,Vertex<DeliverySite>* source, std::vector<Edge<DeliverySite>*>& path, std::vector<std::vector<Edge<DeliverySite>*>>& paths){
     source->setVisited(true);
 
@@ -499,6 +562,19 @@ void findAllPathsRedistribute(Graph<DeliverySite>*g,Vertex<DeliverySite>* source
     source->setVisited(false);
 }
 
+
+/**
+ * @brief Redistributes water without using the Max Flow algorithm.
+ *
+ * This function redistributes water in the network graph without utilizing the Max Flow algorithm.
+ * It redistributes water along all given paths.
+ *
+ * @param g Pointer to the graph representing the water distribution network.
+ * @param paths Vector of vectors storing paths for water redistribution.
+ * @return The total redistributed flow.
+ *
+ * @timecomplexity O(E * V^2), where E is the number of edges and V is the number of vertices in the graph.
+ */
 double redistributeWaterWithoutMaxFlow2(Graph<DeliverySite>*g, std::vector<std::vector<Edge<DeliverySite>*>>& paths){
     if(paths.empty()) return 0;
 
@@ -580,6 +656,18 @@ double redistributeWaterWithoutMaxFlow2(Graph<DeliverySite>*g, std::vector<std::
     return flow;
 }
 
+
+/**
+ * @brief Creates super source and sink vertices in the graph.
+ *
+ * This function creates super source and sink vertices and connects them to the appropriate vertices in the graph.
+ *
+ * @param g Pointer to the graph representing the water distribution network.
+ * @param SuperSource The DeliverySite object representing the super source.
+ * @param SuperSink The DeliverySite object representing the super sink.
+ *
+ * @timecomplexity O(V + E), where V is the number of vertices and E is the number of edges in the graph.
+ */
 void createSuperSourceSink_(Graph<DeliverySite>* g,DeliverySite SuperSource,DeliverySite SuperSink){
     g->addVertex(SuperSource);
     g->addVertex(SuperSink);
