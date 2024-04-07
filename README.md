@@ -55,13 +55,13 @@ If you are having troubles with running the project:
 5. Have fun using the program
 
 Also important, if you have the problem of not loading the csv files, be sure that they are in a folder named dataset inside the cmake-build-debug. Furthermore, the names of the datasets were altered 
-for simplification issues. If you have any problem while loading the CSVs please use the following names: <br>
--> LargeDataSet/Cities.csv 
+for simplification issues. If you have any problem while loading the CSVs please use the following names: 
+1. LargeDataSet/Cities.csv 
 ; LargeDataSet/Pipes.csv
 ; LargeDataSet/Reservoir.csv
 ; LargeDataSet/Stations.csv
 <br>
--> LargeDataSet/Cities.csv
+2. LargeDataSet/Cities.csv
 ; SmallDataSet/Pipes.csv
 ; SmallDataSet/Reservoir.csv
 ; SmallDataSet/Stations.csv
