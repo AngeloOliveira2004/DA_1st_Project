@@ -42,7 +42,7 @@ for simplification issues. If you have any problem while loading the CSVs please
    ; LargeDataSet/Reservoir.csv
    ; LargeDataSet/Stations.csv
 
-2. LargeDataSet/Cities.csv
+2. SmallDataSet/Cities.csv
    ; SmallDataSet/Pipes.csv
    ; SmallDataSet/Reservoir.csv
    ; SmallDataSet/Stations.csv
