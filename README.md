@@ -2,9 +2,9 @@
 
 ## Inputs to reach each point in the program:
 
--> Start Program
+- Start Program
 
--> Proceed the application
+- Proceed the application
 
 ### 2.1 Determine the maximum amount of water
 
