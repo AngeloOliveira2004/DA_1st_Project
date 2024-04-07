@@ -1,7 +1,15 @@
+
+/**
+ * @file Algorithms.cpp
+ * @brief Implementation of all algorithms used during the Project.
+ */
+
 #include <climits>
 #include "Algorithms.h"
 #include "stdafx.h"
 #include "Logic.h"
+
+
 
 /**
  * @brief Finds the minimum residual capacity along an augmenting path from a source vertex to a sink vertex.
@@ -141,6 +149,17 @@ double edmondsKarp(Graph<DeliverySite> *g, const DeliverySite& source, const Del
     return maxFlow;
 }
 
+/**
+ * @brief Implements the Edmonds-Karp algorithm to find the maximum flow in the graph without a certain edge.
+ * @param g Pointer to the graph.
+ * @param source The source delivery site.
+ * @param target The target delivery site.
+ * @param removed The removed egde.
+ * @return The maximum flow in the graph.
+ * @details Time Complexity: O((V^2) * E), where:
+ * - V is the number of vertices in the graph.
+ * - E is the number of edges in the graph.
+ */
 double edmondsKarpPipe(Graph<DeliverySite> *g, const DeliverySite& source, const DeliverySite& target,const std::vector<Edge<DeliverySite>*> pump) {
     double maxFlow = 0;
 // Find source and target vertices in the graph

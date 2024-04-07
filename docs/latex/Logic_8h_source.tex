@@ -1,0 +1,29 @@
+\hypertarget{Logic_8h_source}{}\doxysection{Logic.\+h}
+\label{Logic_8h_source}\index{/home/jose-\/costa/Documents/Uni/DA/Projeto/Logic/Logic.h@{/home/jose-\/costa/Documents/Uni/DA/Projeto/Logic/Logic.h}}
+\mbox{\hyperlink{Logic_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{//Calling different algorithms from here}}
+\DoxyCodeLine{2 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include "{}stdafx.h"{}}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{Algorithms_8h}{Algorithms.h}}"{}}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{15 \textcolor{keywordtype}{void} \mbox{\hyperlink{Logic_8h_ae5ee0b47a98f2ce9598f8769ab0b452d}{getSources}}(\mbox{\hyperlink{classGraph}{Graph<DeliverySite>}}* g);}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{23 \textcolor{keywordtype}{void} \mbox{\hyperlink{Logic_8h_a5b97292efcb835aafcd1aab32c0502c3}{createSuperSourceSink}}(\mbox{\hyperlink{classGraph}{Graph<DeliverySite>}}* g,\mbox{\hyperlink{classDeliverySite}{DeliverySite}} SuperSource,\mbox{\hyperlink{classDeliverySite}{DeliverySite}} SuperSink);}
+\DoxyCodeLine{30 \textcolor{keywordtype}{void} \mbox{\hyperlink{Logic_8h_af8134196bae0d6b6e7e9d160316b295c}{removeSuperSourceSink}}(\mbox{\hyperlink{classGraph}{Graph<DeliverySite>}}* g,\mbox{\hyperlink{classDeliverySite}{DeliverySite}} SuperSource,\mbox{\hyperlink{classDeliverySite}{DeliverySite}} SuperSink);}
+\DoxyCodeLine{36 \textcolor{keywordtype}{void} \mbox{\hyperlink{Logic_8h_aa71f1fcaa2055e221e9a8745ba417a4f}{createSuperSource}}(\mbox{\hyperlink{classGraph}{Graph<DeliverySite>}}* g,\mbox{\hyperlink{classDeliverySite}{DeliverySite}} SuperSource);}
+\DoxyCodeLine{42 \textcolor{keywordtype}{void} \mbox{\hyperlink{Logic_8h_ae6829d2d9a9f6b86d617d9d047552a52}{removeSuperSource}}(\mbox{\hyperlink{classGraph}{Graph<DeliverySite>}}* g,\mbox{\hyperlink{classDeliverySite}{DeliverySite}} SuperSource);}
+\DoxyCodeLine{43 }
+\DoxyCodeLine{49 \textcolor{keywordtype}{void} \mbox{\hyperlink{Logic_8h_a683c89563b26126d9eb062d2e80e1392}{calculateMaxFlowInACity}}(\mbox{\hyperlink{classGraph}{Graph<DeliverySite>}}* g , \mbox{\hyperlink{classDeliverySite}{DeliverySite}}\& target );}
+\DoxyCodeLine{50 }
+\DoxyCodeLine{51 \textcolor{comment}{//Find the max flow in the whole graph we use super-\/source and super-\/sink}}
+\DoxyCodeLine{52 \textcolor{comment}{//The super-\/source node is connected to all the original source nodes by edges with infinite capacity,}}
+\DoxyCodeLine{53 \textcolor{comment}{// and the super-\/sink node is connected to all the original sink nodes by edges with capacity equal to their demand}}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{59 \textcolor{keywordtype}{void} \mbox{\hyperlink{Logic_8h_a74747e54b3aedc25f13e7bdd239cd9a2}{calculateMaxFlowInEntireNetwork}}(\mbox{\hyperlink{classGraph}{Graph<DeliverySite>}}* g);}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{66 \textcolor{keywordtype}{void} \mbox{\hyperlink{Logic_8h_a9bb119382a2ffee2008434ba6fcf9461}{maxFlowWithSuperSource}}(\mbox{\hyperlink{classGraph}{Graph<DeliverySite>}}* g , \mbox{\hyperlink{classDeliverySite}{DeliverySite}}\& target);}
+\DoxyCodeLine{67 }
+\DoxyCodeLine{73 std::vector<Edge<DeliverySite>*> \mbox{\hyperlink{Logic_8h_a4e8291862c0ec538386274d53969c429}{getPipes}}(\mbox{\hyperlink{classGraph}{Graph<DeliverySite>}}* g);}
+
+\end{DoxyCode}

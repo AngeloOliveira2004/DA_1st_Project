@@ -1,0 +1,133 @@
+\hypertarget{LoadingFunctions_8h}{}\doxysection{/home/jose-\/costa/\+Documents/\+Uni/\+DA/\+Projeto/\+Logic/\+Loading\+Functions.h File Reference}
+\label{LoadingFunctions_8h}\index{/home/jose-\/costa/Documents/Uni/DA/Projeto/Logic/LoadingFunctions.h@{/home/jose-\/costa/Documents/Uni/DA/Projeto/Logic/LoadingFunctions.h}}
+
+
+Declaration of all loading Functions used during the Project.  
+
+
+{\ttfamily \#include $<$unordered\+\_\+set$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include \char`\"{}Delivery\+Sites.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Pumping\+Stations.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../data\+\_\+structures/\+Graph.\+h\char`\"{}}\newline
+Include dependency graph for Loading\+Functions.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{LoadingFunctions_8h_a232703c2a00092aaecb07a777be016f0}{Normalize\+String}} (std\+::string \&str1, std\+::string \&str2)
+\begin{DoxyCompactList}\small\item\em Normalizes two strings by removing leading and trailing whitespaces and converting them to lowercase. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LoadingFunctions_8h_a06acaf3fa6b898126108d73f9188399f}{Remove\+\_\+terminations}} (std\+::string \&str)
+\begin{DoxyCompactList}\small\item\em Removes termination characters (e.\+g., \textquotesingle{}\textbackslash{}r\textquotesingle{}, \textquotesingle{}~\newline
+\textquotesingle{}, \textquotesingle{}\textbackslash{}0\textquotesingle{}) from the given string. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LoadingFunctions_8h_a7d2678526ee814528f22420005052123}{Load\+Cities}} (const std\+::string \&path)
+\begin{DoxyCompactList}\small\item\em Loads cities data from a CSV file. @complexity O(n), where n is the number of lines in the CSV file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LoadingFunctions_8h_a9cab229ddee9d480809b86c4d25668c4}{Load\+Pipes}} (const std\+::string \&path)
+\begin{DoxyCompactList}\small\item\em Loads pipes data from a CSV file. @complexity O(n), where n is the number of lines in the CSV file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LoadingFunctions_8h_a3e27524700220e3b94adf52f3723cb06}{Load\+Water\+Reservoirs}} (const std\+::string \&path)
+\begin{DoxyCompactList}\small\item\em Loads water reservoirs data from a CSV file. @complexity O(n), where n is the number of lines in the CSV file. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{LoadingFunctions_8h_a7e98da724f427b66eb33ac6b59df7d84}{Load\+Fire\+Stations}} (const std\+::string \&path)
+\begin{DoxyCompactList}\small\item\em Loads fire stations data from a CSV file. @complexity O(n), where n is the number of lines in the CSV file. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{LoadingFunctions_8h_a824d63fb499f4db4356502ed310e7d48}{create\+Graph}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g)
+\begin{DoxyCompactList}\small\item\em Creates a graph based on the loaded data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Declaration of all loading Functions used during the Project. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{LoadingFunctions_8h_a824d63fb499f4db4356502ed310e7d48}\label{LoadingFunctions_8h_a824d63fb499f4db4356502ed310e7d48}} 
+\index{LoadingFunctions.h@{LoadingFunctions.h}!createGraph@{createGraph}}
+\index{createGraph@{createGraph}!LoadingFunctions.h@{LoadingFunctions.h}}
+\doxysubsubsection{\texorpdfstring{createGraph()}{createGraph()}}
+{\footnotesize\ttfamily bool create\+Graph (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g }\end{DoxyParamCaption})}
+
+
+
+Creates a graph based on the loaded data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph to be created. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the graph creation is successful, false otherwise. @complexity O(m + n), where m is the number of edges (pipes) and n is the number of vertices (delivery sites). 
+\end{DoxyReturn}
+\mbox{\Hypertarget{LoadingFunctions_8h_a7d2678526ee814528f22420005052123}\label{LoadingFunctions_8h_a7d2678526ee814528f22420005052123}} 
+\index{LoadingFunctions.h@{LoadingFunctions.h}!LoadCities@{LoadCities}}
+\index{LoadCities@{LoadCities}!LoadingFunctions.h@{LoadingFunctions.h}}
+\doxysubsubsection{\texorpdfstring{LoadCities()}{LoadCities()}}
+{\footnotesize\ttfamily void Load\+Cities (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path }\end{DoxyParamCaption})}
+
+
+
+Loads cities data from a CSV file. @complexity O(n), where n is the number of lines in the CSV file. 
+
+Loads cities data from a CSV file. @complexity O(n), where n is the number of lines in the CSV file. \mbox{\Hypertarget{LoadingFunctions_8h_a7e98da724f427b66eb33ac6b59df7d84}\label{LoadingFunctions_8h_a7e98da724f427b66eb33ac6b59df7d84}} 
+\index{LoadingFunctions.h@{LoadingFunctions.h}!LoadFireStations@{LoadFireStations}}
+\index{LoadFireStations@{LoadFireStations}!LoadingFunctions.h@{LoadingFunctions.h}}
+\doxysubsubsection{\texorpdfstring{LoadFireStations()}{LoadFireStations()}}
+{\footnotesize\ttfamily void Load\+Fire\+Stations (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path }\end{DoxyParamCaption})}
+
+
+
+Loads fire stations data from a CSV file. @complexity O(n), where n is the number of lines in the CSV file. 
+
+Loads fire stations data from a CSV file. @complexity O(n), where n is the number of lines in the CSV file. \mbox{\Hypertarget{LoadingFunctions_8h_a9cab229ddee9d480809b86c4d25668c4}\label{LoadingFunctions_8h_a9cab229ddee9d480809b86c4d25668c4}} 
+\index{LoadingFunctions.h@{LoadingFunctions.h}!LoadPipes@{LoadPipes}}
+\index{LoadPipes@{LoadPipes}!LoadingFunctions.h@{LoadingFunctions.h}}
+\doxysubsubsection{\texorpdfstring{LoadPipes()}{LoadPipes()}}
+{\footnotesize\ttfamily void Load\+Pipes (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path }\end{DoxyParamCaption})}
+
+
+
+Loads pipes data from a CSV file. @complexity O(n), where n is the number of lines in the CSV file. 
+
+Loads pipes data from a CSV file. @complexity O(n), where n is the number of lines in the CSV file. \mbox{\Hypertarget{LoadingFunctions_8h_a3e27524700220e3b94adf52f3723cb06}\label{LoadingFunctions_8h_a3e27524700220e3b94adf52f3723cb06}} 
+\index{LoadingFunctions.h@{LoadingFunctions.h}!LoadWaterReservoirs@{LoadWaterReservoirs}}
+\index{LoadWaterReservoirs@{LoadWaterReservoirs}!LoadingFunctions.h@{LoadingFunctions.h}}
+\doxysubsubsection{\texorpdfstring{LoadWaterReservoirs()}{LoadWaterReservoirs()}}
+{\footnotesize\ttfamily void Load\+Water\+Reservoirs (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{path }\end{DoxyParamCaption})}
+
+
+
+Loads water reservoirs data from a CSV file. @complexity O(n), where n is the number of lines in the CSV file. 
+
+Loads water reservoirs data from a CSV file. @complexity O(n), where n is the number of lines in the CSV file. \mbox{\Hypertarget{LoadingFunctions_8h_a232703c2a00092aaecb07a777be016f0}\label{LoadingFunctions_8h_a232703c2a00092aaecb07a777be016f0}} 
+\index{LoadingFunctions.h@{LoadingFunctions.h}!NormalizeString@{NormalizeString}}
+\index{NormalizeString@{NormalizeString}!LoadingFunctions.h@{LoadingFunctions.h}}
+\doxysubsubsection{\texorpdfstring{NormalizeString()}{NormalizeString()}}
+{\footnotesize\ttfamily void Normalize\+String (\begin{DoxyParamCaption}\item[{std\+::string \&}]{str1,  }\item[{std\+::string \&}]{str2 }\end{DoxyParamCaption})}
+
+
+
+Normalizes two strings by removing leading and trailing whitespaces and converting them to lowercase. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str1} & The first string to be normalized. \\
+\hline
+{\em str2} & The second string to be normalized. @complexity O(n), where n is the length of the longer string between str1 and str2. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{LoadingFunctions_8h_a06acaf3fa6b898126108d73f9188399f}\label{LoadingFunctions_8h_a06acaf3fa6b898126108d73f9188399f}} 
+\index{LoadingFunctions.h@{LoadingFunctions.h}!Remove\_terminations@{Remove\_terminations}}
+\index{Remove\_terminations@{Remove\_terminations}!LoadingFunctions.h@{LoadingFunctions.h}}
+\doxysubsubsection{\texorpdfstring{Remove\_terminations()}{Remove\_terminations()}}
+{\footnotesize\ttfamily void Remove\+\_\+terminations (\begin{DoxyParamCaption}\item[{std\+::string \&}]{str }\end{DoxyParamCaption})}
+
+
+
+Removes termination characters (e.\+g., \textquotesingle{}\textbackslash{}r\textquotesingle{}, \textquotesingle{}~\newline
+\textquotesingle{}, \textquotesingle{}\textbackslash{}0\textquotesingle{}) from the given string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & The string from which to remove termination characters. @complexity O(n), where n is the length of the string. \\
+\hline
+\end{DoxyParams}

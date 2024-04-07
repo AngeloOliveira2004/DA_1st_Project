@@ -1,0 +1,522 @@
+\hypertarget{Algorithms_8h}{}\doxysection{/home/jose-\/costa/\+Documents/\+Uni/\+DA/\+Projeto/\+Logic/\+Algorithms.h File Reference}
+\label{Algorithms_8h}\index{/home/jose-\/costa/Documents/Uni/DA/Projeto/Logic/Algorithms.h@{/home/jose-\/costa/Documents/Uni/DA/Projeto/Logic/Algorithms.h}}
+
+
+Declaration of all algorithms used during the Project.  
+
+
+{\ttfamily \#include \char`\"{}stdafx.\+h\char`\"{}}\newline
+Include dependency graph for Algorithms.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class T $>$ }\\void \mbox{\hyperlink{Algorithms_8h_a1b7a2f0687e5b865f5c7d3d3d45410c2}{print}} (T \+\_\+msg, bool \+\_\+newline)
+\begin{DoxyCompactList}\small\item\em Prints a message to the console. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{Algorithms_8h_ac77c648c49de3fd9ba0617e08aa64d0a}{edmonds\+Karp}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g, const \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} \&source, const \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} \&target, const \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} \&removed)
+\begin{DoxyCompactList}\small\item\em Implements the Edmonds-\/\+Karp algorithm to find the maximum flow in the graph. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{Algorithms_8h_a8d8b94da2fceeda4a771d42ab2eb6081}{edmonds\+Karp\+Pipe}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g, const \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} \&source, const \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} \&target, const std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ pump)
+\begin{DoxyCompactList}\small\item\em Implements the Edmonds-\/\+Karp algorithm to find the maximum flow in the graph without a certain edge. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{Algorithms_8h_aae59ead3890c7df3dd26788bf7ae0cf6}{calculate\+Max\+Flow}} (std\+::vector$<$ \mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ \&vertex\+Set)
+\begin{DoxyCompactList}\small\item\em Calculates the maximum flow through the graph. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{Algorithms_8h_a963a0fe1478122708b268f91312287dc}{average\+Pipe\+Capacity}} (const std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ \&pipes)
+\begin{DoxyCompactList}\small\item\em Calculates the average capacity of pipes in a given set of edges. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{Algorithms_8h_a744045ba24bf6985af927713148bdb2e}{variance\+Pipe\+Capacity\+Flow}} (const std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ \&pipes, std\+::vector$<$ std\+::pair$<$ double, \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ $>$ $\ast$variance\+In\+Each\+Point)
+\begin{DoxyCompactList}\small\item\em Calculates the variance of pipe capacity and flow in a given set of edges. \end{DoxyCompactList}\item 
+std\+::pair$<$ double, \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ \mbox{\hyperlink{Algorithms_8h_a930254c39c0c0218bdb9e7dc5d3aa496}{maximum\+DIfference\+Capacity\+Flow}} (const std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ \&pipes)
+\begin{DoxyCompactList}\small\item\em Finds the edge with the maximum difference between capacity and flow in a given set of edges. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{Algorithms_8h_a70a7e535caee6f1673dbea5d110925b5}{min\+Left\+Over\+Cap}} (std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ \&path)
+\begin{DoxyCompactList}\small\item\em Calculates the minimum left-\/over capacity along a given path. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Algorithms_8h_aeba4d3cea1d8db20394996b39598bc17}{print\+Distance}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g)
+\begin{DoxyCompactList}\small\item\em Prints the distance between vertices in the graph. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Algorithms_8h_a82437a3dfad1ddea60adb2913ae73f2b}{Dijkstra}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g, \mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$root, \mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$target)
+\begin{DoxyCompactList}\small\item\em Performs Dijkstra\textquotesingle{}s algorithm to find the shortest paths in the graph. \end{DoxyCompactList}\item 
+std\+::pair$<$ std\+::vector$<$ \mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$, int $>$ \mbox{\hyperlink{Algorithms_8h_a53bc9317c44ad50a2b976ef29c698404}{calculate\+Path}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g, \mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$root, \mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$target)
+\begin{DoxyCompactList}\small\item\em Calculates a path between two vertices in the graph. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Algorithms_8h_a04d1e4f0396cf23d9c329468d142c51a}{pump\+Water}} (std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ \&path, double flow\+To\+Pump)
+\begin{DoxyCompactList}\small\item\em Pumps water along a given path with a specified flow. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structMetrics}{Metrics}} \mbox{\hyperlink{Algorithms_8h_a60d4aea560313397b041365b17028a57}{heuristic}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g)
+\begin{DoxyCompactList}\small\item\em Applies a heuristic algorithm to optimize pumping stations. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{Algorithms_8h_a232603efdf3a76f8a95d063ec5dd916f}{redistribute\+Without\+Max\+Flow\+Algorithm}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g, \mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$removed)
+\begin{DoxyCompactList}\small\item\em Redistributes water without using the Max Flow algorithm. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Algorithms_8h_aadb3324c1ea987b7dd7aecbe9dd3267b}{find\+All\+Paths\+Redistribute}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g, \mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$source, std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ \&path, std\+::vector$<$ std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ $>$ \&paths)
+\begin{DoxyCompactList}\small\item\em Finds all possible paths in the graph starting from a given source vertex. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{Algorithms_8h_a654516cc7b3d083a6f8f74a86fff9a7c}{redistribute\+Water\+Without\+Max\+Flow2}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g, std\+::vector$<$ std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ $>$ \&paths)
+\begin{DoxyCompactList}\small\item\em Redistributes water without using the Max Flow algorithm. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Algorithms_8h_a9912f0e836624c1ec472d44b2754429d}{create\+Super\+Source\+Sink\+\_\+}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g, \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} Super\+Source, \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} Super\+Sink)
+\begin{DoxyCompactList}\small\item\em Creates super source and sink vertices in the graph. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Declaration of all algorithms used during the Project. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{Algorithms_8h_a963a0fe1478122708b268f91312287dc}\label{Algorithms_8h_a963a0fe1478122708b268f91312287dc}} 
+\index{Algorithms.h@{Algorithms.h}!averagePipeCapacity@{averagePipeCapacity}}
+\index{averagePipeCapacity@{averagePipeCapacity}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{averagePipeCapacity()}{averagePipeCapacity()}}
+{\footnotesize\ttfamily double average\+Pipe\+Capacity (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ \&}]{pipes }\end{DoxyParamCaption})}
+
+
+
+Calculates the average capacity of pipes in a given set of edges. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pipes} & The set of edges representing pipes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The average capacity of pipes. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{Algorithms_8h_aae59ead3890c7df3dd26788bf7ae0cf6}\label{Algorithms_8h_aae59ead3890c7df3dd26788bf7ae0cf6}} 
+\index{Algorithms.h@{Algorithms.h}!calculateMaxFlow@{calculateMaxFlow}}
+\index{calculateMaxFlow@{calculateMaxFlow}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{calculateMaxFlow()}{calculateMaxFlow()}}
+{\footnotesize\ttfamily double calculate\+Max\+Flow (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ \&}]{vertex\+Set }\end{DoxyParamCaption})}
+
+
+
+Calculates the maximum flow through the graph. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vertex\+Set} & The set of vertices in the graph. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The maximum flow in the graph. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{Algorithms_8h_a53bc9317c44ad50a2b976ef29c698404}\label{Algorithms_8h_a53bc9317c44ad50a2b976ef29c698404}} 
+\index{Algorithms.h@{Algorithms.h}!calculatePath@{calculatePath}}
+\index{calculatePath@{calculatePath}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{calculatePath()}{calculatePath()}}
+{\footnotesize\ttfamily std\+::pair$<$ std\+::vector$<$ \mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$, int $>$ calculate\+Path (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g,  }\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{root,  }\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{target }\end{DoxyParamCaption})}
+
+
+
+Calculates a path between two vertices in the graph. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph. \\
+\hline
+{\em root} & Pointer to the root vertex. \\
+\hline
+{\em target} & Pointer to the target vertex. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pair containing the calculated path and its length. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{Algorithms_8h_a9912f0e836624c1ec472d44b2754429d}\label{Algorithms_8h_a9912f0e836624c1ec472d44b2754429d}} 
+\index{Algorithms.h@{Algorithms.h}!createSuperSourceSink\_@{createSuperSourceSink\_}}
+\index{createSuperSourceSink\_@{createSuperSourceSink\_}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{createSuperSourceSink\_()}{createSuperSourceSink\_()}}
+{\footnotesize\ttfamily void create\+Super\+Source\+Sink\+\_\+ (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g,  }\item[{\mbox{\hyperlink{classDeliverySite}{Delivery\+Site}}}]{Super\+Source,  }\item[{\mbox{\hyperlink{classDeliverySite}{Delivery\+Site}}}]{Super\+Sink }\end{DoxyParamCaption})}
+
+
+
+Creates super source and sink vertices in the graph. 
+
+This function creates super source and sink vertices and connects them to the appropriate vertices in the graph.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph representing the water distribution network. \\
+\hline
+{\em Super\+Source} & The \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} object representing the super source. \\
+\hline
+{\em Super\+Sink} & The \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} object representing the super sink.\\
+\hline
+\end{DoxyParams}
+This function creates super source and sink vertices and connects them to the appropriate vertices in the graph.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph representing the water distribution network. \\
+\hline
+{\em Super\+Source} & The \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} object representing the super source. \\
+\hline
+{\em Super\+Sink} & The \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} object representing the super sink.\\
+\hline
+\end{DoxyParams}
+@timecomplexity O(V + E), where V is the number of vertices and E is the number of edges in the graph. \mbox{\Hypertarget{Algorithms_8h_a82437a3dfad1ddea60adb2913ae73f2b}\label{Algorithms_8h_a82437a3dfad1ddea60adb2913ae73f2b}} 
+\index{Algorithms.h@{Algorithms.h}!Dijkstra@{Dijkstra}}
+\index{Dijkstra@{Dijkstra}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{Dijkstra()}{Dijkstra()}}
+{\footnotesize\ttfamily void Dijkstra (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g,  }\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{root,  }\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{target }\end{DoxyParamCaption})}
+
+
+
+Performs Dijkstra\textquotesingle{}s algorithm to find the shortest paths in the graph. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph. \\
+\hline
+{\em root} & Pointer to the root vertex. \\
+\hline
+{\em target} & Pointer to the target vertex.\\
+\hline
+\end{DoxyParams}
+Performs Dijkstra\textquotesingle{}s algorithm to find the shortest paths in the graph.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph. \\
+\hline
+{\em root} & Pointer to the root vertex. \\
+\hline
+{\em target} & Pointer to the target vertex.\\
+\hline
+\end{DoxyParams}
+Time Complexity\+: O((V + E) $\ast$ log(\+V)), where\+:
+\begin{DoxyItemize}
+\item V is the number of vertices in the graph.
+\item E is the number of edges in the graph. 
+\end{DoxyItemize}\mbox{\Hypertarget{Algorithms_8h_ac77c648c49de3fd9ba0617e08aa64d0a}\label{Algorithms_8h_ac77c648c49de3fd9ba0617e08aa64d0a}} 
+\index{Algorithms.h@{Algorithms.h}!edmondsKarp@{edmondsKarp}}
+\index{edmondsKarp@{edmondsKarp}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{edmondsKarp()}{edmondsKarp()}}
+{\footnotesize\ttfamily double edmonds\+Karp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g,  }\item[{const \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} \&}]{source,  }\item[{const \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} \&}]{target,  }\item[{const \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} \&}]{removed }\end{DoxyParamCaption})}
+
+
+
+Implements the Edmonds-\/\+Karp algorithm to find the maximum flow in the graph. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph. \\
+\hline
+{\em source} & The source delivery site. \\
+\hline
+{\em target} & The target delivery site. \\
+\hline
+{\em removed} & The removed delivery site. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The maximum flow in the graph.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph. \\
+\hline
+{\em source} & The source delivery site. \\
+\hline
+{\em target} & The target delivery site. \\
+\hline
+{\em removed} & The removed delivery site. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The maximum flow in the graph.
+\end{DoxyReturn}
+Time Complexity\+: O((\+V$^\wedge$2) $\ast$ E), where\+:
+\begin{DoxyItemize}
+\item V is the number of vertices in the graph.
+\item E is the number of edges in the graph. 
+\end{DoxyItemize}\mbox{\Hypertarget{Algorithms_8h_a8d8b94da2fceeda4a771d42ab2eb6081}\label{Algorithms_8h_a8d8b94da2fceeda4a771d42ab2eb6081}} 
+\index{Algorithms.h@{Algorithms.h}!edmondsKarpPipe@{edmondsKarpPipe}}
+\index{edmondsKarpPipe@{edmondsKarpPipe}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{edmondsKarpPipe()}{edmondsKarpPipe()}}
+{\footnotesize\ttfamily double edmonds\+Karp\+Pipe (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g,  }\item[{const \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} \&}]{source,  }\item[{const \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} \&}]{target,  }\item[{const std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$}]{pump }\end{DoxyParamCaption})}
+
+
+
+Implements the Edmonds-\/\+Karp algorithm to find the maximum flow in the graph without a certain edge. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph. \\
+\hline
+{\em source} & The source delivery site. \\
+\hline
+{\em target} & The target delivery site. \\
+\hline
+{\em removed} & The removed egde. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The maximum flow in the graph.
+\end{DoxyReturn}
+Time Complexity\+: O((\+V$^\wedge$2) $\ast$ E), where\+:
+\begin{DoxyItemize}
+\item V is the number of vertices in the graph.
+\item E is the number of edges in the graph. 
+\end{DoxyItemize}\mbox{\Hypertarget{Algorithms_8h_aadb3324c1ea987b7dd7aecbe9dd3267b}\label{Algorithms_8h_aadb3324c1ea987b7dd7aecbe9dd3267b}} 
+\index{Algorithms.h@{Algorithms.h}!findAllPathsRedistribute@{findAllPathsRedistribute}}
+\index{findAllPathsRedistribute@{findAllPathsRedistribute}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{findAllPathsRedistribute()}{findAllPathsRedistribute()}}
+{\footnotesize\ttfamily void find\+All\+Paths\+Redistribute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g,  }\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{source,  }\item[{std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ \&}]{path,  }\item[{std\+::vector$<$ std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ $>$ \&}]{paths }\end{DoxyParamCaption})}
+
+
+
+Finds all possible paths in the graph starting from a given source vertex. 
+
+This function recursively finds all possible paths starting from the given source vertex.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph representing the water distribution network. \\
+\hline
+{\em source} & Pointer to the source vertex of the paths. \\
+\hline
+{\em path} & Vector storing the current path being explored. \\
+\hline
+{\em paths} & Vector storing all found paths.\\
+\hline
+\end{DoxyParams}
+This function recursively finds all possible paths starting from the given source vertex.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph representing the water distribution network. \\
+\hline
+{\em source} & Pointer to the source vertex of the paths. \\
+\hline
+{\em path} & Vector storing the current path being explored. \\
+\hline
+{\em paths} & Vector storing all found paths.\\
+\hline
+\end{DoxyParams}
+@timecomplexity Exponential in the size of the graph. \mbox{\Hypertarget{Algorithms_8h_a60d4aea560313397b041365b17028a57}\label{Algorithms_8h_a60d4aea560313397b041365b17028a57}} 
+\index{Algorithms.h@{Algorithms.h}!heuristic@{heuristic}}
+\index{heuristic@{heuristic}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{heuristic()}{heuristic()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structMetrics}{Metrics}} heuristic (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g }\end{DoxyParamCaption})}
+
+
+
+Applies a heuristic algorithm to optimize pumping stations. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The metrics after applying the heuristic.
+\end{DoxyReturn}
+Applies a heuristic algorithm to optimize pumping stations.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph of delivery sites. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{structMetrics}{Metrics}} after optimization.
+\end{DoxyReturn}
+Time Complexity\+: O(((V+E) $\ast$ E +E) $\ast$ P), where\+:
+\begin{DoxyItemize}
+\item N is the number of delivery sites in the graph.
+\item E is the number of edges in the graph.
+\item P is the number of times that the while cycle is repeated 
+\end{DoxyItemize}\mbox{\Hypertarget{Algorithms_8h_a930254c39c0c0218bdb9e7dc5d3aa496}\label{Algorithms_8h_a930254c39c0c0218bdb9e7dc5d3aa496}} 
+\index{Algorithms.h@{Algorithms.h}!maximumDIfferenceCapacityFlow@{maximumDIfferenceCapacityFlow}}
+\index{maximumDIfferenceCapacityFlow@{maximumDIfferenceCapacityFlow}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{maximumDIfferenceCapacityFlow()}{maximumDIfferenceCapacityFlow()}}
+{\footnotesize\ttfamily std\+::pair$<$ double, \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ maximum\+DIfference\+Capacity\+Flow (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ \&}]{pipes }\end{DoxyParamCaption})}
+
+
+
+Finds the edge with the maximum difference between capacity and flow in a given set of edges. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pipes} & The set of edges representing pipes. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pair containing the maximum difference and the edge. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{Algorithms_8h_a70a7e535caee6f1673dbea5d110925b5}\label{Algorithms_8h_a70a7e535caee6f1673dbea5d110925b5}} 
+\index{Algorithms.h@{Algorithms.h}!minLeftOverCap@{minLeftOverCap}}
+\index{minLeftOverCap@{minLeftOverCap}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{minLeftOverCap()}{minLeftOverCap()}}
+{\footnotesize\ttfamily double min\+Left\+Over\+Cap (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ \&}]{path }\end{DoxyParamCaption})}
+
+
+
+Calculates the minimum left-\/over capacity along a given path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & The path for which to calculate the minimum left-\/over capacity. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The minimum left-\/over capacity.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em path} & The path for which to calculate the minimum left-\/over capacity. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The minimum left-\/over capacity.
+\end{DoxyReturn}
+Time Complexity\+: O(\+N), where N is the number of edges in the path. \mbox{\Hypertarget{Algorithms_8h_a1b7a2f0687e5b865f5c7d3d3d45410c2}\label{Algorithms_8h_a1b7a2f0687e5b865f5c7d3d3d45410c2}} 
+\index{Algorithms.h@{Algorithms.h}!print@{print}}
+\index{print@{print}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{print()}{print()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+void print (\begin{DoxyParamCaption}\item[{T}]{\+\_\+msg,  }\item[{bool}]{\+\_\+newline }\end{DoxyParamCaption})}
+
+
+
+Prints a message to the console. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & The type of the message to print. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+msg} & The message to print. \\
+\hline
+{\em \+\_\+newline} & Flag indicating whether to append a newline character. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{Algorithms_8h_aeba4d3cea1d8db20394996b39598bc17}\label{Algorithms_8h_aeba4d3cea1d8db20394996b39598bc17}} 
+\index{Algorithms.h@{Algorithms.h}!printDistance@{printDistance}}
+\index{printDistance@{printDistance}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{printDistance()}{printDistance()}}
+{\footnotesize\ttfamily void print\+Distance (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g }\end{DoxyParamCaption})}
+
+
+
+Prints the distance between vertices in the graph. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{Algorithms_8h_a04d1e4f0396cf23d9c329468d142c51a}\label{Algorithms_8h_a04d1e4f0396cf23d9c329468d142c51a}} 
+\index{Algorithms.h@{Algorithms.h}!pumpWater@{pumpWater}}
+\index{pumpWater@{pumpWater}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{pumpWater()}{pumpWater()}}
+{\footnotesize\ttfamily void pump\+Water (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ \&}]{path,  }\item[{double}]{flow\+To\+Pump }\end{DoxyParamCaption})}
+
+
+
+Pumps water along a given path with a specified flow. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & The path along which to pump water. \\
+\hline
+{\em flow\+To\+Pump} & The flow rate of water to pump.\\
+\hline
+\end{DoxyParams}
+Pumps water along a given path with a specified flow.
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & The path along which water is to be pumped. \\
+\hline
+{\em flow\+To\+Pump} & The flow rate of water to pump.\\
+\hline
+\end{DoxyParams}
+Time Complexity\+: O(\+N), where N is the number of edges in the path. \mbox{\Hypertarget{Algorithms_8h_a654516cc7b3d083a6f8f74a86fff9a7c}\label{Algorithms_8h_a654516cc7b3d083a6f8f74a86fff9a7c}} 
+\index{Algorithms.h@{Algorithms.h}!redistributeWaterWithoutMaxFlow2@{redistributeWaterWithoutMaxFlow2}}
+\index{redistributeWaterWithoutMaxFlow2@{redistributeWaterWithoutMaxFlow2}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{redistributeWaterWithoutMaxFlow2()}{redistributeWaterWithoutMaxFlow2()}}
+{\footnotesize\ttfamily double redistribute\+Water\+Without\+Max\+Flow2 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g,  }\item[{std\+::vector$<$ std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ $>$ \&}]{paths }\end{DoxyParamCaption})}
+
+
+
+Redistributes water without using the Max Flow algorithm. 
+
+This function redistributes water in the network graph without utilizing the Max Flow algorithm. It redistributes water along all given paths.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph representing the water distribution network. \\
+\hline
+{\em paths} & Vector of vectors storing paths for water redistribution. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The total redistributed flow.
+\end{DoxyReturn}
+This function redistributes water in the network graph without utilizing the Max Flow algorithm. It redistributes water along all given paths.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph representing the water distribution network. \\
+\hline
+{\em paths} & Vector of vectors storing paths for water redistribution. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The total redistributed flow.
+\end{DoxyReturn}
+@timecomplexity O(\+E $\ast$ V$^\wedge$2), where E is the number of edges and V is the number of vertices in the graph. \mbox{\Hypertarget{Algorithms_8h_a232603efdf3a76f8a95d063ec5dd916f}\label{Algorithms_8h_a232603efdf3a76f8a95d063ec5dd916f}} 
+\index{Algorithms.h@{Algorithms.h}!redistributeWithoutMaxFlowAlgorithm@{redistributeWithoutMaxFlowAlgorithm}}
+\index{redistributeWithoutMaxFlowAlgorithm@{redistributeWithoutMaxFlowAlgorithm}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{redistributeWithoutMaxFlowAlgorithm()}{redistributeWithoutMaxFlowAlgorithm()}}
+{\footnotesize\ttfamily bool redistribute\+Without\+Max\+Flow\+Algorithm (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g,  }\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{removed }\end{DoxyParamCaption})}
+
+
+
+Redistributes water without using the Max Flow algorithm. 
+
+This function redistributes water in the network graph without utilizing the Max Flow algorithm. It iteratively redistributes water from one source to other vertices based on available paths.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph representing the water distribution network. \\
+\hline
+{\em removed} & Pointer to the vertex representing the removed site. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if redistribution fails, False otherwise.
+\end{DoxyReturn}
+This function redistributes water in the network graph without utilizing the Max Flow algorithm. It iteratively redistributes water from one source to other vertices based on available paths.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph representing the water distribution network. \\
+\hline
+{\em removed} & Pointer to the vertex representing the removed site. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if redistribution fails, False otherwise.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This function modifies the flow in the edges of the graph.
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{Algorithms_8cpp_a0aedb6a6e25b56bc429b84b94a278306}{find\+Aug\+Path}}, \mbox{\hyperlink{Algorithms_8cpp_a27205fcd7d68990c262732557c5b7cc1}{min\+Residual\+Aug\+Path}}, \mbox{\hyperlink{Algorithms_8cpp_a32c89ac878978816c84eec7467b5ce1c}{augment\+Flow\+Path}}
+\end{DoxySeeAlso}
+@timecomplexity O(\+E $\ast$ V$^\wedge$2), where E is the number of edges and V is the number of vertices in the graph. \mbox{\Hypertarget{Algorithms_8h_a744045ba24bf6985af927713148bdb2e}\label{Algorithms_8h_a744045ba24bf6985af927713148bdb2e}} 
+\index{Algorithms.h@{Algorithms.h}!variancePipeCapacityFlow@{variancePipeCapacityFlow}}
+\index{variancePipeCapacityFlow@{variancePipeCapacityFlow}!Algorithms.h@{Algorithms.h}}
+\doxysubsubsection{\texorpdfstring{variancePipeCapacityFlow()}{variancePipeCapacityFlow()}}
+{\footnotesize\ttfamily double variance\+Pipe\+Capacity\+Flow (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ \&}]{pipes,  }\item[{std\+::vector$<$ std\+::pair$<$ double, \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ $>$ $\ast$}]{variance\+In\+Each\+Point }\end{DoxyParamCaption})}
+
+
+
+Calculates the variance of pipe capacity and flow in a given set of edges. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pipes} & The set of edges representing pipes. \\
+\hline
+{\em variance\+In\+Each\+Point} & A pointer to a vector to store variance information for each edge. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The variance of pipe capacity and flow. 
+\end{DoxyReturn}

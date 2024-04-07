@@ -1,0 +1,322 @@
+\hypertarget{classUI}{}\doxysection{UI Class Reference}
+\label{classUI}\index{UI@{UI}}
+
+
+User Interface class for managing interaction with the water distribution system.  
+
+
+
+
+{\ttfamily \#include $<$UI.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classUI_a675985a56b5e87ebdc8e5884b9f2ee09}\label{classUI_a675985a56b5e87ebdc8e5884b9f2ee09}} 
+{\bfseries UI} ()
+\begin{DoxyCompactList}\small\item\em Default constructor for the \mbox{\hyperlink{classUI}{UI}} class. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUI_aa4f5f0000b864a5019c797b8a7da8891}{menu\+\_\+start}} ()
+\begin{DoxyCompactList}\small\item\em Displays the main menu and handles user input. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUI_a19639c490c34c5b0c66684c2670b7076}{loading\+\_\+stuff}} (\mbox{\hyperlink{classUI}{UI}} \&ui)
+\begin{DoxyCompactList}\small\item\em Loads necessary data and settings for the \mbox{\hyperlink{classUI}{UI}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUI_ae6e6f8381ec34388c4bd8811c4e86e1c}{main\+\_\+menu}} ()
+\begin{DoxyCompactList}\small\item\em Displays the main menu options. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUI_af821fec1a35eed362ef7f97ac1b099d7}{max\+\_\+flow}} ()
+\begin{DoxyCompactList}\small\item\em Executes the max flow algorithm. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUI_a8811c89ff8886f5aafb5c7b7a528fc12}{check\+\_\+demand}} ()
+\begin{DoxyCompactList}\small\item\em Checks demand for water distribution. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUI_a99d40d593963898a973a3753a4c8c8e3}{check\+\_\+heuristic}} ()
+\begin{DoxyCompactList}\small\item\em Checks heuristic for water distribution. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUI_a7400f4d4e0b03b04121de9208070aa6b}{back\+\_\+menu}} ()
+\begin{DoxyCompactList}\small\item\em Returns to the previous menu. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUI_a99814b952a9dbc3fdbc25df75f0a04ba}{evaluate\+\_\+resiliency}} ()
+\begin{DoxyCompactList}\small\item\em Evaluates the resiliency of the system. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUI_a155d0fe6ad95f45f0db7234a8e5e2a16}{redistribute\+Without\+Max\+Flow}} (std\+::string wr)
+\begin{DoxyCompactList}\small\item\em Redistributes water without using the Max Flow algorithm. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUI_af1812dca79e504a6ce27c9729b1a2983}{redistribute\+Without\+Max\+Flow\+Version2}} (std\+::string \&wr\+\_\+code)
+\begin{DoxyCompactList}\small\item\em Redistributes water without using the Max Flow algorithm (version 2). \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classUI_a3b1531228e9fac38d5100929418d8444}{calculate\+\_\+incoming\+\_\+flow}} (\mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$v)
+\begin{DoxyCompactList}\small\item\em Calculates the incoming flow for a given vertex. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ \mbox{\hyperlink{classUI_ae3dbb3883ea935fdb4d74c459328f4c6}{get\+Graph}} () const
+\begin{DoxyCompactList}\small\item\em Getter function for accessing the graph. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classUI_a298d81ef3106436a00bed98330d4c5a8}\label{classUI_a298d81ef3106436a00bed98330d4c5a8}} 
+static void {\bfseries clear\+\_\+screen} ()
+\begin{DoxyCompactList}\small\item\em Clears the console screen. \end{DoxyCompactList}\item 
+static bool \mbox{\hyperlink{classUI_a83fba9739cde5eda8391c2020ab3dcff}{validate\+\_\+input}} (char \&op, const char lower\+\_\+bound, const char upper\+\_\+bound)
+\begin{DoxyCompactList}\small\item\em Validates user input within a specified range. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+User Interface class for managing interaction with the water distribution system. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classUI_a7400f4d4e0b03b04121de9208070aa6b}\label{classUI_a7400f4d4e0b03b04121de9208070aa6b}} 
+\index{UI@{UI}!back\_menu@{back\_menu}}
+\index{back\_menu@{back\_menu}!UI@{UI}}
+\doxysubsubsection{\texorpdfstring{back\_menu()}{back\_menu()}}
+{\footnotesize\ttfamily void UI\+::back\+\_\+menu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns to the previous menu. 
+
+Redirects the user back to the main menu.
+
+\begin{DoxyNote}{Note}
+Time complexity\+: O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{classUI_a3b1531228e9fac38d5100929418d8444}\label{classUI_a3b1531228e9fac38d5100929418d8444}} 
+\index{UI@{UI}!calculate\_incoming\_flow@{calculate\_incoming\_flow}}
+\index{calculate\_incoming\_flow@{calculate\_incoming\_flow}!UI@{UI}}
+\doxysubsubsection{\texorpdfstring{calculate\_incoming\_flow()}{calculate\_incoming\_flow()}}
+{\footnotesize\ttfamily int UI\+::calculate\+\_\+incoming\+\_\+flow (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{v }\end{DoxyParamCaption})}
+
+
+
+Calculates the incoming flow for a given vertex. 
+
+Calculates the total incoming flow for a given vertex.
+
+
+\begin{DoxyParams}{Parameters}
+{\em v} & Pointer to the vertex. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The total incoming flow for the vertex.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em v} & Pointer to the vertex for which incoming flow needs to be calculated. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The total incoming flow for the vertex.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time complexity\+: O(\+E), where E is the number of edges incident to the vertex. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classUI_a8811c89ff8886f5aafb5c7b7a528fc12}\label{classUI_a8811c89ff8886f5aafb5c7b7a528fc12}} 
+\index{UI@{UI}!check\_demand@{check\_demand}}
+\index{check\_demand@{check\_demand}!UI@{UI}}
+\doxysubsubsection{\texorpdfstring{check\_demand()}{check\_demand()}}
+{\footnotesize\ttfamily void UI\+::check\+\_\+demand (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Checks demand for water distribution. 
+
+Checks if every city meets its water demand.
+
+\begin{DoxyNote}{Note}
+Time complexity\+: Depends on the graph traversal and demand checking process. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classUI_a99d40d593963898a973a3753a4c8c8e3}\label{classUI_a99d40d593963898a973a3753a4c8c8e3}} 
+\index{UI@{UI}!check\_heuristic@{check\_heuristic}}
+\index{check\_heuristic@{check\_heuristic}!UI@{UI}}
+\doxysubsubsection{\texorpdfstring{check\_heuristic()}{check\_heuristic()}}
+{\footnotesize\ttfamily void UI\+::check\+\_\+heuristic (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Checks heuristic for water distribution. 
+
+Calculates and displays heuristic stats of the max flow.
+
+\begin{DoxyNote}{Note}
+Time complexity\+: Depends on the execution of the heuristic algorithm. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classUI_a99814b952a9dbc3fdbc25df75f0a04ba}\label{classUI_a99814b952a9dbc3fdbc25df75f0a04ba}} 
+\index{UI@{UI}!evaluate\_resiliency@{evaluate\_resiliency}}
+\index{evaluate\_resiliency@{evaluate\_resiliency}!UI@{UI}}
+\doxysubsubsection{\texorpdfstring{evaluate\_resiliency()}{evaluate\_resiliency()}}
+{\footnotesize\ttfamily void UI\+::evaluate\+\_\+resiliency (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Evaluates the resiliency of the system. 
+
+Displays the menu to evaluate the network\textquotesingle{}s resiliency and performs the chosen evaluation.
+
+\begin{DoxyNote}{Note}
+Time complexity\+: Depends on the chosen evaluation method and associated computations. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classUI_ae3dbb3883ea935fdb4d74c459328f4c6}\label{classUI_ae3dbb3883ea935fdb4d74c459328f4c6}} 
+\index{UI@{UI}!getGraph@{getGraph}}
+\index{getGraph@{getGraph}!UI@{UI}}
+\doxysubsubsection{\texorpdfstring{getGraph()}{getGraph()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ UI\+::get\+Graph (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Getter function for accessing the graph. 
+
+Retrieves the graph associated with the \mbox{\hyperlink{classUI}{UI}} object.
+
+\begin{DoxyReturn}{Returns}
+The graph representing the water distribution network.
+
+The graph object.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time complexity\+: O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{classUI_a19639c490c34c5b0c66684c2670b7076}\label{classUI_a19639c490c34c5b0c66684c2670b7076}} 
+\index{UI@{UI}!loading\_stuff@{loading\_stuff}}
+\index{loading\_stuff@{loading\_stuff}!UI@{UI}}
+\doxysubsubsection{\texorpdfstring{loading\_stuff()}{loading\_stuff()}}
+{\footnotesize\ttfamily void UI\+::loading\+\_\+stuff (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classUI}{UI}} \&}]{ui }\end{DoxyParamCaption})}
+
+
+
+Loads necessary data and settings for the \mbox{\hyperlink{classUI}{UI}}. 
+
+Loads data and initializes the program.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ui} & Reference to the \mbox{\hyperlink{classUI}{UI}} object.\\
+\hline
+{\em ui} & Reference to the \mbox{\hyperlink{classUI}{UI}} object.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time complexity\+: Depends on the loading process, including file I/O and graph creation. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classUI_ae6e6f8381ec34388c4bd8811c4e86e1c}\label{classUI_ae6e6f8381ec34388c4bd8811c4e86e1c}} 
+\index{UI@{UI}!main\_menu@{main\_menu}}
+\index{main\_menu@{main\_menu}!UI@{UI}}
+\doxysubsubsection{\texorpdfstring{main\_menu()}{main\_menu()}}
+{\footnotesize\ttfamily void UI\+::main\+\_\+menu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Displays the main menu options. 
+
+Displays the main menu of the program after clearing the screen.
+
+\begin{DoxyNote}{Note}
+Time complexity\+: O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{classUI_af821fec1a35eed362ef7f97ac1b099d7}\label{classUI_af821fec1a35eed362ef7f97ac1b099d7}} 
+\index{UI@{UI}!max\_flow@{max\_flow}}
+\index{max\_flow@{max\_flow}!UI@{UI}}
+\doxysubsubsection{\texorpdfstring{max\_flow()}{max\_flow()}}
+{\footnotesize\ttfamily void UI\+::max\+\_\+flow (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Executes the max flow algorithm. 
+
+Executes the max flow algorithm based on user input.
+
+\begin{DoxyNote}{Note}
+Time complexity\+: Depends on the execution of the max flow algorithm, including graph traversal and flow calculations. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classUI_aa4f5f0000b864a5019c797b8a7da8891}\label{classUI_aa4f5f0000b864a5019c797b8a7da8891}} 
+\index{UI@{UI}!menu\_start@{menu\_start}}
+\index{menu\_start@{menu\_start}!UI@{UI}}
+\doxysubsubsection{\texorpdfstring{menu\_start()}{menu\_start()}}
+{\footnotesize\ttfamily void UI\+::menu\+\_\+start (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Displays the main menu and handles user input. 
+
+Displays the main menu of the program.
+
+\begin{DoxyNote}{Note}
+Time complexity\+: O(1) 
+\end{DoxyNote}
+\mbox{\Hypertarget{classUI_a155d0fe6ad95f45f0db7234a8e5e2a16}\label{classUI_a155d0fe6ad95f45f0db7234a8e5e2a16}} 
+\index{UI@{UI}!redistributeWithoutMaxFlow@{redistributeWithoutMaxFlow}}
+\index{redistributeWithoutMaxFlow@{redistributeWithoutMaxFlow}!UI@{UI}}
+\doxysubsubsection{\texorpdfstring{redistributeWithoutMaxFlow()}{redistributeWithoutMaxFlow()}}
+{\footnotesize\ttfamily void UI\+::redistribute\+Without\+Max\+Flow (\begin{DoxyParamCaption}\item[{std\+::string}]{wr }\end{DoxyParamCaption})}
+
+
+
+Redistributes water without using the Max Flow algorithm. 
+
+Redistributes water without calculating the max flow.
+
+
+\begin{DoxyParams}{Parameters}
+{\em wr} & Water reservoir code.\\
+\hline
+{\em wr} & Code of the water reservoir to be removed.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time complexity\+: Depends on the graph traversal and redistribution process. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classUI_af1812dca79e504a6ce27c9729b1a2983}\label{classUI_af1812dca79e504a6ce27c9729b1a2983}} 
+\index{UI@{UI}!redistributeWithoutMaxFlowVersion2@{redistributeWithoutMaxFlowVersion2}}
+\index{redistributeWithoutMaxFlowVersion2@{redistributeWithoutMaxFlowVersion2}!UI@{UI}}
+\doxysubsubsection{\texorpdfstring{redistributeWithoutMaxFlowVersion2()}{redistributeWithoutMaxFlowVersion2()}}
+{\footnotesize\ttfamily void UI\+::redistribute\+Without\+Max\+Flow\+Version2 (\begin{DoxyParamCaption}\item[{std\+::string \&}]{wr\+\_\+code }\end{DoxyParamCaption})}
+
+
+
+Redistributes water without using the Max Flow algorithm (version 2). 
+
+Redistributes water without calculating the max flow (version 2).
+
+
+\begin{DoxyParams}{Parameters}
+{\em wr\+\_\+code} & Reference to the water reservoir code.\\
+\hline
+{\em wr\+\_\+code} & Code of the water reservoir to be removed.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+Time complexity\+: Depends on the graph traversal and redistribution process. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classUI_a83fba9739cde5eda8391c2020ab3dcff}\label{classUI_a83fba9739cde5eda8391c2020ab3dcff}} 
+\index{UI@{UI}!validate\_input@{validate\_input}}
+\index{validate\_input@{validate\_input}!UI@{UI}}
+\doxysubsubsection{\texorpdfstring{validate\_input()}{validate\_input()}}
+{\footnotesize\ttfamily bool UI\+::validate\+\_\+input (\begin{DoxyParamCaption}\item[{char \&}]{op,  }\item[{const char}]{lower\+\_\+bound,  }\item[{const char}]{upper\+\_\+bound }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Validates user input within a specified range. 
+
+Validates user input to ensure it is within a specified range.
+
+
+\begin{DoxyParams}{Parameters}
+{\em op} & Reference to the input character to be validated. \\
+\hline
+{\em lower\+\_\+bound} & The lower bound of the valid range. \\
+\hline
+{\em upper\+\_\+bound} & The upper bound of the valid range. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if input is valid, False otherwise.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em op} & Reference to the character variable where the input will be stored. \\
+\hline
+{\em lower\+\_\+bound} & Lower bound of the valid input range. \\
+\hline
+{\em upper\+\_\+bound} & Upper bound of the valid input range. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if input is valid, false otherwise.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Time complexity\+: O(1) 
+\end{DoxyNote}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/jose-\/costa/\+Documents/\+Uni/\+DA/\+Projeto/\+Interface/UI.\+h\item 
+/home/jose-\/costa/\+Documents/\+Uni/\+DA/\+Projeto/\+Interface/UI.\+cpp\end{DoxyCompactItemize}

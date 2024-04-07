@@ -1,0 +1,39 @@
+\hypertarget{UI_8h_source}{}\doxysection{UI.\+h}
+\label{UI_8h_source}\index{/home/jose-\/costa/Documents/Uni/DA/Projeto/Interface/UI.h@{/home/jose-\/costa/Documents/Uni/DA/Projeto/Interface/UI.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{preprocessor}{\#ifndef PROJETO\_UI\_H}}
+\DoxyCodeLine{2 \textcolor{preprocessor}{\#define PROJETO\_UI\_H}}
+\DoxyCodeLine{3 }
+\DoxyCodeLine{4 \textcolor{preprocessor}{\#include "{}../Logic/LoadingFunctions.h"{}}}
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#include "{}../Logic/stdafx.h"{}}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#include "{}../Logic/Algorithms.h"{}}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{11  \textcolor{keyword}{class }\mbox{\hyperlink{classUI}{UI}} \{}
+\DoxyCodeLine{12 \textcolor{keyword}{public}:}
+\DoxyCodeLine{16     \mbox{\hyperlink{classUI_a675985a56b5e87ebdc8e5884b9f2ee09}{UI}}();}
+\DoxyCodeLine{20     \textcolor{keywordtype}{void} \mbox{\hyperlink{classUI_aa4f5f0000b864a5019c797b8a7da8891}{menu\_start}}();}
+\DoxyCodeLine{24     \textcolor{keyword}{static} \textcolor{keywordtype}{void} \mbox{\hyperlink{classUI_a298d81ef3106436a00bed98330d4c5a8}{clear\_screen}}();}
+\DoxyCodeLine{30     \textcolor{keywordtype}{void} \mbox{\hyperlink{classUI_a19639c490c34c5b0c66684c2670b7076}{loading\_stuff}}(\mbox{\hyperlink{classUI}{UI}} \&ui);}
+\DoxyCodeLine{39     \textcolor{keyword}{static} \textcolor{keywordtype}{bool} \mbox{\hyperlink{classUI_a83fba9739cde5eda8391c2020ab3dcff}{validate\_input}}(\textcolor{keywordtype}{char} \&op, \textcolor{keyword}{const} \textcolor{keywordtype}{char} lower\_bound, \textcolor{keyword}{const} \textcolor{keywordtype}{char} upper\_bound);}
+\DoxyCodeLine{43     \textcolor{keywordtype}{void} \mbox{\hyperlink{classUI_ae6e6f8381ec34388c4bd8811c4e86e1c}{main\_menu}}();}
+\DoxyCodeLine{47     \textcolor{keywordtype}{void} \mbox{\hyperlink{classUI_af821fec1a35eed362ef7f97ac1b099d7}{max\_flow}}();}
+\DoxyCodeLine{51     \textcolor{keywordtype}{void} \mbox{\hyperlink{classUI_a8811c89ff8886f5aafb5c7b7a528fc12}{check\_demand}}();}
+\DoxyCodeLine{55     \textcolor{keywordtype}{void} \mbox{\hyperlink{classUI_a99d40d593963898a973a3753a4c8c8e3}{check\_heuristic}}();}
+\DoxyCodeLine{59     \textcolor{keywordtype}{void} \mbox{\hyperlink{classUI_a7400f4d4e0b03b04121de9208070aa6b}{back\_menu}}();}
+\DoxyCodeLine{63     \textcolor{keywordtype}{void} \mbox{\hyperlink{classUI_a99814b952a9dbc3fdbc25df75f0a04ba}{evaluate\_resiliency}}();}
+\DoxyCodeLine{69     \textcolor{keywordtype}{void} \mbox{\hyperlink{classUI_a155d0fe6ad95f45f0db7234a8e5e2a16}{redistributeWithoutMaxFlow}}(std::string wr);}
+\DoxyCodeLine{75     \textcolor{keywordtype}{void} \mbox{\hyperlink{classUI_af1812dca79e504a6ce27c9729b1a2983}{redistributeWithoutMaxFlowVersion2}}(std::string\& wr\_code);}
+\DoxyCodeLine{82     \textcolor{keywordtype}{int} \mbox{\hyperlink{classUI_a3b1531228e9fac38d5100929418d8444}{calculate\_incoming\_flow}}(\mbox{\hyperlink{classVertex}{Vertex<DeliverySite>}} *v);}
+\DoxyCodeLine{83 }
+\DoxyCodeLine{89     \mbox{\hyperlink{classGraph}{Graph<DeliverySite>}} \mbox{\hyperlink{classUI_ae3dbb3883ea935fdb4d74c459328f4c6}{getGraph}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{90 \textcolor{keyword}{private}:}
+\DoxyCodeLine{91     \mbox{\hyperlink{classGraph}{Graph<DeliverySite>}} g; }
+\DoxyCodeLine{92     std::unordered\_map<std::string, int> codeToFlow; }
+\DoxyCodeLine{93     \textcolor{keywordtype}{int} inital\_max\_flow; }
+\DoxyCodeLine{94 \};}
+\DoxyCodeLine{95 }
+\DoxyCodeLine{96 }
+\DoxyCodeLine{97 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//PROJETO\_UI\_H}}
+
+\end{DoxyCode}

@@ -1,5 +1,10 @@
 //Calling different algorithms from here
 
+/**
+ * @file Logic.h
+ * @brief Declaration of all Logic Functions used during the Project.
+ */
+
 #include "stdafx.h"
 #include "Algorithms.h"
 

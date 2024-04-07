@@ -1,6 +1,11 @@
 #ifndef LOADING_FUNCTIONS_H
 #define LOADING_FUNCTIONS_H
 
+/**
+ * @file LoadingFunctions.h
+ * @brief Declaration of all loading Functions used during the Project.
+ */
+
 #include <unordered_set>
 #include <vector>
 #include "DeliverySites.h"

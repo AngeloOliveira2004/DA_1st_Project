@@ -1,0 +1,180 @@
+\hypertarget{Logic_8cpp}{}\doxysection{/home/jose-\/costa/\+Documents/\+Uni/\+DA/\+Projeto/\+Logic/\+Logic.cpp File Reference}
+\label{Logic_8cpp}\index{/home/jose-\/costa/Documents/Uni/DA/Projeto/Logic/Logic.cpp@{/home/jose-\/costa/Documents/Uni/DA/Projeto/Logic/Logic.cpp}}
+
+
+Implementation of all Logic Functions used during the Project.  
+
+
+{\ttfamily \#include $<$climits$>$}\newline
+{\ttfamily \#include \char`\"{}Logic.\+h\char`\"{}}\newline
+Include dependency graph for Logic.\+cpp\+:
+% FIG 0
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{Logic_8cpp_ae5ee0b47a98f2ce9598f8769ab0b452d}{get\+Sources}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g)
+\begin{DoxyCompactList}\small\item\em Retrieves all the source nodes (water reservoirs) from the graph. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Logic_8cpp_a969e83f7d26bf28b49440887cf10368b}{get\+Sinks}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g)
+\begin{DoxyCompactList}\small\item\em Retrieves all the sink nodes (cities) from the graph. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Logic_8cpp_a5b97292efcb835aafcd1aab32c0502c3}{create\+Super\+Source\+Sink}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g, \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} Super\+Source, \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} Super\+Sink)
+\begin{DoxyCompactList}\small\item\em Creates a super-\/source and super-\/sink for the graph, connecting them to appropriate nodes. The super-\/source is connected to all the original source nodes with infinite capacity, and the super-\/sink is connected to all the original sink nodes with capacity equal to their demand. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Logic_8cpp_aa71f1fcaa2055e221e9a8745ba417a4f}{create\+Super\+Source}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g, \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} Super\+Source)
+\begin{DoxyCompactList}\small\item\em Creates a super-\/source for the graph, connecting it to appropriate nodes. The super-\/source is connected to all the original source nodes with infinite capacity. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Logic_8cpp_af8134196bae0d6b6e7e9d160316b295c}{remove\+Super\+Source\+Sink}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g, \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} Super\+Source, \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} Super\+Sink)
+\begin{DoxyCompactList}\small\item\em Removes the super-\/source and super-\/sink nodes from the graph. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{Logic_8cpp_ae6829d2d9a9f6b86d617d9d047552a52}{remove\+Super\+Source}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g, \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} Super\+Source)
+\begin{DoxyCompactList}\small\item\em Removes the super-\/source node from the graph. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ \mbox{\hyperlink{Logic_8cpp_a4e8291862c0ec538386274d53969c429}{get\+Pipes}} (\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$g)
+\begin{DoxyCompactList}\small\item\em Retrieves all the unique pipes (edges) from the graph. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{Logic_8cpp_ad4b2c3abc0f2ef54ce74f3af23863170}\label{Logic_8cpp_ad4b2c3abc0f2ef54ce74f3af23863170}} 
+std\+::vector$<$ \mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ {\bfseries sources}
+\item 
+\mbox{\Hypertarget{Logic_8cpp_ad0455d9d4e453306e14dabf667449d79}\label{Logic_8cpp_ad0455d9d4e453306e14dabf667449d79}} 
+std\+::vector$<$ \mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ {\bfseries sinks}
+\item 
+\mbox{\Hypertarget{Logic_8cpp_ac7f22104c6b8b17e0bead53e60421355}\label{Logic_8cpp_ac7f22104c6b8b17e0bead53e60421355}} 
+std\+::unordered\+\_\+map$<$ \mbox{\hyperlink{classVertex}{Vertex}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$, int $>$ {\bfseries flow\+Map}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of all Logic Functions used during the Project. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{Logic_8cpp_aa71f1fcaa2055e221e9a8745ba417a4f}\label{Logic_8cpp_aa71f1fcaa2055e221e9a8745ba417a4f}} 
+\index{Logic.cpp@{Logic.cpp}!createSuperSource@{createSuperSource}}
+\index{createSuperSource@{createSuperSource}!Logic.cpp@{Logic.cpp}}
+\doxysubsubsection{\texorpdfstring{createSuperSource()}{createSuperSource()}}
+{\footnotesize\ttfamily void create\+Super\+Source (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g,  }\item[{\mbox{\hyperlink{classDeliverySite}{Delivery\+Site}}}]{Super\+Source }\end{DoxyParamCaption})}
+
+
+
+Creates a super-\/source for the graph, connecting it to appropriate nodes. The super-\/source is connected to all the original source nodes with infinite capacity. 
+
+Creates a super source in the graph with connections to all original source nodes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph containing the delivery sites. \\
+\hline
+{\em Super\+Source} & \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} object representing the super-\/source node. @complexity O(n), where n is the number of vertices in the graph. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{Logic_8cpp_a5b97292efcb835aafcd1aab32c0502c3}\label{Logic_8cpp_a5b97292efcb835aafcd1aab32c0502c3}} 
+\index{Logic.cpp@{Logic.cpp}!createSuperSourceSink@{createSuperSourceSink}}
+\index{createSuperSourceSink@{createSuperSourceSink}!Logic.cpp@{Logic.cpp}}
+\doxysubsubsection{\texorpdfstring{createSuperSourceSink()}{createSuperSourceSink()}}
+{\footnotesize\ttfamily void create\+Super\+Source\+Sink (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g,  }\item[{\mbox{\hyperlink{classDeliverySite}{Delivery\+Site}}}]{Super\+Source,  }\item[{\mbox{\hyperlink{classDeliverySite}{Delivery\+Site}}}]{Super\+Sink }\end{DoxyParamCaption})}
+
+
+
+Creates a super-\/source and super-\/sink for the graph, connecting them to appropriate nodes. The super-\/source is connected to all the original source nodes with infinite capacity, and the super-\/sink is connected to all the original sink nodes with capacity equal to their demand. 
+
+Creates a super source and super sink in the graph with connections to all original source and sink nodes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph containing the delivery sites. \\
+\hline
+{\em Super\+Source} & \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} object representing the super-\/source node. \\
+\hline
+{\em Super\+Sink} & \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} object representing the super-\/sink node. @complexity O(n), where n is the number of vertices in the graph. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{Logic_8cpp_a4e8291862c0ec538386274d53969c429}\label{Logic_8cpp_a4e8291862c0ec538386274d53969c429}} 
+\index{Logic.cpp@{Logic.cpp}!getPipes@{getPipes}}
+\index{getPipes@{getPipes}!Logic.cpp@{Logic.cpp}}
+\doxysubsubsection{\texorpdfstring{getPipes()}{getPipes()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{classEdge}{Edge}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$ $>$ get\+Pipes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g }\end{DoxyParamCaption})}
+
+
+
+Retrieves all the unique pipes (edges) from the graph. 
+
+Retrieves all the pipes (edges) in the given graph.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph containing the delivery sites. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of pointers to unique edges in the graph. @complexity O(m), where m is the number of edges in the graph. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{Logic_8cpp_a969e83f7d26bf28b49440887cf10368b}\label{Logic_8cpp_a969e83f7d26bf28b49440887cf10368b}} 
+\index{Logic.cpp@{Logic.cpp}!getSinks@{getSinks}}
+\index{getSinks@{getSinks}!Logic.cpp@{Logic.cpp}}
+\doxysubsubsection{\texorpdfstring{getSinks()}{getSinks()}}
+{\footnotesize\ttfamily void get\+Sinks (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g }\end{DoxyParamCaption})}
+
+
+
+Retrieves all the sink nodes (cities) from the graph. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph containing the delivery sites. @complexity O(n), where n is the number of vertices in the graph. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{Logic_8cpp_ae5ee0b47a98f2ce9598f8769ab0b452d}\label{Logic_8cpp_ae5ee0b47a98f2ce9598f8769ab0b452d}} 
+\index{Logic.cpp@{Logic.cpp}!getSources@{getSources}}
+\index{getSources@{getSources}!Logic.cpp@{Logic.cpp}}
+\doxysubsubsection{\texorpdfstring{getSources()}{getSources()}}
+{\footnotesize\ttfamily void get\+Sources (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g }\end{DoxyParamCaption})}
+
+
+
+Retrieves all the source nodes (water reservoirs) from the graph. 
+
+Retrieves all the source vertices in the given graph.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph containing the delivery sites. @complexity O(n), where n is the number of vertices in the graph. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{Logic_8cpp_ae6829d2d9a9f6b86d617d9d047552a52}\label{Logic_8cpp_ae6829d2d9a9f6b86d617d9d047552a52}} 
+\index{Logic.cpp@{Logic.cpp}!removeSuperSource@{removeSuperSource}}
+\index{removeSuperSource@{removeSuperSource}!Logic.cpp@{Logic.cpp}}
+\doxysubsubsection{\texorpdfstring{removeSuperSource()}{removeSuperSource()}}
+{\footnotesize\ttfamily void remove\+Super\+Source (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g,  }\item[{\mbox{\hyperlink{classDeliverySite}{Delivery\+Site}}}]{Super\+Source }\end{DoxyParamCaption})}
+
+
+
+Removes the super-\/source node from the graph. 
+
+Removes the super source from the graph.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph containing the delivery sites. \\
+\hline
+{\em Super\+Source} & \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} object representing the super-\/source node. @complexity O(n), where n is the number of vertices in the graph. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{Logic_8cpp_af8134196bae0d6b6e7e9d160316b295c}\label{Logic_8cpp_af8134196bae0d6b6e7e9d160316b295c}} 
+\index{Logic.cpp@{Logic.cpp}!removeSuperSourceSink@{removeSuperSourceSink}}
+\index{removeSuperSourceSink@{removeSuperSourceSink}!Logic.cpp@{Logic.cpp}}
+\doxysubsubsection{\texorpdfstring{removeSuperSourceSink()}{removeSuperSourceSink()}}
+{\footnotesize\ttfamily void remove\+Super\+Source\+Sink (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}}$<$ \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} $>$ $\ast$}]{g,  }\item[{\mbox{\hyperlink{classDeliverySite}{Delivery\+Site}}}]{Super\+Source,  }\item[{\mbox{\hyperlink{classDeliverySite}{Delivery\+Site}}}]{Super\+Sink }\end{DoxyParamCaption})}
+
+
+
+Removes the super-\/source and super-\/sink nodes from the graph. 
+
+Removes the super source and super sink from the graph.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Pointer to the graph containing the delivery sites. \\
+\hline
+{\em Super\+Source} & \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} object representing the super-\/source node. \\
+\hline
+{\em Super\+Sink} & \mbox{\hyperlink{classDeliverySite}{Delivery\+Site}} object representing the super-\/sink node. @complexity O(n), where n is the number of vertices in the graph. \\
+\hline
+\end{DoxyParams}

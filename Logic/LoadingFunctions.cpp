@@ -2,6 +2,11 @@
 #include "stdafx.h"
 #include "LoadingFunctions.h"
 
+/**
+ * @file LoadingFunctions.cpp
+ * @brief Implementation of all loading Functions used during the Project.
+ */
+
 std::unordered_set<DeliverySite> nodesToAdd;
 std::vector<PumpingStations> edges;
 

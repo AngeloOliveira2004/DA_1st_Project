@@ -1,5 +1,0 @@
-var searchData=
-[
-  ['edmondskarp_0',['edmondskarp',['../_algorithms_8cpp.html#ac77c648c49de3fd9ba0617e08aa64d0a',1,'edmondsKarp(Graph&lt; DeliverySite &gt; *g, const DeliverySite &amp;source, const DeliverySite &amp;target, const DeliverySite &amp;removed):&#160;Algorithms.cpp'],['../_algorithms_8h.html#ac77c648c49de3fd9ba0617e08aa64d0a',1,'edmondsKarp(Graph&lt; DeliverySite &gt; *g, const DeliverySite &amp;source, const DeliverySite &amp;target, const DeliverySite &amp;removed):&#160;Algorithms.cpp']]],
-  ['edmondskarppipe_1',['edmondskarppipe',['../_algorithms_8cpp.html#a8d8b94da2fceeda4a771d42ab2eb6081',1,'edmondsKarpPipe(Graph&lt; DeliverySite &gt; *g, const DeliverySite &amp;source, const DeliverySite &amp;target, const std::vector&lt; Edge&lt; DeliverySite &gt; * &gt; pump):&#160;Algorithms.cpp'],['../_algorithms_8h.html#a8d8b94da2fceeda4a771d42ab2eb6081',1,'edmondsKarpPipe(Graph&lt; DeliverySite &gt; *g, const DeliverySite &amp;source, const DeliverySite &amp;target, const std::vector&lt; Edge&lt; DeliverySite &gt; * &gt; pump):&#160;Algorithms.cpp']]]
-];

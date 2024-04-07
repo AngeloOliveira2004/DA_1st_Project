@@ -1,0 +1,87 @@
+\hypertarget{DeliverySites_8h_source}{}\doxysection{Delivery\+Sites.\+h}
+\label{DeliverySites_8h_source}\index{/home/jose-\/costa/Documents/Uni/DA/Projeto/Logic/DeliverySites.h@{/home/jose-\/costa/Documents/Uni/DA/Projeto/Logic/DeliverySites.h}}
+\mbox{\hyperlink{DeliverySites_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#ifndef PROJETO\_DELIVERYSITES\_H}}
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#define PROJETO\_DELIVERYSITES\_H}}
+\DoxyCodeLine{8 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include "{}stdafx.h"{}}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include "{}optional"{}}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{enum} nodeTypes\{}
+\DoxyCodeLine{13     FIRE\_STATION,}
+\DoxyCodeLine{14     CITY,}
+\DoxyCodeLine{15     WATER\_RESERVOIR}
+\DoxyCodeLine{16 \};}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{22 \textcolor{keyword}{class }\mbox{\hyperlink{classDeliverySite}{DeliverySite}} \{}
+\DoxyCodeLine{23 \textcolor{keyword}{private}:}
+\DoxyCodeLine{24     nodeTypes type; }
+\DoxyCodeLine{25     \textcolor{comment}{// Mandatory}}
+\DoxyCodeLine{26     \textcolor{keywordtype}{int} id; }
+\DoxyCodeLine{27     std::string code; }
+\DoxyCodeLine{29     \textcolor{comment}{// Optional}}
+\DoxyCodeLine{30     std::shared\_ptr<std::string> name; }
+\DoxyCodeLine{31     std::shared\_ptr<std::string> municipality; }
+\DoxyCodeLine{32     std::shared\_ptr<int> maxDelivery; }
+\DoxyCodeLine{33     std::shared\_ptr<int> demand; }
+\DoxyCodeLine{34     std::shared\_ptr<int> population; }
+\DoxyCodeLine{36 \textcolor{keyword}{public}:}
+\DoxyCodeLine{48     \mbox{\hyperlink{classDeliverySite_a905201033e83adb267478009ce128188}{DeliverySite}}(std::string  name,}
+\DoxyCodeLine{49                  std::string  municipality,}
+\DoxyCodeLine{50                  std::string  code,}
+\DoxyCodeLine{51                  \textcolor{keywordtype}{int} \textcolor{keywordtype}{id},}
+\DoxyCodeLine{52                  \textcolor{keywordtype}{int} maxDelivery,}
+\DoxyCodeLine{53                  \textcolor{keywordtype}{int} demand,}
+\DoxyCodeLine{54                  \textcolor{keywordtype}{int} population,}
+\DoxyCodeLine{55                  nodeTypes type);}
+\DoxyCodeLine{60     \textcolor{keyword}{explicit} \mbox{\hyperlink{classDeliverySite_a905201033e83adb267478009ce128188}{DeliverySite}}(std::string  code);}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62     \textcolor{comment}{// Getters}}
+\DoxyCodeLine{63     [[nodiscard]] std::string \mbox{\hyperlink{classDeliverySite_a39c1acfeba1d6da6fb3cc8760e34963b}{getName}}() \textcolor{keyword}{const}; }
+\DoxyCodeLine{64     [[nodiscard]] std::string \mbox{\hyperlink{classDeliverySite_a6bf3a6d6b1cd2773c726028ef21711a4}{getMunicipality}}() \textcolor{keyword}{const}; }
+\DoxyCodeLine{65     [[nodiscard]] std::string \mbox{\hyperlink{classDeliverySite_a3e832aa699b189088a50d662ca990934}{getCode}}() \textcolor{keyword}{const}; }
+\DoxyCodeLine{66     [[nodiscard]] \textcolor{keywordtype}{int} \mbox{\hyperlink{classDeliverySite_a65fa0c80d0277f6ed2e5593c59be2084}{getId}}() \textcolor{keyword}{const}; }
+\DoxyCodeLine{67     [[nodiscard]] \textcolor{keywordtype}{int} \mbox{\hyperlink{classDeliverySite_aa3a0fb3c953ca2f9406246897f4e893c}{getMaxDelivery}}() \textcolor{keyword}{const}; }
+\DoxyCodeLine{68     [[nodiscard]] \textcolor{keywordtype}{int} \mbox{\hyperlink{classDeliverySite_ab5bf7fca37a3ea822483e2ceae27e60f}{getDemand}}() \textcolor{keyword}{const}; }
+\DoxyCodeLine{69     [[nodiscard]] \textcolor{keywordtype}{int} \mbox{\hyperlink{classDeliverySite_af4eec3efee584d8bcbd09d178d440e1d}{getPopulation}}() \textcolor{keyword}{const}; }
+\DoxyCodeLine{70     [[nodiscard]] nodeTypes \mbox{\hyperlink{classDeliverySite_ab59ad0477a1fe53106543e36a5739f35}{getNodeType}}() \textcolor{keyword}{const}; }
+\DoxyCodeLine{72     \textcolor{comment}{// Setters}}
+\DoxyCodeLine{73     \textcolor{keywordtype}{void} \mbox{\hyperlink{classDeliverySite_a3b8f9a4306954fb978fc64237a405c17}{setCode}}(\textcolor{keyword}{const} std::string\& code); }
+\DoxyCodeLine{74     \textcolor{keywordtype}{void} \mbox{\hyperlink{classDeliverySite_a44ab6ee3535153d256f1def5d83f6a1a}{setMunicipality}}(\textcolor{keyword}{const} std::string\& municipality); }
+\DoxyCodeLine{75     \textcolor{keywordtype}{void} \mbox{\hyperlink{classDeliverySite_a7c401b33f75029cf14a472c3f9e6ecb7}{setName}}(\textcolor{keyword}{const} std::string\& name); }
+\DoxyCodeLine{76     \textcolor{keywordtype}{void} \mbox{\hyperlink{classDeliverySite_abaefa1950da40d52c9d81bbbe28649bc}{setId}}(\textcolor{keywordtype}{int} \textcolor{keywordtype}{id}); }
+\DoxyCodeLine{77     \textcolor{keywordtype}{void} \mbox{\hyperlink{classDeliverySite_a8798d7d8a6ae339623573669c5d36b6d}{setMaxDelivery}}(\textcolor{keywordtype}{int} maxDelivery); }
+\DoxyCodeLine{78     \textcolor{keywordtype}{void} \mbox{\hyperlink{classDeliverySite_aea4370ce3a6496f8b65430ce296f39bd}{setDemand}}(\textcolor{keywordtype}{int} demand); }
+\DoxyCodeLine{79     \textcolor{keywordtype}{void} \mbox{\hyperlink{classDeliverySite_a62382ebeb67bc778c4687880330bf5d9}{setPopulation}}(\textcolor{keywordtype}{int} population); }
+\DoxyCodeLine{85     \textcolor{keywordtype}{void} \mbox{\hyperlink{classDeliverySite_a208115812fce81a8636b8e9c6a1f1fc8}{printInfo}}() \textcolor{keyword}{const};}
+\DoxyCodeLine{86 }
+\DoxyCodeLine{92     \textcolor{keywordtype}{double} \mbox{\hyperlink{classDeliverySite_a00c542c4043d53eba16a40065466572c}{calculateRemainingDelivery}}(\textcolor{keyword}{const} std::vector<\mbox{\hyperlink{classEdge}{Edge<DeliverySite>}} *>\& adj) \textcolor{keyword}{const};}
+\DoxyCodeLine{93 }
+\DoxyCodeLine{99     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classDeliverySite_a9ea5e73307d51d0d58e7d40ec11a4d53}{operator==}}(\textcolor{keyword}{const} \mbox{\hyperlink{classDeliverySite}{DeliverySite}}\& other)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{100         \textcolor{keywordflow}{return} code == other.code;}
+\DoxyCodeLine{101     \}}
+\DoxyCodeLine{102 \};}
+\DoxyCodeLine{103 }
+\DoxyCodeLine{104 \textcolor{keyword}{namespace }std \{}
+\DoxyCodeLine{105     \textcolor{keyword}{template} <>}
+\DoxyCodeLine{106     \textcolor{keyword}{struct }hash<\mbox{\hyperlink{classDeliverySite}{DeliverySite}}> \{}
+\DoxyCodeLine{112         \textcolor{keywordtype}{size\_t} \mbox{\hyperlink{structstd_1_1hash_3_01DeliverySite_01_4_af14bc33d73327f583de2f325a0cf9104}{operator()}}(\textcolor{keyword}{const} \mbox{\hyperlink{classDeliverySite}{DeliverySite}}\& deliverySite)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{113             \textcolor{comment}{// Use hash of the city code for hashing}}
+\DoxyCodeLine{114             \textcolor{keywordflow}{return} hash<string>\{\}(deliverySite.\mbox{\hyperlink{classDeliverySite_a3e832aa699b189088a50d662ca990934}{getCode}}());}
+\DoxyCodeLine{115         \}}
+\DoxyCodeLine{116     \};}
+\DoxyCodeLine{117 }
+\DoxyCodeLine{118     \textcolor{keyword}{template}<>}
+\DoxyCodeLine{119     \textcolor{keyword}{struct }equal\_to<\mbox{\hyperlink{classDeliverySite}{DeliverySite}}> \{}
+\DoxyCodeLine{126         \textcolor{keywordtype}{bool} \mbox{\hyperlink{structstd_1_1equal__to_3_01DeliverySite_01_4_ad1888f9f347efcf81002f0eee280c3fa}{operator()}}(\textcolor{keyword}{const} \mbox{\hyperlink{classDeliverySite}{DeliverySite}}\& deliverySite1, \textcolor{keyword}{const} \mbox{\hyperlink{classDeliverySite}{DeliverySite}}\& deliverySite2)\textcolor{keyword}{ const }\{}
+\DoxyCodeLine{127             \textcolor{comment}{// Compare only the city codes for equality}}
+\DoxyCodeLine{128             \textcolor{keywordflow}{return} deliverySite1.\mbox{\hyperlink{classDeliverySite_a3e832aa699b189088a50d662ca990934}{getCode}}() == deliverySite2.\mbox{\hyperlink{classDeliverySite_a3e832aa699b189088a50d662ca990934}{getCode}}();}
+\DoxyCodeLine{129         \}}
+\DoxyCodeLine{130     \};}
+\DoxyCodeLine{131 \}}
+\DoxyCodeLine{132 }
+\DoxyCodeLine{133 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//PROJETO\_DELIVERYSITES\_H}}
+
+\end{DoxyCode}

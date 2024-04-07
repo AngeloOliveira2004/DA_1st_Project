@@ -1,6 +1,11 @@
 #include <climits>
 #include "Logic.h"
 
+/**
+ * @file Logic.cpp
+ * @brief Implementation of all Logic Functions used during the Project.
+ */
+
 std::vector<Vertex<DeliverySite>*> sources;
 std::vector<Vertex<DeliverySite>*> sinks;
 std::unordered_map<Vertex<DeliverySite>* , int> flowMap;

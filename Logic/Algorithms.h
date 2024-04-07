@@ -1,6 +1,11 @@
 #ifndef ALGORITHMS_H
 #define ALGORITHMS_H
 
+/**
+ * @file Algorithms.h
+ * @brief Declaration of all algorithms used during the Project.
+ */
+
 #include "stdafx.h"
 
 

@@ -1,0 +1,47 @@
+\hypertarget{PumpingStations_8h_source}{}\doxysection{Pumping\+Stations.\+h}
+\label{PumpingStations_8h_source}\index{/home/jose-\/costa/Documents/Uni/DA/Projeto/Logic/PumpingStations.h@{/home/jose-\/costa/Documents/Uni/DA/Projeto/Logic/PumpingStations.h}}
+\mbox{\hyperlink{PumpingStations_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{5 \textcolor{preprocessor}{\#define BOTH\_WAYS 1;}}
+\DoxyCodeLine{6 \textcolor{preprocessor}{\#define UNI\_DIRECTIONAL 0;}}
+\DoxyCodeLine{7 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#ifndef PROJETO\_PUMPINGSTATIONS\_H}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#define PROJETO\_PUMPINGSTATIONS\_H}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include "{}stdafx.h"{}}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{17 \textcolor{keyword}{class }\mbox{\hyperlink{classPumpingStations}{PumpingStations}} \{}
+\DoxyCodeLine{18 \textcolor{keyword}{private}:}
+\DoxyCodeLine{19 }
+\DoxyCodeLine{20     std::string servicePointA; }
+\DoxyCodeLine{21     std::string servicePointB; }
+\DoxyCodeLine{22     \textcolor{keywordtype}{int} capacity;               }
+\DoxyCodeLine{23     \textcolor{keywordtype}{bool} direction;             }
+\DoxyCodeLine{25 \textcolor{keyword}{public}:}
+\DoxyCodeLine{33     \mbox{\hyperlink{classPumpingStations_ae09f4d8cb687d9c49815e36836e9bb05}{PumpingStations}}(\textcolor{keyword}{const} std::string\& servicePointA, \textcolor{keyword}{const} std::string\& servicePointB,}
+\DoxyCodeLine{34                     \textcolor{keywordtype}{int} capacity, \textcolor{keywordtype}{bool} direction) :}
+\DoxyCodeLine{35             servicePointA(servicePointA), servicePointB(servicePointB),}
+\DoxyCodeLine{36             capacity(capacity), direction(direction) \{\}}
+\DoxyCodeLine{37 }
+\DoxyCodeLine{38     \textcolor{comment}{// Getters}}
+\DoxyCodeLine{43 \textcolor{comment}{}    std::string \mbox{\hyperlink{classPumpingStations_adfad191a34a118fb8c1b0c254c9e158a}{getServicePointA}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} servicePointA; \}}
+\DoxyCodeLine{48     std::string \mbox{\hyperlink{classPumpingStations_aeed12af7d30787ca43b87e40b4eabb16}{getServicePointB}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} servicePointB; \}}
+\DoxyCodeLine{53     \textcolor{keywordtype}{int} \mbox{\hyperlink{classPumpingStations_ab864a10c46d0d37fb75622378684c111}{getCapacity}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} capacity; \}}
+\DoxyCodeLine{58     \textcolor{keywordtype}{bool} \mbox{\hyperlink{classPumpingStations_a2a1b0bf10960e4590bf47416306bdeeb}{getDirection}}()\textcolor{keyword}{ const }\{ \textcolor{keywordflow}{return} direction; \}}
+\DoxyCodeLine{59 }
+\DoxyCodeLine{60     \textcolor{comment}{// Setters}}
+\DoxyCodeLine{65 \textcolor{comment}{}    \textcolor{keywordtype}{void} \mbox{\hyperlink{classPumpingStations_a18741933310c30481656743083f3d5f5}{setServicePointA}}(\textcolor{keyword}{const} std::string\& servicePointA) \{ this-\/>servicePointA = servicePointA; \}}
+\DoxyCodeLine{70     \textcolor{keywordtype}{void} \mbox{\hyperlink{classPumpingStations_aed09faee8a261f9af730f3473e9e6194}{setServicePointB}}(\textcolor{keyword}{const} std::string\& servicePointB) \{ this-\/>servicePointB = servicePointB; \}}
+\DoxyCodeLine{75     \textcolor{keywordtype}{void} \mbox{\hyperlink{classPumpingStations_a1e176088afa2a07056e722c4a3d293c0}{setCapacity}}(\textcolor{keywordtype}{int} capacity) \{ this-\/>capacity = capacity; \}}
+\DoxyCodeLine{80     \textcolor{keywordtype}{void} \mbox{\hyperlink{classPumpingStations_aa63968c65a77ac6995af4ade282fc508}{setDirection}}(\textcolor{keywordtype}{bool} direction) \{ this-\/>direction = direction; \}}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{86     \textcolor{keywordtype}{void} \mbox{\hyperlink{classPumpingStations_af767f006d11eca8663b3a013cc3d9cce}{printInfo}}()}
+\DoxyCodeLine{87     \{}
+\DoxyCodeLine{88         std::cout << servicePointA << \textcolor{stringliteral}{"{} "{}} << servicePointB << \textcolor{stringliteral}{"{} "{}} << capacity << \textcolor{stringliteral}{"{} "{}} << direction << \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{89     \}}
+\DoxyCodeLine{90 \};}
+\DoxyCodeLine{91 }
+\DoxyCodeLine{92 \textcolor{preprocessor}{\#endif }\textcolor{comment}{//PROJETO\_PUMPINGSTATIONS\_H}}
+
+\end{DoxyCode}
